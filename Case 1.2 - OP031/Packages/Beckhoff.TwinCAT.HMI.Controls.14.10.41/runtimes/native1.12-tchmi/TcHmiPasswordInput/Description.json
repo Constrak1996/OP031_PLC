@@ -1,0 +1,154 @@
+{
+    "$schema": "../../TcHmiFramework/Schema/ControlDescription.Schema.json",
+    "apiVersion": 1,
+    "name": "TcHmiPasswordInput",
+    "namespace": "TcHmi.Controls.Beckhoff",
+    "displayName": "Password Input",
+    "version": {
+        "full": "14.10.41.0",
+        "fullSemVer": "14.10.41",
+        "major": 14,
+        "minor": 10,
+        "build": 41,
+        "revision": 0
+    },
+    "visible": true,
+    "themeable": "Standard",
+    "base": "TcHmi.Controls.Beckhoff.TcHmiInput",
+    "description": "A possibility for the Operator to enter a password.",
+    "defaultDesignerEvent": ".onTextChanged",
+    "properties": {
+        "containerControl": false,
+        "geometry": {
+            "width": 150,
+            "height": 26
+        }
+    },
+    "icons": [
+        {
+            "name": "Icons/16x16.png",
+            "width": 16,
+            "height": 16
+        }
+    ],
+    "template": "Template.html",
+    "dependencyFiles": [
+        {
+            "name": "Style.css",
+            "type": "Stylesheet"
+        },
+        {
+            "name": "../dist/TcHmiPasswordInput/TcHmiPasswordInput.esm.js",
+            "type": "EsModule",
+            "description": "Contains all the main logic as ES module."
+        }
+    ],
+    "themes": {
+        "Base": {
+            "resources": [
+                {
+                    "name": "Themes/Base/Style.css",
+                    "type": "Stylesheet"
+                }
+            ]
+        },
+        "Base-Dark": {
+            "resources": [
+                {
+                    "name": "Themes/Base-Dark/Style.css",
+                    "type": "Stylesheet"
+                }
+            ]
+        }
+    },
+    "attributes": [
+        {
+            "name": "data-tchmi-text",
+            "propertyName": "Text",
+            "propertySetterName": "setText",
+            "propertyGetterName": "getText",
+            "displayName": "Text",
+            "visible": true,
+            "themeable": "Standard",
+            "displayPriority": 10,
+            "type": "tchmi:general#/definitions/String",
+            "category": "Common",
+            "description": "Content of the input control",
+            "readOnly": false,
+            "bindable": true,
+            "defaultBindingMode": "OneWay",
+            "heritable": true,
+            "defaultValue": null,
+            "defaultValueInternal": ""
+        },
+        {
+            "name": "data-tchmi-ignore-escape-sequences",
+            "propertyName": "IgnoreEscapeSequences",
+            "propertySetterName": "setIgnoreEscapeSequences",
+            "propertyGetterName": "getIgnoreEscapeSequences",
+            "displayName": "Ignore Escape Sequences",
+            "visible": false,
+            "themeable": "Advanced",
+            "displayPriority": 100,
+            "type": "tchmi:general#/definitions/Boolean",
+            "category": "Text",
+            "description": "Not useful to change with passwords",
+            "readOnly": false,
+            "bindable": true,
+            "defaultBindingMode": "OneWay",
+            "heritable": true,
+            "defaultValue": null,
+            "defaultValueInternal": true
+        },
+        {
+            "name": "data-tchmi-placeholder",
+            "propertyName": "Placeholder",
+            "propertySetterName": "setPlaceholder",
+            "propertyGetterName": "getPlaceholder",
+            "displayName": "Placeholder",
+            "visible": true,
+            "themeable": "Standard",
+            "displayPriority": 50,
+            "type": "tchmi:general#/definitions/String",
+            "category": "Text",
+            "description": "A placeholder text to display if the input control is empty.",
+            "readOnly": false,
+            "bindable": true,
+            "defaultBindingMode": "OneWay",
+            "heritable": true,
+            "defaultValue": "Password Input",
+            "defaultValueInternal": null
+        },
+        {
+            "name": "data-tchmi-password-reveal-mode",
+            "propertyName": "PasswordRevealMode",
+            "propertySetterName": "setPasswordRevealMode",
+            "propertyGetterName": "getPasswordRevealMode",
+            "displayName": "Password Reveal Mode",
+            "visible": true,
+            "themeable": "Standard",
+            "displayPriority": 47,
+            "type": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiPasswordInput.PasswordRevealMode",
+            "category": "Common",
+            "description": "Controls the eye button at the right side of the input which displays the password as plain text. 'Off' hides the button, 'PressAndHold' displays the password only while the button is held down and 'Toggle' switches the password display on each click.",
+            "readOnly": false,
+            "bindable": true,
+            "defaultBindingMode": "OneWay",
+            "heritable": true,
+            "defaultValue": null,
+            "defaultValueInternal": "Off"
+        }
+    ],
+    "attributeCategories": [],
+    "functions": [],
+    "events": [],
+    "dataTypes": [
+        {
+            "schema": "Schema/Types.Schema.json"
+        }
+    ],
+    "languages": {
+        "en": "Lang/Language.en.json",
+        "de": "Lang/Language.de.json"
+    }
+}

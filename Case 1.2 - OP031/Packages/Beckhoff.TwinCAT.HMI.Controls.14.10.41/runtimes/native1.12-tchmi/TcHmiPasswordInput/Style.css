@@ -1,0 +1,89 @@
+/** Styles for all themes */
+
+.TcHmi_Controls_Beckhoff_TcHmiPasswordInput {
+    /* Width of the reveal button and the space it reserves inside the input. */
+    --tchmi-password-reveal-button-size: 2em;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPasswordInput-template-reveal-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: var(--tchmi-password-reveal-button-size);
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    /* Buttons do not inherit the font by default. Without this the em above would resolve against the browser
+       default size while the padding reserving the space resolves against the font size of the input. */
+    font: inherit;
+    /* Prevents the browser from turning a press and hold into a pan gesture, which would fire pointercancel
+       and hide the password although the finger is still down. */
+    touch-action: none;
+    /* Suppresses the grey overlay which WebKit and Blink draw over the whole button on touch. */
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Framework focus ring instead of the browser default button outline.
+   :focus-visible keeps the ring for keyboard navigation only, so it does not stay visible after a click.
+   Inset further than the input focus ring so both are distinguishable when the control is focused. */
+.TcHmi_Controls_Beckhoff_TcHmiPasswordInput-template-reveal-button:focus-visible {
+    outline: 1px solid var(--tchmi-user-focus-color);
+    outline-offset: -0.35em;
+    border-radius: 2px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiInput-template.reveal-button-visible
+    .TcHmi_Controls_Beckhoff_TcHmiPasswordInput-template-reveal-button {
+    display: flex;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiInput-template.reveal-button-visible
+    .TcHmi_Controls_Beckhoff_TcHmiInput-template-input-invalid-notification:not(.invalid-notification-alignment-left) {
+    right: var(--tchmi-password-reveal-button-size);
+}
+
+/* Edge draws its own reveal button inside password inputs. Hide it where this control provides its own. */
+.TcHmi_Controls_Beckhoff_TcHmiInput-template.reveal-button-visible
+    .TcHmi_Controls_Beckhoff_TcHmiInput-template-input::-ms-reveal {
+    display: none;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPasswordInput-template-reveal-icon {
+    /* Takes both icons out of the flow so they share one box and can cross-fade on top of each other. */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+}
+
+/* Overrides the fill of the grouping element in the template, which is none so that only the paths are filled. */
+.TcHmi_Controls_Beckhoff_TcHmiPasswordInput-template-reveal-icon path {
+    fill: currentColor;
+}
+
+/* Both icons are stacked. Only the slashed one fades, so the eye below it never dims during the transition. */
+.TcHmi_Controls_Beckhoff_TcHmiPasswordInput-template-reveal-icon.reveal-icon-hide {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiInput-template.password-revealed
+    .TcHmi_Controls_Beckhoff_TcHmiPasswordInput-template-reveal-icon.reveal-icon-hide {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .TcHmi_Controls_Beckhoff_TcHmiPasswordInput-template-reveal-icon.reveal-icon-hide {
+        transition: none;
+    }
+}

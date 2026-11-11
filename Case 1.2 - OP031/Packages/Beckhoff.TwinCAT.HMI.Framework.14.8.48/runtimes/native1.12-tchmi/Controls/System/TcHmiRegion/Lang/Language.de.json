@@ -1,0 +1,10 @@
+{
+    "$schema": "../../../../../TwinCAT-HMI-Common/JsonSchemas/Language.Schema.json",
+    "locale": "de",
+    "localizedText": {
+        "ZoomToolbox_Reset": "Ansicht zurücksetzen",
+        "ZoomToolbox_ZoomIn": "Vergrößern",
+        "ZoomToolbox_ZoomOut": "Verkleinern",
+        "ZoomToolbox_Toggle": "Zoomen und Verschieben umschalten"
+    }
+}

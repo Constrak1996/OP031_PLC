@@ -1,0 +1,9 @@
+/** Styles for the theme: Base-Dark */
+
+.TcHmi_Controls_Beckhoff_TcHmiPasswordInput {
+    --tchmi-color: var(--tchmi-foreground-color-1);
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPasswordInput-template-reveal-button {
+    color: var(--tchmi-color);
+}

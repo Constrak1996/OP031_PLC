@@ -1,0 +1,29 @@
+{
+    "$schema": "../TcHmiFramework/Schema/FunctionDescription.Schema.json",
+    "apiVersion": 1,
+    "version": {
+        "full": "14.8.7.0",
+        "fullSemVer": "14.8.7",
+        "major": 14,
+        "minor": 8,
+        "build": 7,
+        "revision": 0
+    },
+    "dependencyFiles": [
+        {
+            "name": "dist/GetTheme.js",
+            "type": "EsModule"
+        }
+    ],
+    "function": {
+        "name": "GetTheme",
+        "namespace": "TcHmi.Functions.Beckhoff",
+        "displayName": "GetTheme",
+        "description": "Gets the current Themename.",
+        "category": "Theme",
+        "returnValue": {
+            "type": "tchmi:framework#/definitions/ThemeName"
+        },
+        "arguments": []
+    }
+}

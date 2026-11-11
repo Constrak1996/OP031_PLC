@@ -1,0 +1,171 @@
+/** Styles for all themes */
+
+/* Style for the main element */
+.TcHmi_Controls_System_TcHmiRegion,
+.tchmi-region {
+    overflow: auto;
+}
+
+.TcHmi_Controls_System_TcHmiRegion-template,
+.tchmi-region-template {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* While the user zoom feature is enabled, suppress the browser's own touch gestures (scroll/pinch-zoom) on the region
+   root only. A single finger pans the region and a two-finger gesture zooms it; nested content controls can stop the
+   region gesture via stopPropagation (see TcHmiRegion.esm.ts). */
+.TcHmi_Controls_System_TcHmiRegion-zoom-enabled {
+    touch-action: none;
+}
+
+/* Non-scrolling overlay layer for the toolbox and preview. It spans the region and sits above the (possibly scrolling)
+   template so the toolbox and preview stay fixed in their corners regardless of the template's scroll position (native
+   scrollbars via Scrolling=Yes or the browser's focus auto-scroll on the overflow:hidden template). pointer-events:none
+   lets interaction pass through to the content below; the overlays themselves re-enable pointer events. */
+.TcHmi_Controls_System_TcHmiRegion-zoom-overlay-host {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Toolbox overlay with the zoom in / zoom out / reset buttons. Shown while the user zoom feature is enabled. */
+.TcHmi_Controls_System_TcHmiRegion-zoom-toolbox {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    pointer-events: auto;
+}
+
+.TcHmi_Controls_System_TcHmiRegion-zoom-button {
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    border: none;
+    background: transparent;
+    cursor: default;
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Inherit the themed toolbox color so the inline SVG icons (stroke: currentColor) follow the theme instead of the
+       browser default button text color. */
+    color: inherit;
+}
+
+.TcHmi_Controls_System_TcHmiRegion-zoom-button:hover {
+    opacity: 1;
+}
+
+/* Use the framework focus ring (like input based controls) instead of the browser default button outline.
+   :focus-visible keeps the ring for keyboard navigation only, so it does not stay visible after a mouse click.
+   opacity is raised so the ring is not dimmed by the idle button opacity. */
+.TcHmi_Controls_System_TcHmiRegion-zoom-button:is(:focus-visible, .tchmi-focus, .tchmi-keyboard-user-input) {
+    outline: 2px solid var(--tchmi-user-focus-color);
+    outline-offset: -2px;
+    opacity: 1;
+}
+
+/* Toggle button (Zoom Mode 'Toggle') while region zoom/pan is the active interaction: highlighted so it is clear the
+   content is currently not interactive. */
+.TcHmi_Controls_System_TcHmiRegion-zoom-button-active {
+    opacity: 1;
+    background: rgba(128, 128, 128, 0.3);
+}
+
+.TcHmi_Controls_System_TcHmiRegion-zoom-button svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+    stroke: none;
+}
+
+/* The icon outlines are only about one device pixel wide at the 30px button size and would look washed out next to the
+   bitmap based reset icon. Stroking them in the fill color adds the missing weight. */
+.TcHmi_Controls_System_TcHmiRegion-zoom-button svg path {
+    stroke: currentColor;
+    stroke-width: 1;
+    stroke-linejoin: round;
+}
+
+/* The reset icon is a themed bitmap. It is used as a mask instead of a background image so it takes the themed color
+   like the inline SVG icons of the other buttons. The mask is applied to a pseudo element because a mask on the button
+   itself would also clip its focus outline. */
+.TcHmi_Controls_System_TcHmiRegion-zoom-button-reset {
+    position: relative;
+}
+
+.TcHmi_Controls_System_TcHmiRegion-zoom-button-reset::before {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    background-color: currentColor;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+/* Minimap preview: a scaled-down thumbnail of the content with a rectangle marking the visible section. Shown in the
+   bottom-left corner only while zoomed in. */
+.TcHmi_Controls_System_TcHmiRegion-zoom-preview {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    overflow: hidden;
+    box-sizing: border-box;
+    cursor: grab;
+    touch-action: none;
+    pointer-events: auto;
+}
+
+.TcHmi_Controls_System_TcHmiRegion-zoom-preview:active {
+    cursor: grabbing;
+}
+
+.TcHmi_Controls_System_TcHmiRegion-zoom-preview-content {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.TcHmi_Controls_System_TcHmiRegion-zoom-preview-viewport {
+    position: absolute;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+/* container have no own visual representation so the white overlay is not nice on non white backgrounds */
+.TcHmi_Controls_System_TcHmiRegion.TcHmi_Controls_System_TcHmiControl-disabled::after,
+.tchmi-region.tchmi-control-disabled::after {
+    background-color: transparent;
+}
+
+.TcHmi_System_Controls_TcHmiRegion-loading-spinner-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.TcHmi_System_Controls_TcHmiRegion-loading-spinner {
+    display: inline-block;
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+}

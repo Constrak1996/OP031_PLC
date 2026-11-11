@@ -1,0 +1,9 @@
+{
+    "$schema": "../../../TwinCAT-HMI-Common/JsonSchemas/Language.Schema.json",
+    "locale": "de",
+    "localizedText": {
+        "MaxTextLengthReached": "Maximale Textlänge erreicht.",
+        "RevealButton_Show": "Kennwort anzeigen",
+        "RevealButton_Hide": "Kennwort verbergen"
+    }
+}

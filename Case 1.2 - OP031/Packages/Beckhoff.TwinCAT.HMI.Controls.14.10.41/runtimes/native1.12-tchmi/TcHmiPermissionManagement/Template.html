@@ -1,0 +1,85 @@
+<div class="TcHmi_Controls_Beckhoff_TcHmiPermissionManagement-template tchmi-box">
+    <div class="permission-table-area">
+        <div class="permission-table">
+            <div class="permission-grid" role="table">
+                <div class="permission-head" role="rowgroup">
+                    <div class="permission-row first-header no-hover" role="row">
+                        <div class="cell header symbol-name xy-header" role="columnheader">
+                            <div class="symbol-name-header">
+                                <span data-tchmi-localized-content-key="SymbolLabel"></span>
+                                <button class="resource-view-toggle" type="button"></button>
+                                <button class="symbol-visibility-toggle" type="button" aria-pressed="false"></button>
+                            </div>
+                        </div>
+                        <div class="cell header symbol-access own-access span-own-access" role="columnheader">
+                            <span data-tchmi-localized-content-key="SymbolDefaultLimit"></span>
+                            <button
+                                class="permission-info"
+                                type="button"
+                                data-info-key="AccessInfo"
+                                popovertarget="{Id}-access-info"
+                            ></button>
+                        </div>
+                    </div>
+                    <div class="permission-row second-header no-hover" role="row">
+                        <div class="cell header xy-header" role="columnheader">
+                            <input class="symbol-search" type="text" placeholder="" />
+                        </div>
+                        <div
+                            class="cell sub-header symbol-access-read own-access"
+                            role="columnheader"
+                            data-tchmi-localized-content-key="AccessRead"
+                        ></div>
+                        <div
+                            class="cell sub-header symbol-access-write own-access"
+                            role="columnheader"
+                            data-tchmi-localized-content-key="AccessWrite"
+                        ></div>
+                    </div>
+                    <div class="permission-row group-default-access" role="row">
+                        <div class="cell symbol-name" role="rowheader">
+                            <span
+                                class="header-label"
+                                data-tchmi-localized-content-key="GroupDefaultLabel"
+                                data-tchmi-localized-title-key="GroupDefaultLabel"
+                            ></span>
+                            <button
+                                class="permission-info"
+                                type="button"
+                                data-info-key="GroupDefaultAccessInfo"
+                                popovertarget="{Id}-default-access-info"
+                            ></button>
+                        </div>
+                        <div class="cell own-access" role="cell"></div>
+                        <div class="cell own-access" role="cell"></div>
+                    </div>
+                    <div class="permission-row all-symbols" role="row">
+                        <div class="cell symbol-name" role="rowheader">
+                            <span class="bulk-label"></span>
+                        </div>
+                        <div class="cell own-access" role="cell"></div>
+                        <div class="cell own-access" role="cell"></div>
+                    </div>
+                </div>
+                <div class="permission-body" role="rowgroup"></div>
+            </div>
+        </div>
+        <div class="resize-bar"></div>
+    </div>
+    <div class="message-no-symbols-found" data-tchmi-localized-content-key="NoSymbolsFound"></div>
+    <div class="message-write-failed hide"></div>
+    <div class="message-file-list-failed hide"></div>
+    <div id="{Id}-access-info" class="permission-info-popup" popover aria-labelledby="{Id}-access-info-title">
+        <strong id="{Id}-access-info-title" data-tchmi-localized-content-key="SymbolDefaultLimit"></strong>
+        <p data-info-key="AccessInfo"></p>
+    </div>
+    <div
+        id="{Id}-default-access-info"
+        class="permission-info-popup"
+        popover
+        aria-labelledby="{Id}-default-access-info-title"
+    >
+        <strong id="{Id}-default-access-info-title" data-tchmi-localized-content-key="GroupDefaultLabel"></strong>
+        <p data-info-key="GroupDefaultAccessInfo"></p>
+    </div>
+</div>

@@ -3,12 +3,34 @@
   <POU Name="MAIN" Id="{6c39381b-87a0-4593-99a1-d753867bd5c1}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+    xRefSwitchHorizontal        AT %I* : BOOL;  // Nr. 5,  I1: reference switch horizontal axis
+    xLightBarrierInside         AT %I* : BOOL;  // Nr. 6,  I2: light-barrier inside
+    xLightBarrierOutside        AT %I* : BOOL;  // Nr. 7,  I3: light-barrier outside
+    xRefSwitchVertical          AT %I* : BOOL;  // Nr. 8,  I4: reference switch vertical axis
+    xTrailSensor1Lower          AT %I* : BOOL;  // Nr. 9,  A1: trail sensor (signal 1, lower)
+    xTrailSensor2Upper          AT %I* : BOOL;  // Nr. 10, A2: trail sensor (signal 2, upper)
+    xEncHorizontalPulse1        AT %I* : BOOL;  // Nr. 11, B1: encoder horizontal axis impulse 1
+    xEncHorizontalPulse2        AT %I* : BOOL;  // Nr. 12, B2: encoder horizontal axis impulse 2
+    xEncVerticalPulse1          AT %I* : BOOL;  // Nr. 13, B3: encoder vertical axis impulse 1
+    xEncVerticalPulse2          AT %I* : BOOL;  // Nr. 14, B4: encoder vertical axis impulse 2
+    xRefSwitchCantileverFront   AT %I* : BOOL;  // Nr. 15, I5: reference switch cantilever front
+    xRefSwitchCantileverBack    AT %I* : BOOL;  // Nr. 16, I6: reference switch cantilever back
+ 
+    // ---------------- OUTPUTS ----------------
+    xConveyorForward            AT %Q* : BOOL;  // Nr. 17, Q1 (M1): motor conveyor belt forward
+    xConveyorBackward           AT %Q* : BOOL;  // Nr. 18, Q2 (M1): motor conveyor belt backward
+    xHorizontalToRack           AT %Q* : BOOL;  // Nr. 19, Q3 (M2): motor horizontal towards rack
+    xHorizontalToConveyor       AT %Q* : BOOL;  // Nr. 20, Q4 (M2): motor horizontal towards conveyor belt
+    xVerticalDown               AT %Q* : BOOL;  // Nr. 21, Q5 (M3): motor vertical axis downward
+    xVerticalUp                 AT %Q* : BOOL;  // Nr. 22, Q6 (M3): motor vertical axis upward
+    xCantileverForward          AT %Q* : BOOL;  // Nr. 23, Q7 (M4): motor cantilever forward
+    xCantileverBackward         AT %Q* : BOOL;  // Nr. 24, Q8 (M4): motor cantilever backward
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[StorageMain();]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
-    <Action Name="StorageMain" Id="{cc9c6c52-6ac1-458d-bd7b-b4e66fdb9907}">
+    <Action Name="Storage_Main" Id="{c72944d2-6fc8-4f84-a7e3-4b88e1613fd2}">
       <Implementation>
         <SFC>
           <XmlArchive>
@@ -31,7 +53,7 @@ END_VAR
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Init_StorageMain"</v>
+                              <v n="Value">"Init_Storage_Main"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">4L</v>
@@ -134,7 +156,7 @@ END_VAR
                         <v n="IdParent">2L</v>
                       </o>
                       <o t="SFCTransition">
-                        <v n="VariableName">"Init_StorageMain__to__Init_StorageMain"</v>
+                        <v n="VariableName">"Init_Storage_Main__to__Init_Storage_Main"</v>
                         <n n="EmbeddedTransition" />
                         <l2 n="EmbeddedTransitionProperties" />
                         <l2 n="Attributes" cet="SFCAttribute">
@@ -205,7 +227,7 @@ END_VAR
                           <o>
                             <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                             <o n="Value" t="StringValue">
-                              <v n="Value">"Init_StorageMain"</v>
+                              <v n="Value">"Init_Storage_Main"</v>
                               <v n="DefaultValue">""</v>
                             </o>
                             <v n="Id">23L</v>

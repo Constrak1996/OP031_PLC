@@ -1,0 +1,25 @@
+{
+  "$schema": "../../TcHmiSrv/schema/ExtensionSettings.Schema.json",
+  "version": "25.0.319.0",
+  "configVersion": "1.0.1.1",
+  "guid": "EBCC019A-41B4-4ADA-9163-F9F34357B0B6",
+  "visibility": "HideInEngineering",
+  "policies": [
+    "StrictPropertyValidation",
+    "StrictConfigListenerFilter"
+  ],
+  "fileExtensions": [
+    {
+      "fileExtension": "lp",
+      "fileDescription": "LPUPLOADDESCRIPTION"
+    },
+    {
+      "fileExtension": "lua",
+      "fileDescription": "LUAUPLOADDESCRIPTION"
+    }
+  ],
+  "symbols": {},
+  "packageVersion": "25.0.319.0",
+  "productVersion": "25.0.319",
+  "signature": "QU9P9wDarMMSFzYH2cn5gKdv1PywBUShrEUFPtMdulXo3c6et6lwIurJcMm2L9AcB8W0blDCz6ioiLHfbC+m4DE1yWXME6fvuevAGz6XjGDpVwncdRDUGG3UXsBYnDrsbUR9xbLa9A9vjQFgT3Vz4V/QoUBjIj/grFkVbIg8uLbdU0RWwOsqPxGkp4EiJ73mEbHwIfrooExp3o9yYk4axG+d5Qf7sUnZAwqUpfKQmf+EJs2J7Qupyl/T8eIodxSg9XCOUBOuClEhheyD5c+wE5eXUzEGTli3IR34pr/aRc4S+LAlnxO7CtajaU4vBShWIrtO7jF/bhoEZ3/krbfdig=="
+}

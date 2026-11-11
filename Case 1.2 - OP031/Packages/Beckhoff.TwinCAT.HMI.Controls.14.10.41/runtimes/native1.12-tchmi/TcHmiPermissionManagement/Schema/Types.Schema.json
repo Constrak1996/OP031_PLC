@@ -1,0 +1,21 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "definitions": {
+        "TcHmi.Controls.Beckhoff.TcHmiPermissionManagement": {
+            "$schema": "http://json-schema.org/draft-04/schema",
+            "type": "object",
+            "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+            "frameworkControlType": "TcHmiPermissionManagement",
+            "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
+        },
+        "TcHmiPermissionManagement": {
+            "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiPermissionManagement"
+        },
+        "TcHmi.Controls.Beckhoff.TcHmiPermissionManagement.ResourceType": {
+            "title": "ResourceType",
+            "type": "string",
+            "enum": ["Symbols", "Files"],
+            "default": "Symbols"
+        }
+    }
+}

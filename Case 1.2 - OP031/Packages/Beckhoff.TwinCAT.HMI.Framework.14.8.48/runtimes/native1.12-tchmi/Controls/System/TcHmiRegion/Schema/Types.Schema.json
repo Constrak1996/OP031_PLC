@@ -1,0 +1,210 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "definitions": {
+        "TcHmi.Controls.System.TcHmiRegion": {
+            "$schema": "http://json-schema.org/draft-04/schema",
+            "type": "object",
+            "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+            "frameworkControlType": "TcHmiRegion",
+            "frameworkControlNamespace": "TcHmi.Controls.System"
+        },
+        "TcHmiRegion": {
+            "$ref": "tchmi:framework#/definitions/TcHmi.Controls.System.TcHmiRegion"
+        },
+        "TcHmi.Controls.System.TcHmiRegion.ZoomMode": {
+            "title": "Zoom Mode",
+            "description": "Controls whether the user can zoom/pan the region content. 'Off' disables it. 'Auto' keeps the zoom/pan gestures always active: a tap or click still reaches the content, and a drag pans the region unless the content control under the pointer claims the drag for itself. 'Toggle' adds a toolbox button switching between region zoom/pan and content interaction.",
+            "type": "string",
+            "enum": ["Off", "Auto", "Toggle"],
+            "default": "Off"
+        },
+        "TcHmi.Controls.System.TcHmiRegion.PanBounds": {
+            "title": "Pan Bounds",
+            "description": "Controls how far the content can be panned. 'Free' allows moving the content out of the region. 'KeepContentInFrame' keeps the content inside the region: content larger than the region always covers it completely and content smaller than the region cannot be moved beyond its edges.",
+            "type": "string",
+            "enum": ["Free", "KeepContentInFrame"],
+            "default": "Free"
+        },
+        "TcHmi.Controls.System.TcHmiRegion.WhenContentFits": {
+            "title": "When Content Fits",
+            "description": "Controls what happens per direction while the content is small enough to fit into the region, regardless of its current pan position. 'KeepPan' keeps panning enabled. 'LockCenter' centers the content on that axis and disables panning there.",
+            "type": "string",
+            "enum": ["KeepPan", "LockCenter"],
+            "default": "KeepPan"
+        },
+        "TcHmi.Controls.System.TcHmiRegion.RememberView": {
+            "title": "Remember View",
+            "description": "Controls whether the zoom level and pan offset are stored and restored after a reload or a page switch. \n'No' always starts at the configured initial zoom level and initial position. \n'ForCurrentContent' restores the view of the content that is currently loaded and discards it as soon as a different content is loaded. \n'ForEachContent' keeps a view per content, so returning to a content restores the view it was left with.",
+            "type": "string",
+            "enum": ["No", "ForCurrentContent", "ForEachContent"],
+            "default": "No"
+        },
+        "TcHmi.Controls.System.TcHmiRegion.PreviewVisibility": {
+            "title": "Preview Visibility",
+            "description": "Controls when the minimap preview of the region is shown. 'WhenContentOverflows' shows it whenever the content does not fully fit the region (including while zoomed in).",
+            "type": "string",
+            "enum": ["Always", "Never", "OnlyWhenZoomedIn", "WhenContentOverflows"],
+            "default": "OnlyWhenZoomedIn"
+        },
+        "TcHmi.Controls.System.TcHmiRegion.PreviewSnapshot": {
+            "title": "Preview Snapshot",
+            "description": "Controls whether the minimap preview renders a static content snapshot. 'No' shows only the visible section. 'Initial' creates the snapshot once after the configured snapshot time. 'Interval' additionally refreshes it at that rate and can have a performance impact.",
+            "type": "string",
+            "enum": ["No", "Initial", "Interval"],
+            "default": "No"
+        },
+        "TcHmi.Controls.System.TcHmiRegion.ZoomAndPan": {
+            "title": "Zoom and Pan",
+            "description": "Configuration of the zoom feature of the region.",
+            "type": "object",
+            "propertiesMeta": [
+                {
+                    "name": "mode",
+                    "displayName": "Mode",
+                    "displayPriority": 5,
+                    "description": "Controls whether the content can be zoomed/panned: 'Off', 'Auto' or 'Toggle'. 'Off' disables it. 'Auto' keeps the zoom/pan gestures always active: a tap or click still reaches the content, and a drag pans the region unless the content control under the pointer claims the drag for itself (e.g. an editable slider). 'Toggle' adds a toolbox button switching between region zoom/pan and content interaction.",
+                    "defaultValue": null,
+                    "defaultValueInternal": "Off"
+                },
+                {
+                    "name": "minZoomLevel",
+                    "displayName": "Min Zoom Level",
+                    "displayPriority": 10,
+                    "description": "Minimum zoom level in percent the content can be zoomed to. Absolute like in the browser: 100 is the unzoomed size, 10 is a tenth of it. Only applied while zooming is active.",
+                    "defaultValue": null,
+                    "defaultValueInternal": 100
+                },
+                {
+                    "name": "maxZoomLevel",
+                    "displayName": "Max Zoom Level",
+                    "displayPriority": 11,
+                    "description": "Maximum zoom level in percent the content can be zoomed to. Absolute like in the browser: 100 is the unzoomed size, 1000 is ten times of it. Only applied while zooming is active.",
+                    "defaultValue": null,
+                    "defaultValueInternal": 1000
+                },
+                {
+                    "name": "initialZoomLevel",
+                    "displayName": "Initial Zoom Level",
+                    "displayPriority": 15,
+                    "description": "Initial zoom level in percent the content starts at. Absolute like in the browser: 100 is the unzoomed size. Clamped to the configured min/max zoom range. Only applied while zooming is active.",
+                    "defaultValue": null,
+                    "defaultValueInternal": 100
+                },
+                {
+                    "name": "initialPositionX",
+                    "displayName": "Initial Position X",
+                    "displayPriority": 20,
+                    "description": "Initial horizontal pan offset in pixels the content starts at. Only applied while zooming is active.",
+                    "defaultValue": null,
+                    "defaultValueInternal": 0
+                },
+                {
+                    "name": "initialPositionY",
+                    "displayName": "Initial Position Y",
+                    "displayPriority": 21,
+                    "description": "Initial vertical pan offset in pixels the content starts at. Only applied while zooming is active.",
+                    "defaultValue": null,
+                    "defaultValueInternal": 0
+                },
+                {
+                    "name": "panBounds",
+                    "displayName": "Pan Bounds",
+                    "displayPriority": 22,
+                    "description": "Controls how far the content can be panned: 'Free' allows moving the content out of the region, 'KeepContentInFrame' keeps it inside (content larger than the region always covers it completely, content smaller than the region cannot be moved beyond its edges). Only applied while zooming is active.",
+                    "defaultValue": null,
+                    "defaultValueInternal": "Free"
+                },
+                {
+                    "name": "whenContentFits",
+                    "displayName": "When Content Fits",
+                    "displayPriority": 23,
+                    "description": "Controls what happens per direction while the content is small enough to fit into the region, regardless of its current pan position: 'KeepPan' keeps panning enabled, 'LockCenter' centers the content on that axis and disables panning there. Only applied while zooming is active.",
+                    "defaultValue": null,
+                    "defaultValueInternal": "KeepPan"
+                },
+                {
+                    "name": "showZoomButtons",
+                    "displayName": "Show Zoom Buttons",
+                    "displayPriority": 25,
+                    "description": "If set to 'true', the zoom in (+) and zoom out (-) buttons are shown. Only applied while zooming is active.",
+                    "defaultValue": null,
+                    "defaultValueInternal": true
+                },
+                {
+                    "name": "rememberView",
+                    "displayName": "Remember View",
+                    "displayPriority": 26,
+                    "description": "Controls whether the zoom level and pan offset are stored and restored after a reload or a page switch. \n'No' always starts at the configured initial zoom level and initial position. \n'ForCurrentContent' restores the view of the content that is currently loaded and discards it as soon as a different content is loaded. \n'ForEachContent' keeps a view per content, so returning to a content restores the view it was left with. Only applied while zooming is active.",
+                    "defaultValue": null,
+                    "defaultValueInternal": "No"
+                },
+                {
+                    "name": "previewVisibility",
+                    "displayName": "Preview Visibility",
+                    "displayPriority": 30,
+                    "description": "Controls when the minimap preview is shown: 'Always', 'Never', 'OnlyWhenZoomedIn' or 'WhenContentOverflows' (whenever the content does not fully fit the region, including while zoomed in). Only applied while zooming is active.",
+                    "defaultValue": null,
+                    "defaultValueInternal": "OnlyWhenZoomedIn"
+                },
+                {
+                    "name": "previewSnapshot",
+                    "displayName": "Preview Snapshot",
+                    "displayPriority": 31,
+                    "description": "Controls whether the minimap preview renders a static content snapshot: 'No' shows only the visible section, 'Initial' creates the snapshot once after the configured snapshot time and 'Interval' additionally refreshes it at that rate and can have a performance impact. Only applied while zooming is active.",
+                    "defaultValue": null,
+                    "defaultValueInternal": "No"
+                },
+                {
+                    "name": "snapshotTime",
+                    "displayName": "Snapshot Time",
+                    "displayPriority": 32,
+                    "description": "Time in milliseconds after which the static content snapshot is created. With Preview Snapshot set to 'Interval' the snapshot is additionally refreshed at this rate. Only applied when Preview Snapshot is 'Initial' or 'Interval'.",
+                    "defaultValue": null,
+                    "defaultValueInternal": 5000
+                }
+            ],
+            "properties": {
+                "mode": {
+                    "$ref": "tchmi:framework#/definitions/TcHmi.Controls.System.TcHmiRegion.ZoomMode"
+                },
+                "minZoomLevel": {
+                    "$ref": "tchmi:general#/definitions/Number"
+                },
+                "maxZoomLevel": {
+                    "$ref": "tchmi:general#/definitions/Number"
+                },
+                "initialZoomLevel": {
+                    "$ref": "tchmi:general#/definitions/Number"
+                },
+                "initialPositionX": {
+                    "$ref": "tchmi:general#/definitions/Number"
+                },
+                "initialPositionY": {
+                    "$ref": "tchmi:general#/definitions/Number"
+                },
+                "panBounds": {
+                    "$ref": "tchmi:framework#/definitions/TcHmi.Controls.System.TcHmiRegion.PanBounds"
+                },
+                "whenContentFits": {
+                    "$ref": "tchmi:framework#/definitions/TcHmi.Controls.System.TcHmiRegion.WhenContentFits"
+                },
+                "showZoomButtons": {
+                    "$ref": "tchmi:general#/definitions/Boolean"
+                },
+                "rememberView": {
+                    "$ref": "tchmi:framework#/definitions/TcHmi.Controls.System.TcHmiRegion.RememberView"
+                },
+                "previewVisibility": {
+                    "$ref": "tchmi:framework#/definitions/TcHmi.Controls.System.TcHmiRegion.PreviewVisibility"
+                },
+                "previewSnapshot": {
+                    "$ref": "tchmi:framework#/definitions/TcHmi.Controls.System.TcHmiRegion.PreviewSnapshot"
+                },
+                "snapshotTime": {
+                    "$ref": "tchmi:general#/definitions/Number"
+                }
+            },
+            "additionalProperties": false
+        }
+    }
+}

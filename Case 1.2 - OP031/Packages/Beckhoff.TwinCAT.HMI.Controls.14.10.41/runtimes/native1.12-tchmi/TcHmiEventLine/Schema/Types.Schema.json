@@ -1,0 +1,204 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "definitions": {
+        "TcHmi.Controls.Beckhoff.TcHmiEventLine": {
+            "type": "object",
+            "frameworkInstanceOf": "TcHmi.Controls.System.TcHmiControl",
+            "frameworkControlType": "TcHmiEventLine",
+            "frameworkControlNamespace": "TcHmi.Controls.Beckhoff"
+        },
+        "TcHmiEventLine": {
+            "$ref": "tchmi:framework#/definitions/TcHmi.Controls.Beckhoff.TcHmiEventLine"
+        },
+        "TcHmi.Controls.Beckhoff.TcHmiEventLine.MessageFormat": {
+            "title": "MessageFormat",
+            "type": "array",
+            "engineeringColumns": ["title"],
+            "items": {
+                "anyOf": [
+                    {
+                        "title": "Event Property",
+                        "type": "object",
+                        "engineeringColumns": ["name"],
+                        "propertiesMeta": [
+                            {
+                                "name": "name",
+                                "displayName": "Name",
+                                "category": "General",
+                                "displayPriority": 10,
+                                "description": "A Part of the displayed message.",
+                                "defaultValue": null,
+                                "defaultValueInternal": null
+                            },
+                            {
+                                "name": "format",
+                                "displayName": "Format",
+                                "category": "General",
+                                "displayPriority": 10,
+                                "description": "A reference of function which is called with each entry",
+                                "allowedFunctions": {
+                                    "returnType": "tchmi:general#/definitions/String",
+                                    "requiredArguments": [
+                                        {
+                                            "type": "tchmi:general#/definitions/String",
+                                            "description": "The message to format."
+                                        }
+                                    ],
+                                    "requiredWaitMode": "Synchronous"
+                                },
+                                "defaultValue": null,
+                                "defaultValueInternal": null
+                            }
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "enum": [
+                                    "type",
+                                    "severity",
+                                    "alarmState",
+                                    "confirmationState",
+                                    "domain",
+                                    "sourceDomain",
+                                    "name",
+                                    "text",
+                                    "timeReceived",
+                                    "timeRaised",
+                                    "timeConfirmed",
+                                    "timeCleared"
+                                ]
+                            },
+                            "format": {
+                                "$ref": "tchmi:framework#/definitions/Function"
+                            }
+                        },
+                        "required": ["name"],
+                        "additionalProperties": false
+                    },
+                    {
+                        "title": "Event Parameter",
+                        "type": "object",
+                        "propertiesMeta": [
+                            {
+                                "name": "name",
+                                "displayName": "Name",
+                                "category": "General",
+                                "displayPriority": 10,
+                                "description": "The Path to a property of the received event. Subproperties can be accessed with the '::' seperator.",
+                                "defaultValue": "params::",
+                                "defaultValueInternal": null
+                            }
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "pattern": "^params::"
+                            }
+                        },
+                        "required": ["name"],
+                        "additionalProperties": false
+                    },
+                    {
+                        "title": "Text",
+                        "type": "object",
+                        "propertiesMeta": [
+                            {
+                                "name": "text",
+                                "displayName": "Text",
+                                "category": "General",
+                                "displayPriority": 10,
+                                "description": "A custom text displayed in the event message.",
+                                "defaultValue": null,
+                                "defaultValueInternal": null
+                            },
+                            {
+                                "name": "format",
+                                "displayName": "Format",
+                                "category": "General",
+                                "displayPriority": 10,
+                                "description": "A reference of function which is called with each entry",
+                                "allowedFunctions": {
+                                    "returnType": "tchmi:general#/definitions/String",
+                                    "requiredArguments": [
+                                        {
+                                            "type": "tchmi:general#/definitions/String",
+                                            "description": "The message to format."
+                                        }
+                                    ],
+                                    "requiredWaitMode": "Synchronous"
+                                },
+                                "defaultValue": null,
+                                "defaultValueInternal": null
+                            }
+                        ],
+                        "properties": {
+                            "text": {
+                                "type": "string"
+                            },
+                            "format": {
+                                "$ref": "tchmi:framework#/definitions/Function"
+                            }
+                        },
+                        "required": ["text"],
+                        "additionalProperties": false
+                    }
+                ]
+            }
+        },
+        "TcHmi.Controls.Beckhoff.TcHmiEventLine.TextOverflow": {
+            "title": "TextOverflow",
+            "type": "string",
+            "enum": ["Ellipsis", "MarqueeLeftToRight", "MarqueeRightToLeft"]
+        },
+        "TcHmi.Controls.Beckhoff.TcHmiEventLine.VerticalEventRotation": {
+            "title": "VerticalEventRotation",
+            "type": "object",
+            "propertiesMeta": [
+                {
+                    "name": "enabled",
+                    "displayName": "Enabled",
+                    "category": "General",
+                    "displayPriority": 5,
+                    "description": "Enables the vertical event rotation. When disabled only a single event is shown and no rotation takes place.",
+                    "defaultValue": true,
+                    "defaultValueInternal": true
+                },
+                {
+                    "name": "displayTime",
+                    "displayName": "Display Time",
+                    "category": "General",
+                    "displayPriority": 10,
+                    "description": "Time in milliseconds an event stays visible before switching to the next event. Runs independently of the horizontal text overflow (marquee).",
+                    "defaultValue": 3000,
+                    "defaultValueInternal": 3000
+                },
+                {
+                    "name": "eventCount",
+                    "displayName": "Event Count",
+                    "category": "General",
+                    "displayPriority": 20,
+                    "description": "Number of events shown in the rotating list.",
+                    "defaultValue": 5,
+                    "defaultValueInternal": 1
+                },
+                {
+                    "name": "rotationTime",
+                    "displayName": "Rotation Time",
+                    "category": "General",
+                    "displayPriority": 30,
+                    "description": "Duration in milliseconds of the switch animation from one event to the next (how fast the vertical rotation moves). Set to 0 to switch instantly without any animation (useful on slow systems).",
+                    "defaultValue": 500,
+                    "defaultValueInternal": 500
+                }
+            ],
+            "properties": {
+                "enabled": { "type": "boolean" },
+                "rotationTime": { "type": "number", "minimum": 0 },
+                "eventCount": { "type": "integer", "minimum": 1 },
+                "displayTime": { "type": "number", "minimum": 0 }
+            },
+            "required": ["eventCount", "displayTime"],
+            "additionalProperties": false
+        }
+    }
+}

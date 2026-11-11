@@ -1,0 +1,209 @@
+/** Styles for the theme: Base-Dark */
+
+/* Style for the main element */
+.TcHmi_Controls_Beckhoff_PermissionManagement {
+    --tchmi-background: #2a3845;
+    --tchmi-color: #ffffff;
+    background-color: var(--tchmi-background);
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement {
+    & .permission-table {
+        color: white;
+        background: #333;
+    }
+
+    & .permission-head .symbol-name {
+        background: #333e4b;
+    }
+
+    & .permission-head {
+        background: #333e4b;
+    }
+
+    &.scroll-vertical .permission-head {
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.45);
+    }
+
+    /* The name of a group sits on the plain surface, the columns it spans on a shaded one below it */
+    & .first-header,
+    & .first-header .symbol-name {
+        background: #333e4b;
+        color: #e7ecf1;
+    }
+
+    & .second-header,
+    & .second-header .symbol-name {
+        background: #2b3542;
+        color: #9aa7b4;
+    }
+
+    & .second-header > .cell:first-child {
+        background: #333e4b;
+        color: #e7ecf1;
+    }
+
+    & .cell {
+        border-color: #414d5a; /* Darker border */
+    }
+
+    & [text-search='true'] .highlight {
+        background: #b9a07a; /* Darker highlight color */
+    }
+
+    & .symbol-search {
+        border-color: #4d5a68;
+        background: #222a34;
+        color: #e7ecf1;
+    }
+
+    & .symbol-search::placeholder {
+        color: #8b98a4;
+    }
+
+    & .all-symbols {
+        background: #394956;
+        border-top-color: #5b6a78;
+        border-bottom-color: #5b6a78;
+    }
+
+    & .cell.symbol-name {
+        border-right-color: rgba(255, 255, 255, 0.18) !important;
+    }
+
+    & .cell.group-start {
+        border-left-color: #5b6a78 !important;
+    }
+
+    & .cell.symbol-access-read,
+    & .cell.symbol-access-write,
+    & .cell.symbol-access-inherit {
+        border-left-color: #3a444f;
+    }
+
+    & .even-row {
+        background: #3a4450; /* Darker stripe */
+    }
+
+    & .permission-row:not(.no-hover):hover {
+        background: #46525f !important; /* Darker hover */
+    }
+
+    /* Style for the main element */
+    & {
+        --tchmi-background: #2e2e2e; /* Dark background */
+        --tchmi-color: #acb2b8; /* Lighter text color */
+        --tchmi-permission-divider: #536270;
+        --tchmi-permission-own-background: #28323d;
+        --tchmi-permission-source: #9acbfa;
+        --tchmi-permission-inherited-background: #2a4053;
+        --tchmi-permission-readonly-background: #3c4753;
+        --tchmi-permission-readonly-color: #a3aeb9;
+        background-color: var(--tchmi-background);
+    }
+
+    & * {
+        box-sizing: border-box;
+    }
+
+    & .message-no-symbols-found {
+        background: #444; /* Darker message background */
+        border-color: #666; /* Darker border color */
+    }
+
+    & .arrow {
+        border-right-color: #888; /* Lighter for visibility against dark backgrounds */
+        border-bottom-color: #888; /* Same as above */
+    }
+}
+
+/* A permission reads as a badge: allowed, denied, inherited or not set. A permission which follows the
+   group default keeps the surface of the default instead, see [data-inherited] in Style.css. */
+tchmi-permission-checkbox:not([data-inherited])
+    .checkbox-container:not([color-coded]):not([disabled]):not([empty])
+    input:checked
+    ~ .checkmark {
+    background: #26405a !important;
+}
+
+tchmi-permission-checkbox:not([data-inherited])
+    .checkbox-container:not([color-coded]):not([disabled]):not([empty])
+    input:not(:checked)
+    ~ .checkmark {
+    background: #3c4753 !important;
+}
+
+/* Color coded: an access which is allowed */
+tchmi-permission-checkbox:not([data-inherited])
+    .checkbox-container[color-coded]:not([disabled]):not([empty])
+    input:checked
+    ~ .checkmark {
+    background: #22493a !important;
+}
+
+/* Color coded: an access which is denied */
+tchmi-permission-checkbox:not([data-inherited])
+    .checkbox-container[color-coded]:not([disabled]):not([empty])
+    input:not(:checked)
+    ~ .checkmark {
+    background: #4c2a2a !important;
+}
+
+/* the tick of an allowed access and of an inherited one */
+tchmi-permission-checkbox
+    .checkbox-container[color-coded]:not([readonly]):not([empty])
+    input:checked
+    ~ .checkmark:after {
+    border-color: #69d69f;
+}
+tchmi-permission-checkbox
+    .checkbox-container:not([color-coded]):not([readonly]):not([empty])
+    input:checked
+    ~ .checkmark:after {
+    border-color: #7db8ea;
+}
+
+/* the cross of a denied access and of one which is simply off */
+tchmi-permission-checkbox
+    .checkbox-container[color-coded]:not([readonly]):not([empty])
+    input:not(:checked)
+    ~ .checkmark:before,
+tchmi-permission-checkbox
+    .checkbox-container[color-coded]:not([readonly]):not([empty])
+    input:not(:checked)
+    ~ .checkmark:after {
+    background: #ef9a9a;
+}
+tchmi-permission-checkbox
+    .checkbox-container:not([color-coded]):not([readonly]):not([empty])
+    input:not(:checked)
+    ~ .checkmark:before,
+tchmi-permission-checkbox
+    .checkbox-container:not([color-coded]):not([readonly]):not([empty])
+    input:not(:checked)
+    ~ .checkmark:after {
+    background: #93a1ae;
+}
+
+tchmi-permission-checkbox .checkbox-container[readonly]:not([empty]) .checkmark:after {
+    color: var(--tchmi-permission-readonly-color, #a3aeb9);
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement {
+    & .symbol-access-inherit tchmi-permission-checkbox .checkmark {
+        color: #7db8ea;
+    }
+
+    & .symbol-access-inherit input:not(:checked) ~ .checkmark {
+        color: #a3aeb9;
+    }
+}
+
+/* a state which is not set carries a dash */
+tchmi-permission-checkbox .checkbox-container[disabled] .checkmark,
+tchmi-permission-checkbox .checkbox-container[empty] .checkmark {
+    background: #3c4753;
+}
+tchmi-permission-checkbox .checkbox-container[empty] .checkmark:after {
+    background: #93a1ae;
+}

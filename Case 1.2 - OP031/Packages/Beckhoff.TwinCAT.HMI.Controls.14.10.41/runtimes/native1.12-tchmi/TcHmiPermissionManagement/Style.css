@@ -1,0 +1,687 @@
+/** Styles for all themes */
+
+/* Style for the main element */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement {
+    overflow: hidden;
+    color: black;
+    /* Width of the name column until the user drags another one, it then sticks to that width and cuts
+       off what does not fit. */
+    --tchmi-permission-name-default-width: 280px;
+}
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement * {
+    box-sizing: border-box;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement-template {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+/* One scrolling area for the whole table. Two panes had to be kept in sync on every scroll event,
+   which made the table lag behind the pointer. The name column stays in place because it sticks.
+   The drag handle stands beside the area so that the aria table owns nothing but its rowgroups. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-table-area {
+    display: flex;
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-table {
+    overflow: auto;
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+}
+
+/* The columns are set by the control, it knows how many user groups are shown. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-grid {
+    display: grid;
+    white-space: nowrap;
+    width: max-content;
+    min-width: 100%;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-head,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-body,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-row {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-head {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+/* The name column keeps its place while the groups scroll under it. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-row > .cell:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    justify-content: flex-start;
+    border-left: 0;
+    border-right: 2px solid var(--tchmi-permission-divider, #d7dfe5);
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .header-label,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .bulk-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    min-width: 0;
+    border: 1px solid;
+    border-width: 0 0 1px 1px;
+    font-family: sans-serif;
+    padding: 6px 8px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-row {
+    height: 36px;
+    background: var(--tchmi-background, #ffffff);
+}
+
+/* The name cell stands on the background of its row, the cells of the groups scroll under it. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-row > .cell:first-child {
+    background: inherit;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-head .permission-row > .cell:first-child {
+    z-index: 3;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .first-header {
+    height: 42px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .second-header {
+    height: 38px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .second-header .cell {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+/* the name of a user group spans the three columns it stands for, the own access spans two */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .span-group {
+    grid-column: span 3;
+}
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .span-own-access {
+    grid-column: span 2;
+}
+
+/* the first column of a user group carries the separator which sets it apart */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .cell.group-start {
+    border-left-width: 2px;
+}
+
+/* The read and write of the symbol itself belong to no user group. They stand in a band of their own
+   which runs through the whole table and ends in the separator of the first group. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .cell.own-access {
+    background: var(--tchmi-permission-own-background, #f1f4f7);
+}
+
+/* The band must not swallow the row under the pointer. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-row:not(.no-hover):hover .cell.own-access {
+    background: transparent;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .first-header .cell,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .second-header .cell {
+    border-bottom: 0;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-body .permission-row:last-child .cell {
+    border-bottom: 0;
+}
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .hide {
+    display: none !important;
+}
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-row .cell:last-child {
+    border-right: 0;
+}
+/* the header of the name column covers the cells which scroll under it in both directions */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-head .symbol-name,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .cell.xy-header {
+    z-index: 3;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement [text-search='true'] .highlight {
+    padding: 5px 0;
+    border-radius: 1px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-search {
+    width: 100%;
+    height: 30px;
+    border: 1px solid;
+    border-radius: 3px;
+    background: none;
+    padding: 5px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .header {
+    font-weight: bold;
+}
+
+/* Read, Write and Inherit name the columns of a group, they carry no weight of their own */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .sub-header {
+    font-weight: normal;
+}
+
+/* Header of the name column, it carries the title and the button which switches the view */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-name-header {
+    display: flex;
+    align-items: center;
+    /* the button belongs to the title, the column is far too wide to push it to its right edge */
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+/* The icon is the button, a surface only appears under the pointer. A box around it competed with
+   the search below it and with the info buttons of the header. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .resource-view-toggle,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-visibility-toggle {
+    display: flex;
+    flex: none;
+    width: 28px;
+    height: 28px;
+    padding: 5px;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .resource-view-toggle:hover,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .resource-view-toggle:focus-visible,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-visibility-toggle:hover,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-visibility-toggle:focus-visible,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-visibility-toggle[aria-pressed='true'] {
+    background: var(--tchmi-permission-inherited-background, #edf3fa);
+    color: var(--tchmi-permission-source, #2a6ebb);
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .resource-view-toggle:focus-visible,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-visibility-toggle:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 1px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-visibility-toggle::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background: currentColor;
+    mask: url('Icons/eye-off.svg') center / contain no-repeat;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-visibility-toggle[aria-pressed='true']::before {
+    mask-image: url('Icons/eye.svg');
+}
+
+/* Files have no hidden flag, so the toggle of the hidden symbols has no meaning for them */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement[data-resource-type='files'] .symbol-visibility-toggle {
+    display: none;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .resource-view-toggle svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    fill: none;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-info {
+    display: inline-block;
+    flex: none;
+    width: 22px;
+    height: 22px;
+    margin-left: 4px;
+    padding: 0;
+    border: 0;
+    vertical-align: middle;
+    background: currentColor;
+    color: inherit;
+    mask: url('Icons/info.svg') center / 17px 17px no-repeat;
+    cursor: help;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-info-popup {
+    position: fixed;
+    inset: auto;
+    margin: 0;
+    width: 340px;
+    max-width: calc(100% - 16px);
+    max-height: calc(100% - 16px);
+    overflow: auto;
+    padding: 12px;
+    border: 1px solid;
+    border-radius: 4px;
+    background: var(--tchmi-background, white);
+    color: var(--tchmi-color, black);
+    font: 14px / 1.5 sans-serif;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    box-shadow: 0 4px 16px rgb(0 0 0 / 18%);
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-info-popup p {
+    margin: 8px 0 0;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-access-editor .checkbox-container:has(input:disabled) {
+    cursor: not-allowed;
+}
+
+/* A row which groups symbols of a path can be collapsed by a click on its name */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .cell.resource-group-name {
+    cursor: pointer;
+}
+
+/* Drags the width of the name column, a double click gives it back to its automatic width. It stands on
+   the edge of the name column over every row, and sticks to it like the column itself. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .resize-bar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* centered on the edge of the name column, which starts at the left edge of the area */
+    left: calc(var(--tchmi-permission-name-width, var(--tchmi-permission-name-default-width)) - 3px);
+    width: 6px;
+    cursor: ew-resize;
+    /* a drag by touch must not scroll the table instead */
+    touch-action: none;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .resize-bar:hover,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .resize-bar:focus-visible {
+    background: var(--tchmi-permission-source, #2a6ebb);
+    opacity: 0.5;
+}
+
+/* A user group carries an icon, it tells the columns of a group apart from the symbol access. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .cell.group-name {
+    gap: 6px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .cell.group-name::before {
+    content: '';
+    flex: none;
+    width: 16px;
+    height: 16px;
+    background: currentColor;
+    mask: url('Icons/users.svg') center / 16px 16px no-repeat;
+}
+
+/* A group name which does not fit is cut off, the column belongs to the permissions below it. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .cell.group-name > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-table[inert] {
+    flex: 0 1 auto;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, black 65%, transparent), linear-gradient(to bottom, black 55%, transparent);
+    mask-composite: intersect;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement
+    .permission-table[inert]
+    :where(.group-name > span, .permission-body [text-search], .bulk-label, .permission-source-text) {
+    display: inline-block;
+    width: 80px;
+    max-width: 100%;
+    height: 12px;
+    overflow: hidden;
+    vertical-align: middle;
+    font-size: 0;
+    color: transparent;
+    background: var(--tchmi-permission-divider, #d7dfe5);
+    border-radius: 3px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-table[inert] .permission-body [text-search] {
+    width: 70%;
+    max-width: 180px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement
+    .permission-table[inert]
+    .permission-body
+    .permission-row:nth-child(even)
+    [text-search] {
+    width: 55%;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-table[inert] .bulk-label {
+    width: 90px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-table[inert] .permission-source-text {
+    width: 60px;
+    height: 10px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .all-symbols {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    font-weight: 600;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement input[type='checkbox'] {
+    width: 20px;
+    height: 20px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .cell.symbol-name {
+    text-align: left;
+    position: relative;
+    display: block;
+    line-height: 22px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-row:hover .cell {
+    transition: background 0.4s ease;
+}
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .message-no-symbols-found,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .message-write-failed,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .message-file-list-failed {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .arrow {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    transition: transform 0.2s ease-in;
+    margin-right: 10px;
+    margin-left: -18px;
+    border-right: solid 1px;
+    border-bottom: solid 1px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .arrow-right {
+    transform: rotate(-45deg);
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .arrow-down {
+    transform: rotate(45deg);
+}
+
+tchmi-permission-checkbox {
+    display: block;
+    height: 22px;
+    width: 30px;
+}
+
+/* Style for container */
+tchmi-permission-checkbox .checkbox-container {
+    display: block;
+    position: relative;
+    height: 100%;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Create a custom checkbox */
+tchmi-permission-checkbox .checkbox-container .checkmark {
+    top: 0;
+    left: 0;
+    height: 22px;
+    width: 30px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* Hide the default checkbox */
+tchmi-permission-checkbox .checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+tchmi-permission-checkbox .checkbox-container .checkmark,
+tchmi-permission-checkbox .checkbox-container .checkmark:before,
+tchmi-permission-checkbox .checkbox-container .checkmark:after {
+    display: block;
+    content: '';
+    position: absolute;
+}
+
+/* show tick when checked */
+tchmi-permission-checkbox .checkbox-container:not([readonly]):not([empty]) input:checked ~ .checkmark:after {
+    content: '';
+    width: 4px;
+    height: 10px;
+    border-width: 0 2px 2px 0;
+    border-style: solid;
+    left: 50%;
+    top: 50%;
+    transform: translate(-60%, -60%) rotate(45deg);
+}
+
+/* show cross when not checked */
+tchmi-permission-checkbox .checkbox-container:not([readonly]):not([empty]) input:not(:checked) ~ .checkmark:before,
+tchmi-permission-checkbox .checkbox-container:not([readonly]):not([empty]) input:not(:checked) ~ .checkmark:after {
+    left: 50%;
+    top: 50%;
+    height: 2px;
+    width: 11px;
+}
+
+tchmi-permission-checkbox .checkbox-container:not([readonly]):not([empty]) input:not(:checked) ~ .checkmark:after {
+    transform: translate(-50%, 0) rotate(45deg);
+}
+
+tchmi-permission-checkbox .checkbox-container:not([readonly]):not([empty]) input:not(:checked) ~ .checkmark:before {
+    transform: translate(-50%, 0) rotate(-45deg);
+}
+
+/* indicator R for read only */
+tchmi-permission-checkbox .checkbox-container[readonly]:not([empty]) .checkmark:after {
+    content: 'R';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* indicator for a state which is not set, it was an empty block before */
+tchmi-permission-checkbox .checkbox-container[empty] .checkmark:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 10px;
+    height: 2px;
+    transform: translate(-50%, -50%);
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement tchmi-permission-checkbox[data-inherited] .checkmark {
+    background: var(--tchmi-permission-inherited-background, #edf3fa) !important;
+    border-bottom: 2px solid var(--tchmi-permission-source, #2a6ebb);
+    border-radius: 3px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement tchmi-permission-checkbox .checkbox-container[readonly] {
+    cursor: not-allowed;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement tchmi-permission-checkbox .checkbox-container[readonly] .checkmark {
+    background: var(--tchmi-permission-readonly-background, #eef1f4) !important;
+    border: 0;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement
+    tchmi-permission-checkbox
+    .checkbox-container[readonly]
+    .checkmark::before {
+    display: none;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement
+    tchmi-permission-checkbox
+    .checkbox-container[readonly]
+    .checkmark::after {
+    content: 'R';
+    left: 50%;
+    top: 50%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    border: 0;
+    background: none;
+    color: var(--tchmi-permission-readonly-color, #6b7a89);
+}
+
+/* The column names the permission source; the adjacent columns show read and write access. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-access-inherit tchmi-permission-checkbox {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    /* the word sits over the label, a drag of a pixel would select it instead of pressing the button */
+    user-select: none;
+    width: auto;
+    height: 24px;
+    padding: 0 9px;
+    border-radius: 2px;
+    font: 600 12px/1 sans-serif;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+/* A rule of its own is the exception, it carries the surface. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement
+    .symbol-access-inherit
+    tchmi-permission-checkbox:not(:has(input:checked)) {
+    background: var(--tchmi-permission-inherited-background, #edf3fa);
+    color: var(--tchmi-permission-source, #2a6ebb);
+}
+
+/* A row which follows the default is the common case, it stays quiet next to the exception. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-access-inherit tchmi-permission-checkbox:has(input:checked) {
+    color: var(--tchmi-color);
+    opacity: 0.7;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-access-inherit tchmi-permission-checkbox:hover {
+    opacity: 1;
+    box-shadow: inset 0 0 0 1px var(--tchmi-permission-source, #2a6ebb);
+}
+
+/* The label covers the whole chip, so a click anywhere on it switches the source. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-access-inherit .checkbox-container {
+    display: block;
+    position: absolute;
+    inset: 0;
+    border-radius: 2px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .symbol-access-inherit .checkmark {
+    display: none;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-source-text {
+    pointer-events: none;
+}
+
+/* The arrow replaces the check mark, so the button carries the focus ring. */
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement
+    .symbol-access-inherit
+    tchmi-permission-checkbox:has(input:focus-visible) {
+    outline: 2px solid Highlight;
+    outline-offset: 1px;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement tchmi-permission-checkbox[data-limited] .checkmark {
+    border-bottom-color: var(--tchmi-permission-source, #2a6ebb);
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .cell[data-permission-context='selected'],
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .cell[data-permission-context='default'],
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .cell[data-permission-context='limit'] {
+    background: var(--tchmi-permission-inherited-background, #edf3fa);
+    box-shadow: inset 0 -2px var(--tchmi-permission-source, #2a6ebb);
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement
+    .symbol-access-inherit
+    tchmi-permission-checkbox:has(.loading)
+    .permission-source-text,
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement
+    tchmi-permission-checkbox
+    .checkbox-container:has(.loading)
+    .checkmark {
+    visibility: hidden;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement tchmi-permission-checkbox:has(.loading) {
+    opacity: 1;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement tchmi-permission-checkbox .checkbox-container:has(.loading) {
+    cursor: progress;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement tchmi-permission-checkbox .loading {
+    position: absolute;
+    box-sizing: border-box;
+    width: 14px;
+    height: 14px;
+    top: calc(50% - 7px);
+    left: calc(50% - 7px);
+    margin: 0;
+    border: 2px solid var(--tchmi-permission-readonly-background, #eef1f4);
+    border-top-color: var(--tchmi-permission-source, #2a6ebb);
+    border-radius: 50%;
+    animation: permission-checkbox-spin 0.8s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes permission-checkbox-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .TcHmi_Controls_Beckhoff_TcHmiPermissionManagement tchmi-permission-checkbox .loading {
+        animation: none;
+    }
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .permission-info:focus-visible {
+    outline: none;
+    color: Highlight;
+}
+
+.TcHmi_Controls_Beckhoff_TcHmiPermissionManagement .checkbox-container input:focus-visible ~ .checkmark {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+}
