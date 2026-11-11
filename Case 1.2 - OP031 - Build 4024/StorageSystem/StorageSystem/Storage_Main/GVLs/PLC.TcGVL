@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="PLC" Id="{6f544a68-1f89-4c16-86a7-a8f4b4c8881e}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	bDigital1 : BOOL;
+	bDigital2 : BOOL;
+	
+	iData1 : INT;
+	iData2 : INT;
+	
+	string1 : STRING;
+	string2 : STRING;
+	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>
