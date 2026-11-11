@@ -54,7 +54,7 @@
               <v>FB_Reinit</v>
               <v>cf8f668e-7ad3-47c8-88d5-aa8421a1823f</v>
             </d>
-            <v n="FbName">"NotImportant"</v>
+            <v n="FbName">"__VisuInitInstantiation_Fb"</v>
             <v n="FbGuid">{3ab9f012-cb04-4b0c-af6a-4552e770ac9b}</v>
           </o>
           <o n="TargetProperties" t="VisualizationTargetProperties">
@@ -577,7 +577,7 @@
         <Data>
           <o xml:space="preserve" t="TargetVisualizationObject">
             <o n="ViewSettings" t="TargetVisualizationViewSettings">
-              <v n="StartVisu">"Visualization"</v>
+              <v n="StartVisu">"Start"</v>
               <n n="HtmFileName" />
               <v n="UpdateRate">200</v>
               <v n="CommBufferSize">50000</v>
@@ -589,7 +589,7 @@
               <v n="ClientOperationType" t="eDefaultInputSetting">Touchscreen</v>
               <v n="ScaleTypeIsotropic">true</v>
               <v n="UseScalingOptionsForDialogs">true</v>
-              <v n="HideCursor">false</v>
+              <v n="HideCursor">true</v>
               <v n="UseTitlebar">false</v>
               <v n="StartTargetvisu">true</v>
               <v n="WindowWidth">-1</v>

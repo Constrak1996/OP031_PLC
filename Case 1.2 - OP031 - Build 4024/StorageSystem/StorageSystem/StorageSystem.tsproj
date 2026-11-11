@@ -87,9 +87,105 @@
 		</System>
 		<Plc>
 			<Project GUID="{52E4E768-5BDB-4A59-B76E-C73488E002AF}" Name="Storage_Main" PrjFilePath="Storage_Main\Storage_Main.plcproj" TmcFilePath="Storage_Main\Storage_Main.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{CACFB339-14D2-38FC-2BC2-CDE1F0F75F0F}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{2A085064-369E-E242-B832-9A8C632C3B32}">
 					<Name>Storage_Main Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="1">
+						<Name>PlcTask Inputs</Name>
+						<Var>
+							<Name>MAIN.B1</Name>
+							<Comment><![CDATA[ Nr. 5,  B1: reference switch horizontal axis]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.B2</Name>
+							<Comment><![CDATA[ Nr. 6,  B2: light-barrier inside]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.B3</Name>
+							<Comment><![CDATA[ Nr. 7,  B3: light-barrier outside]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.B4</Name>
+							<Comment><![CDATA[ Nr. 8,  B4: reference switch vertical axis]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.B5</Name>
+							<Comment><![CDATA[ Nr. 11, B5: encoder horizontal axis impulse 1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.B6</Name>
+							<Comment><![CDATA[ Nr. 12, B6: encoder horizontal axis impulse 2]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.B7</Name>
+							<Comment><![CDATA[ Nr. 13, B7: encoder vertical axis impulse 1]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.B8</Name>
+							<Comment><![CDATA[ Nr. 14, B8: encoder vertical axis impulse 2]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.B9</Name>
+							<Comment><![CDATA[ Nr. 15, B9: reference switch cantilever front]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.B10</Name>
+							<Comment><![CDATA[ Nr. 16, B10: reference switch cantilever back]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="2" AreaNo="1">
+						<Name>PlcTask Outputs</Name>
+						<Var>
+							<Name>MAIN.M1_Forward</Name>
+							<Comment><![CDATA[ Nr. 17, Q1 (M1): motor conveyor belt forward]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.M1_Back</Name>
+							<Comment><![CDATA[ Nr. 18, Q2 (M1): motor conveyor belt backward]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.M2_Forward</Name>
+							<Comment><![CDATA[ Nr. 19, Q3 (M2): motor horizontal towards rack]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.M2_Back</Name>
+							<Comment><![CDATA[ Nr. 20, Q4 (M2): motor horizontal towards conveyor belt]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.M3_Down</Name>
+							<Comment><![CDATA[ Nr. 21, Q5 (M3): motor vertical axis downward]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.M3_Up</Name>
+							<Comment><![CDATA[ Nr. 22, Q6 (M3): motor vertical axis upward]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.M4_Forward</Name>
+							<Comment><![CDATA[ Nr. 23, Q7 (M4): motor cantilever forward]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.M4_Back</Name>
+							<Comment><![CDATA[ Nr. 24, Q8 (M4): motor cantilever backward]]></Comment>
+							<Type>BOOL</Type>
+						</Var>
+					</Vars>
 					<Contexts>
 						<Context>
 							<Id>0</Id>
