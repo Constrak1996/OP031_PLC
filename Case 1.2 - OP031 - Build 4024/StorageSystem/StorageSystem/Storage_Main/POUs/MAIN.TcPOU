@@ -23,6 +23,7 @@ VAR
     M3_Up      AT %Q* : BOOL;  // Nr. 22, Q6 (M3): motor vertical axis upward
     M4_Forward AT %Q* : BOOL;  // Nr. 23, Q7 (M4): motor cantilever forward
     M4_Back    AT %Q* : BOOL;  // Nr. 24, Q8 (M4): motor cantilever backward
+	// Hej jeg er en sej BOOL; // Nr. 69, Q69
 END_VAR
 ]]></Declaration>
     <Implementation>
