@@ -4,23 +4,23 @@
     <XmlArchive>
       <Data>
         <o xml:space="preserve" t="ImagePoolObject">
-          <v n="UniqueIdGenerator">"2"</v>
+          <v n="UniqueIdGenerator">"6"</v>
           <l n="BitmapPool" t="ArrayList" cet="ImagePoolItem">
             <o>
-              <v n="BitmapID">"FirmaLogo"</v>
-              <v n="FileID">"5ce3da45-db07-42e7-a21c-a00fff4ed8f6|C:\Users\babun\Downloads\FirmaLogo.png"</v>
-              <v n="ItemID">2</v>
+              <v n="BitmapID">"CURSED"</v>
+              <v n="FileID">"5ce3da45-db07-42e7-a21c-a00fff4ed8f6|C:\Users\minis\OneDrive\Desktop\AMT26 1 Semester\Case 1.2\OP031_PLC\Case 1.2 - OP031 - Build 4024\StorageSystem\Storage_HMI\Images\CURSED.png"</v>
+              <v n="ItemID">4</v>
             </o>
             <o>
               <v n="BitmapID">""</v>
               <v n="FileID">""</v>
-              <v n="ItemID">1</v>
+              <v n="ItemID">5</v>
             </o>
           </l>
           <v n="GuidInit">{febc7c07-84d5-46a9-874b-65c002b56218}</v>
           <v n="GuidReInit">{95188054-0462-48e4-aa05-904006b0c553}</v>
           <v n="GuidExitX">{b996eeac-a6aa-46ac-9206-38a2e51deb57}</v>
-          <v n="ValidIds">false</v>
+          <v n="ValidIds">true</v>
         </o>
       </Data>
       <TypeList>
