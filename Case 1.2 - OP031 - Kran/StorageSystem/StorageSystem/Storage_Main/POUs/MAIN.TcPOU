@@ -32,7 +32,7 @@ VAR
 
     // ---------------- POSITIONS (horizontal / X axis) ----------------
     // Rack columns in encoder counts: [1] = column 1, [2] = column 2, [3] = column 3
-    xPosition : ARRAY[1..3] OF DINT := [185, 365, 545];
+    xPosition : ARRAY[1..4] OF DINT := [139, 2995, 5330, 7680];
     nSlot     : INT := 1;       // Which column to move to / teach (1..3)
     bTeach    : BOOL;           // Save current nPosition into xPosition[nSlot]
 
@@ -47,7 +47,7 @@ VAR
     nTolerance   : DINT := 5;       // Deadband in counts
 
     // ---------------- LIMITS ----------------
-    nMaxPosition : DINT := 600;     // Software end limit towards rack - MEASURE THIS!
+    nMaxPosition : DINT := 10000;     // Software end limit towards rack - MEASURE THIS!
     tonHoming    : TON;             // Homing timeout
     bHomingError : BOOL;            // TRUE if reference switch was not found
 
@@ -66,6 +66,9 @@ VAR
     nStep       : INT := 0;         // 0 = idle, 10 = homing, 20 = moving to target
     bHomed      : BOOL;             // TRUE when zero point is found
     bInPosition : BOOL;             // TRUE when target is reached
+	
+	// ---------------- Timers ----------------
+	resetDelayTimer : TON;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -88,8 +91,11 @@ CASE (nState + 4 - nPrevState) MOD 4 OF
     2: nErrorCount := nErrorCount + 1;              // state missed
 END_CASE
 
-nPrevState := nState;
+IF NOT B2 THEN
+	M1_Back := FALSE;
+END_IF
 
+nPrevState := nState;
 
 // =====================================================
 // 2. PUSH BUTTONS: edge detection -> commands
@@ -109,6 +115,11 @@ IF bStop THEN
     bStop := FALSE;
     bStartHoming := FALSE;
     bStartMove := FALSE;
+	
+	M2_forward := FALSE;
+	M2_Back := FALSE;
+	M4_Forward := FALSE;
+	M4_Back := FALSE;
     nStep := 0;
 END_IF
 
@@ -131,7 +142,7 @@ tonHoming(IN := (nStep = 10), PT := T#15S);
 
 IF tonHoming.Q THEN
     bHomingError := TRUE;
-    nStep := 0;                                     // back to idle -> motor off
+	nStep := 0;                 // back to idle -> motor off
 END_IF
 
 IF bStartHoming THEN
@@ -156,7 +167,7 @@ CASE nStep OF
 
         IF bStartMove THEN
             bStartMove := FALSE;
-            IF bHomed AND nSlot >= 1 AND nSlot <= 3 THEN
+            IF bHomed AND nSlot >= 1 AND nSlot <= 4 THEN
                 nTarget := xPosition[nSlot];        // look up target in the array
                 bInPosition := FALSE;
                 nStep := 20;
@@ -165,13 +176,22 @@ CASE nStep OF
 
     10: // ----- Homing: move towards conveyor until reference switch B1 -----
         M2_Forward := FALSE;
-        M2_Back    := TRUE;
+		IF NOT B10 THEN
+        	M2_Back := FALSE;
+			M4_Forward := FALSE;
+		ELSE
+			M2_Back := TRUE;
+		END_IF
 
         IF B1 THEN                                  // level, not edge
             M2_Back := FALSE;
-            nPosition := 0;                         // zero point = where the switch triggers
-            bHomed := TRUE;
-            nStep := 0;
+			bHomed := TRUE;
+			resetDelayTimer(IN := TRUE, PT := T#0.5S);
+			IF resetDelayTimer.Q THEN
+				nPosition := 0;
+				nStep := 0;
+				resetDelayTimer(IN := FALSE);
+			END_IF        // zero point = where the switch triggers
         END_IF
 
     20: // ----- Move to nTarget -----
@@ -179,11 +199,19 @@ CASE nStep OF
         M2_Back    := FALSE;
 
         IF nPosition < nTarget - nTolerance THEN
-            M2_Forward := TRUE;                     // too close to conveyor -> towards rack
-        END_IF
+			IF NOT B10 THEN
+				M2_Forward := FALSE;
+			ELSE
+            	M2_Forward := TRUE;                     // too close to conveyor -> towards rack
+        	END_IF
+		END_IF
 
         IF nPosition > nTarget + nTolerance THEN
-            M2_Back := TRUE;                        // too far towards rack -> towards conveyor
+			IF NOT B10 THEN
+            	M2_Back := FALSE;                        // too far towards rack -> towards conveyor
+			ELSE
+				M2_Back := TRUE;
+			END_IF
         END_IF
 
         IF NOT M2_Forward AND NOT M2_Back THEN
@@ -192,7 +220,6 @@ CASE nStep OF
         END_IF
 
 END_CASE
-
 
 // =====================================================
 // 7. SAFETY: end limits and direction interlock
@@ -212,10 +239,65 @@ IF M2_Forward AND M2_Back THEN
     M2_Forward := FALSE;
     M2_Back    := FALSE;
 END_IF
+
+IF NOT B10 THEN
+	M2_Forward := FALSE;
+	M2_Back := FALSE;
+ELSE
+	M4_Back := FALSE;
+END_IF
+
+IF B9 THEN
+	M4_Forward := FALSE;
+END_IF
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="92" Count="142" />
+      <LineId Id="92" Count="17" />
+      <LineId Id="322" Count="0" />
+      <LineId Id="321" Count="0" />
+      <LineId Id="323" Count="1" />
+      <LineId Id="110" Count="1" />
+      <LineId Id="113" Count="16" />
+      <LineId Id="462" Count="6" />
+      <LineId Id="132" Count="21" />
+      <LineId Id="308" Count="0" />
+      <LineId Id="155" Count="32" />
+      <LineId Id="371" Count="0" />
+      <LineId Id="188" Count="0" />
+      <LineId Id="473" Count="0" />
+      <LineId Id="375" Count="1" />
+      <LineId Id="470" Count="0" />
+      <LineId Id="189" Count="2" />
+      <LineId Id="313" Count="0" />
+      <LineId Id="316" Count="0" />
+      <LineId Id="309" Count="1" />
+      <LineId Id="312" Count="0" />
+      <LineId Id="314" Count="0" />
+      <LineId Id="311" Count="0" />
+      <LineId Id="195" Count="6" />
+      <LineId Id="350" Count="1" />
+      <LineId Id="353" Count="0" />
+      <LineId Id="202" Count="1" />
+      <LineId Id="354" Count="0" />
+      <LineId Id="204" Count="1" />
+      <LineId Id="364" Count="0" />
+      <LineId Id="206" Count="0" />
+      <LineId Id="368" Count="0" />
+      <LineId Id="370" Count="0" />
+      <LineId Id="369" Count="0" />
+      <LineId Id="207" Count="6" />
+      <LineId Id="358" Count="0" />
+      <LineId Id="216" Count="18" />
+      <LineId Id="446" Count="0" />
+      <LineId Id="337" Count="0" />
+      <LineId Id="447" Count="0" />
+      <LineId Id="452" Count="0" />
+      <LineId Id="456" Count="1" />
+      <LineId Id="448" Count="0" />
+      <LineId Id="459" Count="0" />
+      <LineId Id="458" Count="0" />
+      <LineId Id="460" Count="1" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

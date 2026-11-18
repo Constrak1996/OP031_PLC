@@ -76,8 +76,11 @@
 	</ImageDatas>
 	<Project ProjectGUID="{FD0A159A-270F-4A5B-9B2B-8A9E8850F78B}" TargetNetId="192.168.0.47.1.1" ShowHideConfigurations="#x106">
 		<System>
+			<Settings>
+				<Cpu BaseTime="5000"/>
+			</Settings>
 			<Tasks>
-				<Task Id="3" Priority="20" CycleTime="100000" AmsPort="350" AdtTasks="true">
+				<Task Id="3" Priority="20" CycleTime="5000" AmsPort="350" AdtTasks="true">
 					<Name>PlcTask</Name>
 				</Task>
 				<Task Id="4" Priority="30" CycleTime="2000000" AmsPort="351" DisableFpExceptions="true" AdtTasks="true">
@@ -85,28 +88,9 @@
 				</Task>
 			</Tasks>
 		</System>
-		<Motion>
-			<NC>
-				<SafTask Priority="4" CycleTime="20000" AmsPort="501" IoAtBegin="true" SafTaskInfo="256">
-					<Name>NC-Task 1 SAF</Name>
-					<Vars VarGrpType="1" InsertType="1">
-						<Name>Inputs</Name>
-					</Vars>
-					<Vars VarGrpType="2" InsertType="1">
-						<Name>Outputs</Name>
-					</Vars>
-					<Image Id="4" AddrType="1" ImageType="1">
-						<Name>Image</Name>
-					</Image>
-				</SafTask>
-				<SvbTask Priority="8" CycleTime="100000" AmsPort="511">
-					<Name>NC-Task 1 SVB</Name>
-				</SvbTask>
-			</NC>
-		</Motion>
 		<Plc>
 			<Project GUID="{52E4E768-5BDB-4A59-B76E-C73488E002AF}" Name="Storage_Main" PrjFilePath="Storage_Main\Storage_Main.plcproj" TmcFilePath="Storage_Main\Storage_Main.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{9F4E07B5-87AE-8D40-806C-6FEA0F93772D}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Storage_Main\Storage_Main.tmc" TmcHash="{DA5EA3AF-E76F-8E5C-4228-21FC65127FB6}">
 					<Name>Storage_Main Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -228,7 +212,7 @@
 								<OTCID>#x02010030</OTCID>
 							</ManualConfig>
 							<Priority>20</Priority>
-							<CycleTime>10000000</CycleTime>
+							<CycleTime>500000</CycleTime>
 						</Context>
 						<Context>
 							<Id>1</Id>
@@ -286,12 +270,12 @@
 							<SyncMan>001001000000010004000000000000000100001000010000</SyncMan>
 							<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 							<Pdo Name="Channel 1" Index="#x1a00" Flags="#x0011" SyncMan="0">
-								<Entry Name="Input" Index="#x6000" Sub="#x01">
+								<Entry Name="MAIN.B5" Index="#x6000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 2" Index="#x1a01" Flags="#x0011" SyncMan="0">
-								<Entry Name="Input" Index="#x6000" Sub="#x02">
+								<Entry Name="MAIN.B6" Index="#x6000" Sub="#x02">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -304,12 +288,12 @@
 							<SyncMan>001001000000010004000000000000000100001000010000</SyncMan>
 							<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 							<Pdo Name="Channel 1" Index="#x1a00" Flags="#x0011" SyncMan="0">
-								<Entry Name="Input" Index="#x6000" Sub="#x01">
+								<Entry Name="MAIN.B3" Index="#x6000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 2" Index="#x1a01" Flags="#x0011" SyncMan="0">
-								<Entry Name="Input" Index="#x6000" Sub="#x02">
+								<Entry Name="MAIN.B4" Index="#x6000" Sub="#x02">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -322,12 +306,12 @@
 							<SyncMan>001001000000010004000000000000000100001000010000</SyncMan>
 							<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 							<Pdo Name="Channel 1" Index="#x1a00" Flags="#x0011" SyncMan="0">
-								<Entry Name="Input" Index="#x6000" Sub="#x01">
+								<Entry Name="MAIN.B1" Index="#x6000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 2" Index="#x1a01" Flags="#x0011" SyncMan="0">
-								<Entry Name="Input" Index="#x6010" Sub="#x01">
+								<Entry Name="MAIN.B2" Index="#x6010" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -999,16 +983,16 @@ Bit1: Value bigger/equal Limit2]]></Comment>
 		<MappingInfo Identifier="{00000000-2001-0850-0020-500820000403}" Id="#x02030010"/>
 		<OwnerA Name="TIPC^Storage_Main^Storage_Main Instance">
 			<OwnerB Name="TIID^Device 3 (EtherCAT)^Term 1 (EK1100)^Term 2 (EL1202)">
-				<Link VarA="PlcTask Inputs^MAIN.B1" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.B2" VarB="Channel 2^Input"/>
+				<Link VarA="PlcTask Inputs^MAIN.B5" VarB="Channel 1^MAIN.B5"/>
+				<Link VarA="PlcTask Inputs^MAIN.B6" VarB="Channel 2^MAIN.B6"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 3 (EtherCAT)^Term 1 (EK1100)^Term 3 (EL1202)">
-				<Link VarA="PlcTask Inputs^MAIN.B3" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.B4" VarB="Channel 2^Input"/>
+				<Link VarA="PlcTask Inputs^MAIN.B3" VarB="Channel 1^MAIN.B3"/>
+				<Link VarA="PlcTask Inputs^MAIN.B4" VarB="Channel 2^MAIN.B4"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 3 (EtherCAT)^Term 1 (EK1100)^Term 4 (EL1008)">
-				<Link VarA="PlcTask Inputs^MAIN.B5" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.B6" VarB="Channel 2^Input"/>
+				<Link VarA="PlcTask Inputs^MAIN.B1" VarB="Channel 1^MAIN.B1"/>
+				<Link VarA="PlcTask Inputs^MAIN.B2" VarB="Channel 2^MAIN.B2"/>
 				<Link VarA="PlcTask Inputs^MAIN.B7" VarB="Channel 3^Input"/>
 				<Link VarA="PlcTask Inputs^MAIN.B8" VarB="Channel 4^Input"/>
 			</OwnerB>
