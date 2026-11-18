@@ -71,6 +71,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"283"</v>
+              <v n="TextDefault">"Back"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"163"</v>
               <v n="TextDefault">"Crane Back"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -111,6 +116,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"826"</v>
+              <v n="TextDefault">"Forward"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"910"</v>
               <v n="TextDefault">"Settings"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -118,6 +128,11 @@
             <o>
               <v n="TextID">"77"</v>
               <v n="TextDefault">"Slay the demon"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"19"</v>
+              <v n="TextDefault">"Start"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>

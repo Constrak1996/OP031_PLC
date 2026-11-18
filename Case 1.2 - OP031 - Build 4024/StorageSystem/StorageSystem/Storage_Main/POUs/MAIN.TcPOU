@@ -3,17 +3,23 @@
   <POU Name="MAIN" Id="{f71031dd-4874-465c-9807-4df494377606}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	B1  AT %I* : BOOL;  // Nr. 5,  B1: reference switch horizontal axis
+    // ---------------- INPUTS ----------------
+    B1  AT %I* : BOOL;  // Nr. 5,  B1: reference switch horizontal axis
     B2  AT %I* : BOOL;  // Nr. 6,  B2: light-barrier inside
     B3  AT %I* : BOOL;  // Nr. 7,  B3: light-barrier outside
     B4  AT %I* : BOOL;  // Nr. 8,  B4: reference switch vertical axis
-    B5  AT %I* : BOOL;  // Nr. 11, B5: encoder horizontal axis impulse 1
-    B6  AT %I* : BOOL;  // Nr. 12, B6: encoder horizontal axis impulse 2
+    B5  AT %I* : BOOL;  // Nr. 11, B5: encoder horizontal axis impulse 1  (EL1202 ch. 1)
+    B6  AT %I* : BOOL;  // Nr. 12, B6: encoder horizontal axis impulse 2  (EL1202 ch. 2)
     B7  AT %I* : BOOL;  // Nr. 13, B7: encoder vertical axis impulse 1
     B8  AT %I* : BOOL;  // Nr. 14, B8: encoder vertical axis impulse 2
     B9  AT %I* : BOOL;  // Nr. 15, B9: reference switch cantilever front
     B10 AT %I* : BOOL;  // Nr. 16, B10: reference switch cantilever back
- 
+
+    // Optional push buttons (not in the I/O list - leave unlinked if not used)
+    bButtonHoming AT %I* : BOOL;  // Start homing
+    bButtonMove   AT %I* : BOOL;  // Move to xPosition[nSlot]
+    bButtonStop   AT %I* : BOOL;  // Stop (level: stops as long as pressed)
+
     // ---------------- OUTPUTS ----------------
     M1_Forward AT %Q* : BOOL;  // Nr. 17, Q1 (M1): motor conveyor belt forward
     M1_Back    AT %Q* : BOOL;  // Nr. 18, Q2 (M1): motor conveyor belt backward
@@ -23,12 +29,212 @@ VAR
     M3_Up      AT %Q* : BOOL;  // Nr. 22, Q6 (M3): motor vertical axis upward
     M4_Forward AT %Q* : BOOL;  // Nr. 23, Q7 (M4): motor cantilever forward
     M4_Back    AT %Q* : BOOL;  // Nr. 24, Q8 (M4): motor cantilever backward
-END_VAR
-]]></Declaration>
+
+    // ---------------- POSITIONS (horizontal / X axis) ----------------
+    // Rack columns in encoder counts: [1] = column 1, [2] = column 2, [3] = column 3
+    xPosition : ARRAY[1..3] OF DINT := [185, 365, 545];
+    nSlot     : INT := 1;       // Which column to move to / teach (1..3)
+    bTeach    : BOOL;           // Save current nPosition into xPosition[nSlot]
+
+    // ---------------- COMMANDS (horizontal / X axis) ----------------
+    // Set online with "Write values" / Ctrl+F7
+    bJogForward  : BOOL;            // Manual move towards rack (step 0 only)
+    bJogBackward : BOOL;            // Manual move towards conveyor (step 0 only)
+    bStartHoming : BOOL;            // Start homing sequence
+    bStartMove   : BOOL;            // Move to xPosition[nSlot]
+    bStop        : BOOL;            // Stop everything
+    nTarget      : DINT;            // Current target (set from xPosition)
+    nTolerance   : DINT := 5;       // Deadband in counts
+
+    // ---------------- EDGE DETECTION ----------------
+    rtHoming : R_TRIG;
+    rtMove   : R_TRIG;
+
+    // ---------------- ENCODER (horizontal / X axis) ----------------
+    nState      : BYTE;             // Current state 0..3
+    nPrevState  : BYTE;             // State in previous cycle
+    bInit       : BOOL := TRUE;     // First cycle flag
+    nPosition   : DINT;             // Position in counts (300 per output shaft rev.)
+    nErrorCount : UDINT;            // Number of missed states
+
+    // ---------------- SEQUENCE / STATUS ----------------
+    nStep       : INT := 0;         // 0 = idle, 10 = homing, 20 = moving to target
+    bHomed      : BOOL;             // TRUE when zero point is found
+    bInPosition : BOOL;             // TRUE when target is reached
+	// counter
+	totalValue: INT;
+	
+	counterB1  : DINT;
+	counterB2  : DINT;
+	counterB3  : DINT;
+	counterB4  : DINT;
+	counterB5  : DINT;
+	counterB6  : DINT;
+	counterB7  : DINT;
+	counterB8  : DINT;
+	counterB9  : DINT;
+	counterB10 : DINT;
+END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[Test();
+]]></ST>
     </Implementation>
+    <Action Name="Test" Id="{9a80dd30-f4d8-443b-9a4c-34578927fca6}">
+      <Implementation>
+        <ST><![CDATA[// =====================================================
+// 1. ENCODER: count up/down based on B5 (A) and B6 (B)
+// =====================================================
+nState := 0;                                        // default: A=0, B=0
+IF B5 AND NOT B6 THEN nState := 1; END_IF           // A=1, B=0
+IF B5 AND B6 THEN nState := 2; END_IF               // A=1, B=1
+IF NOT B5 AND B6 THEN nState := 3; END_IF           // A=0, B=1
+
+IF B1 THEN
+    counterB1 := counterB1 + 1;
+END_IF
+IF B2 THEN
+    counterB2 := counterB2 + 1;
+END_IF
+IF B3 THEN
+    counterB3 := counterB3 + 1;
+END_IF
+IF B4 THEN
+    counterB4 := counterB4 + 1;
+END_IF
+IF B5 THEN
+    counterB5 := counterB5 + 1;
+END_IF
+IF B6 THEN
+    counterB6 := counterB6 + 1;
+END_IF
+IF B7 THEN
+    counterB7 := counterB7 + 1;
+END_IF
+IF B8 THEN
+    counterB8 := counterB8 + 1;
+END_IF
+IF B9 THEN
+    counterB9 := counterB9 + 1;
+END_IF
+IF B10 THEN
+    counterB10 := counterB10 + 1;
+END_IF
+
+CASE (nState + 4 - nPrevState) MOD 4 OF
+    1: nPosition := nPosition + 1;                  // one step forward
+    3: nPosition := nPosition - 1;                  // one step backward
+    2: nErrorCount := nErrorCount + 1;              // state missed
+END_CASE
+
+nPrevState := nState;
+
+
+// =====================================================
+// 2. PUSH BUTTONS: edge detection -> commands
+// =====================================================
+rtHoming(CLK := bButtonHoming);
+rtMove(CLK := bButtonMove);
+
+IF rtHoming.Q THEN bStartHoming := TRUE; END_IF     // TRUE for one cycle only
+IF rtMove.Q THEN bStartMove := TRUE; END_IF
+IF bButtonStop THEN bStop := TRUE; END_IF           // level: no edge needed
+
+
+// =====================================================
+// 3. STOP: always returns to step 0
+// =====================================================
+IF bStop THEN
+    bStop := FALSE;
+    bStartHoming := FALSE;
+    bStartMove := FALSE;
+    nStep := 0;
+END_IF
+
+
+// =====================================================
+// 4. TEACH: save current position into the array
+// =====================================================
+IF bTeach THEN
+    bTeach := FALSE;
+    IF bHomed AND nSlot >= 1 AND nSlot <= 3 THEN
+        xPosition[nSlot] := nPosition;
+    END_IF
+END_IF
+
+
+// =====================================================
+// 5. SEQUENCE (horizontal / X axis, motor M2)
+// =====================================================
+CASE nStep OF
+
+    0:  // ----- Idle: manual jog only -----
+        M2_Forward := bJogForward AND NOT bJogBackward;
+        M2_Back    := bJogBackward AND NOT bJogForward AND NOT B1;
+
+        IF bStartHoming THEN
+            bStartHoming := FALSE;
+            bHomed := FALSE;
+            nStep := 10;
+        END_IF
+
+        IF bStartMove THEN
+            bStartMove := FALSE;
+            IF bHomed AND nSlot >= 1 AND nSlot <= 3 THEN
+                nTarget := xPosition[nSlot];        // look up target in the array
+                bInPosition := FALSE;
+                nStep := 20;
+            END_IF
+        END_IF
+
+    10: // ----- Homing: move towards conveyor until reference switch B1 -----
+        M2_Forward := FALSE;
+        M2_Back    := TRUE;
+
+        IF B1 THEN                                  // level, not edge
+            M2_Back := FALSE;
+            nPosition := 0;                         // zero point = where the switch triggers
+            bHomed := TRUE;
+            nStep := 0;
+        END_IF
+
+    20: // ----- Move to nTarget -----
+        M2_Forward := FALSE;                        // default: motor off
+        M2_Back    := FALSE;
+
+        IF nPosition < nTarget - nTolerance THEN
+            M2_Forward := TRUE;                     // too close to conveyor -> towards rack
+        END_IF
+
+        IF nPosition > nTarget + nTolerance THEN
+            M2_Back := TRUE;                        // too far towards rack -> towards conveyor
+        END_IF
+
+        IF NOT M2_Forward AND NOT M2_Back THEN
+            bInPosition := TRUE;                    // within tolerance -> done
+            nStep := 0;
+        END_IF
+
+END_CASE
+
+
+// =====================================================
+// 6. SAFETY: never both directions at the same time
+// =====================================================
+IF M2_Forward AND M2_Back THEN
+    M2_Forward := FALSE;
+    M2_Back    := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Action>
     <LineIds Name="MAIN">
+      <LineId Id="2" Count="0" />
+      <LineId Id="49" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.Test">
+      <LineId Id="175" Count="6" />
+      <LineId Id="292" Count="0" />
+      <LineId Id="370" Count="28" />
+      <LineId Id="186" Count="104" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
