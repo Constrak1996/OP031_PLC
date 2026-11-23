@@ -90,59 +90,59 @@
 		</System>
 		<Plc>
 			<Project GUID="{52E4E768-5BDB-4A59-B76E-C73488E002AF}" Name="Storage_Main" PrjFilePath="Storage_Main\Storage_Main.plcproj" TmcFilePath="Storage_Main\Storage_Main.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Storage_Main\Storage_Main.tmc" TmcHash="{DA5EA3AF-E76F-8E5C-4228-21FC65127FB6}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Storage_Main\Storage_Main.tmc" TmcHash="{7F884BC4-A3DC-F635-196C-5D3FEB8A65E1}">
 					<Name>Storage_Main Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
 						<Var>
 							<Name>MAIN.B1</Name>
-							<Comment><![CDATA[ Nr. 5,  B1: reference switch horizontal axis]]></Comment>
+							<Comment><![CDATA[ Nr. 5,  B1: reference switch horizontal axis (TRUE = at home)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.B2</Name>
-							<Comment><![CDATA[ Nr. 6,  B2: light-barrier inside]]></Comment>
+							<Comment><![CDATA[ Nr. 6,  B2: light-barrier inside  (TRUE = free, FALSE = pallet)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.B3</Name>
-							<Comment><![CDATA[ Nr. 7,  B3: light-barrier outside]]></Comment>
+							<Comment><![CDATA[ Nr. 7,  B3: light-barrier outside (TRUE = free, FALSE = pallet)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.B4</Name>
-							<Comment><![CDATA[ Nr. 8,  B4: reference switch vertical axis]]></Comment>
+							<Comment><![CDATA[ Nr. 8,  B4: reference switch vertical axis, top (TRUE = at home)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.B5</Name>
-							<Comment><![CDATA[ Nr. 11, B5: encoder horizontal axis impulse 1  (EL1202 ch. 1)]]></Comment>
+							<Comment><![CDATA[ Nr. 11, B5: encoder horizontal axis impulse 1  (EL1202 Term 2 ch. 1)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.B6</Name>
-							<Comment><![CDATA[ Nr. 12, B6: encoder horizontal axis impulse 2  (EL1202 ch. 2)]]></Comment>
+							<Comment><![CDATA[ Nr. 12, B6: encoder horizontal axis impulse 2  (EL1202 Term 2 ch. 2)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.B7</Name>
-							<Comment><![CDATA[ Nr. 13, B7: encoder vertical axis impulse 1]]></Comment>
+							<Comment><![CDATA[ Nr. 13, B7: encoder vertical axis impulse 1    (EL1202 Term 3 ch. 1)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.B8</Name>
-							<Comment><![CDATA[ Nr. 14, B8: encoder vertical axis impulse 2]]></Comment>
+							<Comment><![CDATA[ Nr. 14, B8: encoder vertical axis impulse 2    (EL1202 Term 3 ch. 2)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.B9</Name>
-							<Comment><![CDATA[ Nr. 15, B9: reference switch cantilever front]]></Comment>
+							<Comment><![CDATA[ Nr. 15, B9: reference switch cantilever front (TRUE = arm out)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.B10</Name>
-							<Comment><![CDATA[ Nr. 16, B10: reference switch cantilever back]]></Comment>
+							<Comment><![CDATA[ Nr. 16, B10: reference switch cantilever back (TRUE = arm back)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -151,8 +151,8 @@
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.bButtonMove</Name>
-							<Comment><![CDATA[ Move to xPosition[nSlot]]]></Comment>
+							<Name>MAIN.bButtonAuto</Name>
+							<Comment><![CDATA[ Start automatic mode]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -170,7 +170,7 @@
 						</Var>
 						<Var>
 							<Name>MAIN.M1_Back</Name>
-							<Comment><![CDATA[ Nr. 18, Q2 (M1): motor conveyor belt backward]]></Comment>
+							<Comment><![CDATA[ Nr. 18, Q2 (M1): motor conveyor belt backward (moves pallet towards crane)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
@@ -195,12 +195,12 @@
 						</Var>
 						<Var>
 							<Name>MAIN.M4_Forward</Name>
-							<Comment><![CDATA[ Nr. 23, Q7 (M4): motor cantilever forward]]></Comment>
+							<Comment><![CDATA[ Nr. 23, Q7 (M4): motor cantilever forward (arm out)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.M4_Back</Name>
-							<Comment><![CDATA[ Nr. 24, Q8 (M4): motor cantilever backward]]></Comment>
+							<Comment><![CDATA[ Nr. 24, Q8 (M4): motor cantilever backward (arm in)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>
@@ -288,12 +288,12 @@
 							<SyncMan>001001000000010004000000000000000100001000010000</SyncMan>
 							<Fmmu>0000000000000000001000010100000002000000000000000000000000000000</Fmmu>
 							<Pdo Name="Channel 1" Index="#x1a00" Flags="#x0011" SyncMan="0">
-								<Entry Name="MAIN.B3" Index="#x6000" Sub="#x01">
+								<Entry Name="MAIN.B7" Index="#x6000" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 2" Index="#x1a01" Flags="#x0011" SyncMan="0">
-								<Entry Name="MAIN.B4" Index="#x6000" Sub="#x02">
+								<Entry Name="MAIN.B8" Index="#x6000" Sub="#x02">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -316,12 +316,12 @@
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 3" Index="#x1a02" Flags="#x0011" SyncMan="0">
-								<Entry Name="Input" Index="#x6020" Sub="#x01">
+								<Entry Name="MAIN.B3" Index="#x6020" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
 							<Pdo Name="Channel 4" Index="#x1a03" Flags="#x0011" SyncMan="0">
-								<Entry Name="Input" Index="#x6030" Sub="#x01">
+								<Entry Name="MAIN.B4" Index="#x6030" Sub="#x01">
 									<Type>BIT</Type>
 								</Entry>
 							</Pdo>
@@ -987,14 +987,14 @@ Bit1: Value bigger/equal Limit2]]></Comment>
 				<Link VarA="PlcTask Inputs^MAIN.B6" VarB="Channel 2^MAIN.B6"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 3 (EtherCAT)^Term 1 (EK1100)^Term 3 (EL1202)">
-				<Link VarA="PlcTask Inputs^MAIN.B3" VarB="Channel 1^MAIN.B3"/>
-				<Link VarA="PlcTask Inputs^MAIN.B4" VarB="Channel 2^MAIN.B4"/>
+				<Link VarA="PlcTask Inputs^MAIN.B7" VarB="Channel 1^MAIN.B7"/>
+				<Link VarA="PlcTask Inputs^MAIN.B8" VarB="Channel 2^MAIN.B8"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 3 (EtherCAT)^Term 1 (EK1100)^Term 4 (EL1008)">
 				<Link VarA="PlcTask Inputs^MAIN.B1" VarB="Channel 1^MAIN.B1"/>
 				<Link VarA="PlcTask Inputs^MAIN.B2" VarB="Channel 2^MAIN.B2"/>
-				<Link VarA="PlcTask Inputs^MAIN.B7" VarB="Channel 3^Input"/>
-				<Link VarA="PlcTask Inputs^MAIN.B8" VarB="Channel 4^Input"/>
+				<Link VarA="PlcTask Inputs^MAIN.B3" VarB="Channel 3^MAIN.B3"/>
+				<Link VarA="PlcTask Inputs^MAIN.B4" VarB="Channel 4^MAIN.B4"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 3 (EtherCAT)^Term 1 (EK1100)^Term 5 (EL1008)">
 				<Link VarA="PlcTask Inputs^MAIN.B10" VarB="Channel 2^Input"/>

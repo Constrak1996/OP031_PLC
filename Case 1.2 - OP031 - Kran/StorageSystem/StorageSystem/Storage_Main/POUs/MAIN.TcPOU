@@ -4,300 +4,559 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
     // ---------------- INPUTS ----------------
-    B1  AT %I* : BOOL;  // Nr. 5,  B1: reference switch horizontal axis
-    B2  AT %I* : BOOL;  // Nr. 6,  B2: light-barrier inside
-    B3  AT %I* : BOOL;  // Nr. 7,  B3: light-barrier outside
-    B4  AT %I* : BOOL;  // Nr. 8,  B4: reference switch vertical axis
-    B5  AT %I* : BOOL;  // Nr. 11, B5: encoder horizontal axis impulse 1  (EL1202 ch. 1)
-    B6  AT %I* : BOOL;  // Nr. 12, B6: encoder horizontal axis impulse 2  (EL1202 ch. 2)
-    B7  AT %I* : BOOL;  // Nr. 13, B7: encoder vertical axis impulse 1
-    B8  AT %I* : BOOL;  // Nr. 14, B8: encoder vertical axis impulse 2
-    B9  AT %I* : BOOL;  // Nr. 15, B9: reference switch cantilever front
-    B10 AT %I* : BOOL;  // Nr. 16, B10: reference switch cantilever back
+    B1  AT %I* : BOOL;  // Nr. 5,  B1: reference switch horizontal axis (TRUE = at home)
+    B2  AT %I* : BOOL;  // Nr. 6,  B2: light-barrier inside  (TRUE = free, FALSE = pallet)
+    B3  AT %I* : BOOL;  // Nr. 7,  B3: light-barrier outside (TRUE = free, FALSE = pallet)
+    B4  AT %I* : BOOL;  // Nr. 8,  B4: reference switch vertical axis, top (TRUE = at home)
+    B5  AT %I* : BOOL;  // Nr. 11, B5: encoder horizontal axis impulse 1  (EL1202 Term 2 ch. 1)
+    B6  AT %I* : BOOL;  // Nr. 12, B6: encoder horizontal axis impulse 2  (EL1202 Term 2 ch. 2)
+    B7  AT %I* : BOOL;  // Nr. 13, B7: encoder vertical axis impulse 1    (EL1202 Term 3 ch. 1)
+    B8  AT %I* : BOOL;  // Nr. 14, B8: encoder vertical axis impulse 2    (EL1202 Term 3 ch. 2)
+    B9  AT %I* : BOOL;  // Nr. 15, B9: reference switch cantilever front (TRUE = arm out)
+    B10 AT %I* : BOOL;  // Nr. 16, B10: reference switch cantilever back (TRUE = arm back)
 
     // Optional push buttons (not in the I/O list - leave unlinked if not used)
     bButtonHoming AT %I* : BOOL;  // Start homing
-    bButtonMove   AT %I* : BOOL;  // Move to xPosition[nSlot]
+    bButtonAuto   AT %I* : BOOL;  // Start automatic mode
     bButtonStop   AT %I* : BOOL;  // Stop (level: stops as long as pressed)
 
     // ---------------- OUTPUTS ----------------
     M1_Forward AT %Q* : BOOL;  // Nr. 17, Q1 (M1): motor conveyor belt forward
-    M1_Back    AT %Q* : BOOL;  // Nr. 18, Q2 (M1): motor conveyor belt backward
+    M1_Back    AT %Q* : BOOL;  // Nr. 18, Q2 (M1): motor conveyor belt backward (moves pallet towards crane)
     M2_Forward AT %Q* : BOOL;  // Nr. 19, Q3 (M2): motor horizontal towards rack
     M2_Back    AT %Q* : BOOL;  // Nr. 20, Q4 (M2): motor horizontal towards conveyor belt
     M3_Down    AT %Q* : BOOL;  // Nr. 21, Q5 (M3): motor vertical axis downward
     M3_Up      AT %Q* : BOOL;  // Nr. 22, Q6 (M3): motor vertical axis upward
-    M4_Forward AT %Q* : BOOL;  // Nr. 23, Q7 (M4): motor cantilever forward
-    M4_Back    AT %Q* : BOOL;  // Nr. 24, Q8 (M4): motor cantilever backward
+    M4_Forward AT %Q* : BOOL;  // Nr. 23, Q7 (M4): motor cantilever forward (arm out)
+    M4_Back    AT %Q* : BOOL;  // Nr. 24, Q8 (M4): motor cantilever backward (arm in)
 
-    // ---------------- POSITIONS (horizontal / X axis) ----------------
-    // Rack columns in encoder counts: [1] = column 1, [2] = column 2, [3] = column 3
-    xPosition : ARRAY[1..4] OF DINT := [139, 2995, 5330, 7680];
-    nSlot     : INT := 1;       // Which column to move to / teach (1..3)
-    bTeach    : BOOL;           // Save current nPosition into xPosition[nSlot]
+    // ---------------- POSITIONS (encoder counts) ----------------
+    // Index 0 = pickup position at the conveyor, index 1..3 = rack
+    // X: [1] = column 1 (nearest conveyor) .. [3] = column 3
+    // Y: [1] = row 1 (bottom) .. [3] = row 3 (top). Y counts from the top (B4 = 0) and increase downwards
+    xPosition : ARRAY[0..3] OF DINT := [139, 2995, 5330, 7680];
+    yPosition : ARRAY[0..3] OF DINT := [0, 0, 0, 0];      // MUST BE TAUGHT before automatic mode
+    nLiftOffset  : DINT := 30;      // Counts to lift the arm at the pickup position
+    nLowerOffset : DINT := 30;      // Counts to lower the arm at the shelf
+    nTolerance   : DINT := 5;       // Deadband in counts (both axes)
 
-    // ---------------- COMMANDS (horizontal / X axis) ----------------
-    // Set online with "Write values" / Ctrl+F7 or from the HMI
-    bJogForward  : BOOL;            // Manual move towards rack (step 0 only)
-    bJogBackward : BOOL;            // Manual move towards conveyor (step 0 only)
-    bStartHoming : BOOL;            // Start homing sequence
-    bStartMove   : BOOL;            // Move to xPosition[nSlot]
-    bStop        : BOOL;            // Stop everything
-    nTarget      : DINT;            // Current target (set from xPosition)
-    nTolerance   : DINT := 5;       // Deadband in counts
+    // ---------------- MANUAL COMMANDS (step 0 only) ----------------
+    bJogXForward    : BOOL;         // X towards rack
+    bJogXBack       : BOOL;         // X towards conveyor
+    bJogYUp         : BOOL;         // Y up
+    bJogYDown       : BOOL;         // Y down
+    bJogArmOut      : BOOL;         // Arm out (stops at B9)
+    bJogArmIn       : BOOL;         // Arm in (stops at B10)
+    bJogBeltForward : BOOL;         // Belt moves pallet towards crane (M1_Back, stops when B3 sees a pallet)
+    bJogBeltBack    : BOOL;         // Belt moves pallet away from crane (M1_Forward)
+
+    // ---------------- TEACH ----------------
+    nTeachSlot : INT := 0;          // 0 = pickup, 1..3 = column (X) / row (Y)
+    bTeachX    : BOOL;              // Save nPosX into xPosition[nTeachSlot]
+    bTeachY    : BOOL;              // Save nPosY into yPosition[nTeachSlot]
+    bGoX       : BOOL;              // Move X to xPosition[nTeachSlot]
+    bGoY       : BOOL;              // Move Y to yPosition[nTeachSlot]
+    nShowX     : DINT;              // Stored X value of nTeachSlot (for HMI)
+    nShowY     : DINT;              // Stored Y value of nTeachSlot (for HMI)
+
+    // ---------------- AUTOMATIC ----------------
+    bStartAuto     : BOOL;          // Start automatic mode (homes first)
+    bStartHoming   : BOOL;          // Start homing (manual mode)
+    bStop          : BOOL;          // Stop everything, back to manual
+    bAuto          : BOOL;          // TRUE while automatic mode is active
+    nSelColumn     : INT;           // Shelf column chosen by the operator (1..3)
+    nSelRow        : INT;           // Shelf row chosen by the operator (1..3)
+    bShelfSelected : BOOL;          // Set by the HMI when the operator has chosen a shelf
+
+    // ---------------- POSITIONING ----------------
+    nTargetX : DINT;                // Current X target
+    nTargetY : DINT;                // Current Y target
+    bDriveX  : BOOL;                // Sequence requests X to move to nTargetX
+    bDriveY  : BOOL;                // Sequence requests Y to move to nTargetY
+    bXDone   : BOOL;                // X has reached nTargetX
+    bYDone   : BOOL;                // Y has reached nTargetY
 
     // ---------------- LIMITS ----------------
-    nMaxPosition : DINT := 10000;     // Software end limit towards rack - MEASURE THIS!
+    nMaxPosX     : DINT := 10000;   // Software end limit X towards rack - MEASURE THIS!
+    nMaxPosY     : DINT := 10000;   // Software end limit Y downwards - MEASURE THIS!
     tonHoming    : TON;             // Homing timeout
-    bHomingError : BOOL;            // TRUE if reference switch was not found
+    bHomingError : BOOL;            // TRUE if a reference switch was not found in time
+    tonSettle    : TON;             // 0.5 s settle time at the reference switches
 
     // ---------------- EDGE DETECTION ----------------
     rtHoming : R_TRIG;
-    rtMove   : R_TRIG;
+    rtAuto   : R_TRIG;
 
-    // ---------------- ENCODER (horizontal / X axis) ----------------
-    nState      : BYTE;             // Current state 0..3
-    nPrevState  : BYTE;             // State in previous cycle
-    bInit       : BOOL := TRUE;     // First cycle flag
-    nPosition   : DINT;             // Position in counts (300 per output shaft rev.)
-    nErrorCount : UDINT;            // Number of missed states
+    // ---------------- ENCODER X (B5/B6) ----------------
+    nStateX      : BYTE;            // Current state 0..3
+    nPrevStateX  : BYTE;            // State in previous cycle
+    nPosX        : DINT;            // X position in counts (0 = B1, increases towards rack)
+    nErrorCountX : UDINT;           // Number of missed states X
+
+    // ---------------- ENCODER Y (B7/B8) ----------------
+    nStateY      : BYTE;            // Current state 0..3
+    nPrevStateY  : BYTE;            // State in previous cycle
+    nPosY        : DINT;            // Y position in counts (0 = B4 at the top, increases downwards)
+    nErrorCountY : UDINT;           // Number of missed states Y
+
+    bInit : BOOL := TRUE;           // First cycle flag (both encoders)
 
     // ---------------- SEQUENCE / STATUS ----------------
-    nStep       : INT := 0;         // 0 = idle, 10 = homing, 20 = moving to target
-    bHomed      : BOOL;             // TRUE when zero point is found
-    bInPosition : BOOL;             // TRUE when target is reached
-	
-	// ---------------- Timers ----------------
-	resetDelayTimer : TON;
+    nStep            : INT := 0;    // See step list in the code
+    bHomed           : BOOL;        // TRUE when both axes are homed
+    bYTaught         : BOOL;        // TRUE when all Y positions are taught
+    bYNotTaught      : BOOL;        // Inverse of bYTaught (for HMI)
+    bPalletAtB2      : BOOL;        // TRUE when B2 sees a pallet
+    bPalletAtB3      : BOOL;        // TRUE when B3 sees a pallet
+    bShowShelfSelect : BOOL;        // TRUE while the operator must choose a shelf (shows 3x3 on HMI)
+	bHideShelfSelect : BOOL;        // Inverse of bShowShelfSelect (hides the 3x3 frame on HMI)
+    bSlot0Sel        : BOOL;        // TRUE when teach slot 0 (pickup) is selected (lights the HMI button)
+    bSlot1Sel        : BOOL;        // TRUE when teach slot 1 (column 1 / row 1) is selected
+    bSlot2Sel        : BOOL;        // TRUE when teach slot 2 (column 2 / row 2) is selected
+    bSlot3Sel        : BOOL;        // TRUE when teach slot 3 (column 3 / row 3) is selected
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// =====================================================
-// 1. ENCODER: count up/down based on B5 (A) and B6 (B)
+      <ST><![CDATA[// =====================================================================
+// STEP LIST
+//   0   = Manual mode (jog, teach, go to position, start homing / auto)
+//   10  = Homing: arm back (until B10)
+//   11  = Homing: X to B1 and Y to B4 at the same time
+//   12  = Homing: wait 0.5 s, then set both positions to 0
+//   30  = Manual: move X to xPosition[nTeachSlot]
+//   31  = Manual: move Y to yPosition[nTeachSlot]
+//   100 = Auto: wait for a pallet at B2
+//   110 = Auto: move X and Y to the pickup position
+//   120 = Auto: arm out (until B9)
+//   130 = Auto: belt moves the pallet forward until B3 sees it
+//   140 = Auto: wait for the operator to choose a shelf (3x3 on HMI)
+//   150 = Auto: lift the arm (nLiftOffset)
+//   160 = Auto: arm back (until B10)
+//   170 = Auto: move X and Y to the chosen shelf
+//   180 = Auto: arm out (until B9)
+//   190 = Auto: lower the arm (nLowerOffset) to put the pallet on the shelf
+//   200 = Auto: arm back (until B10), then home again (step 10)
+// =====================================================================
+
+
 // =====================================================
-nState := 0;                                        // default: A=0, B=0
-IF B5 AND NOT B6 THEN nState := 1; END_IF           // A=1, B=0
-IF B5 AND B6 THEN nState := 2; END_IF               // A=1, B=1
-IF NOT B5 AND B6 THEN nState := 3; END_IF           // A=0, B=1
+// 1. ENCODER X: count up/down based on B5 (A) and B6 (B)
+// =====================================================
+nStateX := 0;                                       // default: A=0, B=0
+IF B5 AND NOT B6 THEN nStateX := 1; END_IF          // A=1, B=0
+IF B5 AND B6 THEN nStateX := 2; END_IF              // A=1, B=1
+IF NOT B5 AND B6 THEN nStateX := 3; END_IF          // A=0, B=1
+
+
+// =====================================================
+// 2. ENCODER Y: count up/down based on B7 (A) and B8 (B)
+// =====================================================
+nStateY := 0;                                       // default: A=0, B=0
+IF B7 AND NOT B8 THEN nStateY := 1; END_IF          // A=1, B=0
+IF B7 AND B8 THEN nStateY := 2; END_IF              // A=1, B=1
+IF NOT B7 AND B8 THEN nStateY := 3; END_IF          // A=0, B=1
 
 IF bInit THEN
-    nPrevState := nState;
+    nPrevStateX := nStateX;
+    nPrevStateY := nStateY;
     bInit := FALSE;
 END_IF
 
-CASE (nState + 4 - nPrevState) MOD 4 OF
-    1: nPosition := nPosition + 1;                  // one step forward
-    3: nPosition := nPosition - 1;                  // one step backward
-    2: nErrorCount := nErrorCount + 1;              // state missed
+CASE (nStateX + 4 - nPrevStateX) MOD 4 OF
+    1: nPosX := nPosX + 1;                          // one step towards rack
+    3: nPosX := nPosX - 1;                          // one step towards conveyor
+    2: nErrorCountX := nErrorCountX + 1;            // state missed
 END_CASE
 
-IF NOT B2 THEN
-	M1_Back := FALSE;
+CASE (nStateY + 4 - nPrevStateY) MOD 4 OF
+    1: nPosY := nPosY + 1;                          // one step down
+    3: nPosY := nPosY - 1;                          // one step up
+    2: nErrorCountY := nErrorCountY + 1;            // state missed
+END_CASE
+
+nPrevStateX := nStateX;
+nPrevStateY := nStateY;
+
+
+// =====================================================
+// 3. STATUS SIGNALS
+// =====================================================
+bPalletAtB2 := NOT B2;                              // light barrier is FALSE when a pallet is in front
+bPalletAtB3 := NOT B3;
+
+bYTaught := yPosition[0] > nLiftOffset AND yPosition[1] > 0 AND yPosition[2] > 0 AND yPosition[3] > 0;
+bYNotTaught := NOT bYTaught;
+
+bShowShelfSelect := (nStep = 140);
+bHideShelfSelect := NOT bShowShelfSelect;
+bSlot0Sel := (nTeachSlot = 0);
+bSlot1Sel := (nTeachSlot = 1);
+bSlot2Sel := (nTeachSlot = 2);
+bSlot3Sel := (nTeachSlot = 3);
+
+IF nTeachSlot >= 0 AND nTeachSlot <= 3 THEN
+    nShowX := xPosition[nTeachSlot];
+    nShowY := yPosition[nTeachSlot];
 END_IF
 
-nPrevState := nState;
 
 // =====================================================
-// 2. PUSH BUTTONS: edge detection -> commands
+// 4. PUSH BUTTONS: edge detection -> commands
 // =====================================================
 rtHoming(CLK := bButtonHoming);
-rtMove(CLK := bButtonMove);
+rtAuto(CLK := bButtonAuto);
 
 IF rtHoming.Q THEN bStartHoming := TRUE; END_IF     // TRUE for one cycle only
-IF rtMove.Q THEN bStartMove := TRUE; END_IF
+IF rtAuto.Q THEN bStartAuto := TRUE; END_IF
 IF bButtonStop THEN bStop := TRUE; END_IF           // level: no edge needed
 
 
 // =====================================================
-// 3. STOP: always returns to step 0
+// 5. STOP: always back to manual mode (step 0)
 // =====================================================
 IF bStop THEN
     bStop := FALSE;
     bStartHoming := FALSE;
-    bStartMove := FALSE;
-	
-	M2_forward := FALSE;
-	M2_Back := FALSE;
-	M4_Forward := FALSE;
-	M4_Back := FALSE;
+    bStartAuto := FALSE;
+    bGoX := FALSE;
+    bGoY := FALSE;
+    bShelfSelected := FALSE;
+    bAuto := FALSE;
     nStep := 0;
 END_IF
 
 
 // =====================================================
-// 4. TEACH: save current position into the array
+// 6. TEACH: save current position into the arrays (manual mode only)
 // =====================================================
-IF bTeach THEN
-    bTeach := FALSE;
-    IF bHomed AND nSlot >= 1 AND nSlot <= 3 THEN
-        xPosition[nSlot] := nPosition;
+IF bTeachX THEN
+    bTeachX := FALSE;
+    IF nStep = 0 AND bHomed AND nTeachSlot >= 0 AND nTeachSlot <= 3 THEN
+        xPosition[nTeachSlot] := nPosX;
+    END_IF
+END_IF
+
+IF bTeachY THEN
+    bTeachY := FALSE;
+    IF nStep = 0 AND bHomed AND nTeachSlot >= 0 AND nTeachSlot <= 3 THEN
+        yPosition[nTeachSlot] := nPosY;
     END_IF
 END_IF
 
 
 // =====================================================
-// 5. HOMING TIMEOUT: stop if reference switch is not found
+// 7. TIMERS (called every cycle so they reset themselves)
 // =====================================================
-tonHoming(IN := (nStep = 10), PT := T#15S);
+tonHoming(IN := (nStep = 10 OR nStep = 11), PT := T#20S);
+tonSettle(IN := (nStep = 12), PT := T#500MS);
 
 IF tonHoming.Q THEN
     bHomingError := TRUE;
-	nStep := 0;                 // back to idle -> motor off
-END_IF
-
-IF bStartHoming THEN
-    bHomingError := FALSE;                          // reset error on new homing attempt
+    bAuto := FALSE;
+    nStep := 0;                                     // back to manual -> motors off
 END_IF
 
 
 // =====================================================
-// 6. SEQUENCE (horizontal / X axis, motor M2)
+// 8. SEQUENCE
 // =====================================================
+// Default: all motors off. The active step switches on what it needs.
+M1_Forward := FALSE;
+M1_Back    := FALSE;
+M2_Forward := FALSE;
+M2_Back    := FALSE;
+M3_Down    := FALSE;
+M3_Up      := FALSE;
+M4_Forward := FALSE;
+M4_Back    := FALSE;
+bDriveX    := FALSE;
+bDriveY    := FALSE;
+
 CASE nStep OF
 
-    0:  // ----- Idle: manual jog only -----
-        M2_Forward := bJogForward AND NOT bJogBackward;
-        M2_Back    := bJogBackward AND NOT bJogForward AND NOT B1;   // stop at reference switch
+    0:  // ----- Manual mode -----
+        M2_Forward := bJogXForward AND NOT bJogXBack;
+        M2_Back    := bJogXBack AND NOT bJogXForward;
+        M3_Down    := bJogYDown AND NOT bJogYUp;
+        M3_Up      := bJogYUp AND NOT bJogYDown;
+        M4_Forward := bJogArmOut AND NOT bJogArmIn;
+        M4_Back    := bJogArmIn AND NOT bJogArmOut;
+        M1_Back    := bJogBeltForward AND NOT bJogBeltBack AND B3;   // stops when B3 sees a pallet
+        M1_Forward := bJogBeltBack AND NOT bJogBeltForward;
 
         IF bStartHoming THEN
             bStartHoming := FALSE;
+            bHomingError := FALSE;
+            bAuto := FALSE;
             bHomed := FALSE;
             nStep := 10;
         END_IF
 
-        IF bStartMove THEN
-            bStartMove := FALSE;
-            IF bHomed AND nSlot >= 1 AND nSlot <= 4 THEN
-                nTarget := xPosition[nSlot];        // look up target in the array
-                bInPosition := FALSE;
-                nStep := 20;
+        IF bStartAuto THEN
+            bStartAuto := FALSE;
+            IF nStep = 0 AND bYTaught THEN              // Y positions must be taught first
+                bHomingError := FALSE;
+                bAuto := TRUE;
+                bHomed := FALSE;
+                nStep := 10;                            // always home before automatic mode
             END_IF
         END_IF
 
-    10: // ----- Homing: move towards conveyor until reference switch B1 -----
-        M2_Forward := FALSE;
-		IF NOT B10 THEN
-        	M2_Back := FALSE;
-			M4_Forward := FALSE;
-		ELSE
-			M2_Back := TRUE;
-		END_IF
-
-        IF B1 THEN                                  // level, not edge
-            M2_Back := FALSE;
-			bHomed := TRUE;
-			resetDelayTimer(IN := TRUE, PT := T#0.5S);
-			IF resetDelayTimer.Q THEN
-				nPosition := 0;
-				nStep := 0;
-				resetDelayTimer(IN := FALSE);
-			END_IF        // zero point = where the switch triggers
+        IF bGoX THEN
+            bGoX := FALSE;
+            IF nStep = 0 AND bHomed AND nTeachSlot >= 0 AND nTeachSlot <= 3 THEN
+                nTargetX := xPosition[nTeachSlot];
+                bXDone := FALSE;
+                nStep := 30;
+            END_IF
         END_IF
 
-    20: // ----- Move to nTarget -----
-        M2_Forward := FALSE;                        // default: motor off
-        M2_Back    := FALSE;
-
-        IF nPosition < nTarget - nTolerance THEN
-			IF NOT B10 THEN
-				M2_Forward := FALSE;
-			ELSE
-            	M2_Forward := TRUE;                     // too close to conveyor -> towards rack
-        	END_IF
-		END_IF
-
-        IF nPosition > nTarget + nTolerance THEN
-			IF NOT B10 THEN
-            	M2_Back := FALSE;                        // too far towards rack -> towards conveyor
-			ELSE
-				M2_Back := TRUE;
-			END_IF
+        IF bGoY THEN
+            bGoY := FALSE;
+            IF nStep = 0 AND bHomed AND nTeachSlot >= 0 AND nTeachSlot <= 3 THEN
+                nTargetY := yPosition[nTeachSlot];
+                bYDone := FALSE;
+                nStep := 31;
+            END_IF
         END_IF
 
-        IF NOT M2_Forward AND NOT M2_Back THEN
-            bInPosition := TRUE;                    // within tolerance -> done
+    10: // ----- Homing: arm back -----
+        M4_Back := TRUE;
+
+        IF B10 THEN
+            nStep := 11;
+        END_IF
+
+    11: // ----- Homing: X to B1 and Y to B4 at the same time -----
+        M2_Back := NOT B1;                          // each axis stops at its own switch
+        M3_Up   := NOT B4;
+
+        IF B1 AND B4 THEN
+            nStep := 12;
+        END_IF
+
+    12: // ----- Homing: wait 0.5 s until both axes stand still -----
+        IF tonSettle.Q THEN
+            nPosX := 0;
+            nPosY := 0;
+            bHomed := TRUE;
             nStep := 0;
+            IF bAuto THEN
+                nStep := 100;                       // automatic mode: wait for the next pallet
+            END_IF
+        END_IF
+
+    30: // ----- Manual: move X to the selected position -----
+        bDriveX := TRUE;
+
+        IF bXDone THEN
+            nStep := 0;
+        END_IF
+
+    31: // ----- Manual: move Y to the selected position -----
+        bDriveY := TRUE;
+
+        IF bYDone THEN
+            nStep := 0;
+        END_IF
+
+    100: // ----- Auto: wait for a pallet at B2 -----
+        IF bPalletAtB2 THEN
+            nTargetX := xPosition[0];
+            nTargetY := yPosition[0];
+            bXDone := FALSE;
+            bYDone := FALSE;
+            nStep := 110;
+        END_IF
+
+    110: // ----- Auto: move X and Y to the pickup position -----
+        bDriveX := TRUE;
+        bDriveY := TRUE;
+
+        IF bXDone AND bYDone THEN
+            nStep := 120;
+        END_IF
+
+    120: // ----- Auto: arm out -----
+        M4_Forward := TRUE;
+
+        IF B9 THEN
+            nStep := 130;
+        END_IF
+
+    130: // ----- Auto: belt moves the pallet forward until B3 sees it -----
+        M1_Back := TRUE;
+
+        IF bPalletAtB3 THEN
+            M1_Back := FALSE;
+            bShelfSelected := FALSE;                // ignore any old selection
+            nStep := 140;
+        END_IF
+
+    140: // ----- Auto: wait for the operator to choose a shelf -----
+        IF bShelfSelected THEN
+            bShelfSelected := FALSE;
+            IF nSelColumn >= 1 AND nSelColumn <= 3 AND nSelRow >= 1 AND nSelRow <= 3 THEN
+                nTargetY := yPosition[0] - nLiftOffset;     // lift = move up = smaller Y
+                bYDone := FALSE;
+                nStep := 150;
+            END_IF
+        END_IF
+
+    150: // ----- Auto: lift the arm -----
+        bDriveY := TRUE;
+
+        IF bYDone THEN
+            nStep := 160;
+        END_IF
+
+    160: // ----- Auto: arm back -----
+        M4_Back := TRUE;
+
+        IF B10 THEN
+            nTargetX := xPosition[nSelColumn];
+            nTargetY := yPosition[nSelRow];
+            bXDone := FALSE;
+            bYDone := FALSE;
+            nStep := 170;
+        END_IF
+
+    170: // ----- Auto: move X and Y to the chosen shelf -----
+        bDriveX := TRUE;
+        bDriveY := TRUE;
+
+        IF bXDone AND bYDone THEN
+            nStep := 180;
+        END_IF
+
+    180: // ----- Auto: arm out -----
+        M4_Forward := TRUE;
+
+        IF B9 THEN
+            nTargetY := yPosition[nSelRow] + nLowerOffset;  // lower = move down = larger Y
+            bYDone := FALSE;
+            nStep := 190;
+        END_IF
+
+    190: // ----- Auto: lower the arm to put the pallet on the shelf -----
+        bDriveY := TRUE;
+
+        IF bYDone THEN
+            nStep := 200;
+        END_IF
+
+    200: // ----- Auto: arm back, then home again -----
+        M4_Back := TRUE;
+
+        IF B10 THEN
+            nStep := 10;                            // homing -> step 100 (bAuto is still TRUE)
         END_IF
 
 END_CASE
 
+// Commands are only accepted in manual mode (step 0). Clear them in all other
+// steps, so an old button press does not start something later by surprise.
+bStartHoming := FALSE;
+bStartAuto   := FALSE;
+bGoX         := FALSE;
+bGoY         := FALSE;
+
+
 // =====================================================
-// 7. SAFETY: end limits and direction interlock
+// 9. POSITIONING: drive X and Y to their targets
 // =====================================================
-// Hardware end: never drive further towards conveyor when B1 is pressed
+// An axis stops for good when it is within the tolerance (bXDone / bYDone),
+// so it does not hunt back and forth if the motor coasts a little.
+IF bDriveX AND NOT bXDone THEN
+    IF nPosX < nTargetX - nTolerance THEN
+        M2_Forward := TRUE;                         // towards rack
+    END_IF
+    IF nPosX > nTargetX + nTolerance THEN
+        M2_Back := TRUE;                            // towards conveyor
+    END_IF
+    IF NOT M2_Forward AND NOT M2_Back THEN
+        bXDone := TRUE;
+    END_IF
+END_IF
+
+IF bDriveY AND NOT bYDone THEN
+    IF nPosY < nTargetY - nTolerance THEN
+        M3_Down := TRUE;                            // larger Y = further down
+    END_IF
+    IF nPosY > nTargetY + nTolerance THEN
+        M3_Up := TRUE;                              // smaller Y = further up
+    END_IF
+    IF NOT M3_Down AND NOT M3_Up THEN
+        bYDone := TRUE;
+    END_IF
+END_IF
+
+
+// =====================================================
+// 10. SAFETY: end limits and interlocks (always last)
+// =====================================================
+// X: hardware end at the conveyor (B1)
 IF B1 THEN
     M2_Back := FALSE;
 END_IF
 
-// Software end: never drive further towards rack than nMaxPosition
-IF bHomed AND nPosition >= nMaxPosition THEN
+// X: software end towards the rack
+IF bHomed AND nPosX >= nMaxPosX THEN
     M2_Forward := FALSE;
 END_IF
 
+// X may only move when the arm is back (B10)
+IF NOT B10 THEN
+    M2_Forward := FALSE;
+    M2_Back    := FALSE;
+END_IF
+
+// Y: hardware end at the top (B4)
+IF B4 THEN
+    M3_Up := FALSE;
+END_IF
+
+// Y: software end at the bottom
+IF bHomed AND nPosY >= nMaxPosY THEN
+    M3_Down := FALSE;
+END_IF
+
+// Arm: end positions
+IF B9 THEN
+    M4_Forward := FALSE;
+END_IF
+
+IF B10 THEN
+    M4_Back := FALSE;
+END_IF
+
 // Never both directions at the same time
+IF M1_Forward AND M1_Back THEN
+    M1_Forward := FALSE;
+    M1_Back    := FALSE;
+END_IF
+
 IF M2_Forward AND M2_Back THEN
     M2_Forward := FALSE;
     M2_Back    := FALSE;
 END_IF
 
-IF NOT B10 THEN
-	M2_Forward := FALSE;
-	M2_Back := FALSE;
-ELSE
-	M4_Back := FALSE;
+IF M3_Down AND M3_Up THEN
+    M3_Down := FALSE;
+    M3_Up   := FALSE;
 END_IF
 
-IF B9 THEN
-	M4_Forward := FALSE;
+IF M4_Forward AND M4_Back THEN
+    M4_Forward := FALSE;
+    M4_Back    := FALSE;
 END_IF
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="92" Count="17" />
-      <LineId Id="322" Count="0" />
-      <LineId Id="321" Count="0" />
-      <LineId Id="323" Count="1" />
-      <LineId Id="110" Count="1" />
-      <LineId Id="113" Count="16" />
-      <LineId Id="462" Count="6" />
-      <LineId Id="132" Count="21" />
-      <LineId Id="308" Count="0" />
-      <LineId Id="155" Count="32" />
-      <LineId Id="371" Count="0" />
-      <LineId Id="188" Count="0" />
-      <LineId Id="473" Count="0" />
-      <LineId Id="375" Count="1" />
-      <LineId Id="470" Count="0" />
-      <LineId Id="189" Count="2" />
-      <LineId Id="313" Count="0" />
-      <LineId Id="316" Count="0" />
-      <LineId Id="309" Count="1" />
-      <LineId Id="312" Count="0" />
-      <LineId Id="314" Count="0" />
-      <LineId Id="311" Count="0" />
-      <LineId Id="195" Count="6" />
-      <LineId Id="350" Count="1" />
-      <LineId Id="353" Count="0" />
-      <LineId Id="202" Count="1" />
-      <LineId Id="354" Count="0" />
-      <LineId Id="204" Count="1" />
-      <LineId Id="364" Count="0" />
-      <LineId Id="206" Count="0" />
-      <LineId Id="368" Count="0" />
-      <LineId Id="370" Count="0" />
-      <LineId Id="369" Count="0" />
-      <LineId Id="207" Count="6" />
-      <LineId Id="358" Count="0" />
-      <LineId Id="216" Count="18" />
-      <LineId Id="446" Count="0" />
-      <LineId Id="337" Count="0" />
-      <LineId Id="447" Count="0" />
-      <LineId Id="452" Count="0" />
-      <LineId Id="456" Count="1" />
-      <LineId Id="448" Count="0" />
-      <LineId Id="459" Count="0" />
-      <LineId Id="458" Count="0" />
-      <LineId Id="460" Count="1" />
+      <LineId Id="652" Count="70" />
+      <LineId Id="1082" Count="3" />
+      <LineId Id="1081" Count="0" />
+      <LineId Id="723" Count="356" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
