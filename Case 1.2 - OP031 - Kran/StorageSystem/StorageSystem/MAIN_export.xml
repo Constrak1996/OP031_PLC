@@ -1,0 +1,1389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://www.plcopen.org/xml/tc6_0200">
+  <fileHeader companyName="Beckhoff Automation GmbH" productName="TwinCAT PLC Control" productVersion="3.5.13.21" creationDateTime="2026-11-24T10:23:53.5609377" />
+  <contentHeader name="Storage_Main" modificationDateTime="2026-11-24T10:23:53.5609377">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="1" y="1" />
+      </fbd>
+      <ld>
+        <scaling x="1" y="1" />
+      </ld>
+      <sfc>
+        <scaling x="1" y="1" />
+      </sfc>
+    </coordinateInfo>
+    <addData>
+      <data name="http://www.3s-software.com/plcopenxml/projectinformation" handleUnknown="implementation">
+        <ProjectInformation />
+      </data>
+    </addData>
+  </contentHeader>
+  <types>
+    <dataTypes />
+    <pous>
+      <pou name="MAIN" pouType="program">
+        <interface>
+          <localVars>
+            <variable name="B1" address="%I*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 5,  B1: reference switch horizontal axis (TRUE = at home)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="B2" address="%I*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 6,  B2: light-barrier inside  (TRUE = free, FALSE = pallet)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="B3" address="%I*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 7,  B3: light-barrier outside (TRUE = free, FALSE = pallet)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="B4" address="%I*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 8,  B4: reference switch vertical axis, top (TRUE = at home)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="B5" address="%I*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 11, B5: encoder horizontal axis impulse 1  (EL1202 Term 2 ch. 1)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="B6" address="%I*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 12, B6: encoder horizontal axis impulse 2  (EL1202 Term 2 ch. 2)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="B7" address="%I*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 13, B7: encoder vertical axis impulse 1    (EL1202 Term 3 ch. 1)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="B8" address="%I*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 14, B8: encoder vertical axis impulse 2    (EL1202 Term 3 ch. 2)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="B9" address="%I*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 15, B9: reference switch cantilever front (TRUE = arm out)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="B10" address="%I*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 16, B10: reference switch cantilever back (TRUE = arm back)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="M1_Forward" address="%Q*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 17, Q1 (M1): motor conveyor belt forward</xhtml>
+              </documentation>
+            </variable>
+            <variable name="M1_Back" address="%Q*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 18, Q2 (M1): motor conveyor belt backward (moves pallet towards crane)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="M2_Forward" address="%Q*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 19, Q3 (M2): motor horizontal towards rack</xhtml>
+              </documentation>
+            </variable>
+            <variable name="M2_Back" address="%Q*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 20, Q4 (M2): motor horizontal towards conveyor belt</xhtml>
+              </documentation>
+            </variable>
+            <variable name="M3_Down" address="%Q*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 21, Q5 (M3): motor vertical axis downward</xhtml>
+              </documentation>
+            </variable>
+            <variable name="M3_Up" address="%Q*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 22, Q6 (M3): motor vertical axis upward</xhtml>
+              </documentation>
+            </variable>
+            <variable name="M4_Forward" address="%Q*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 23, Q7 (M4): motor cantilever forward (arm out)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="M4_Back" address="%Q*">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Nr. 24, Q8 (M4): motor cantilever backward (arm in)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nTolerance">
+              <type>
+                <DINT />
+              </type>
+              <initialValue>
+                <simpleValue value="5" />
+              </initialValue>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Deadband in counts (both axes)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bJogXForward">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> X towards rack</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bJogXBack">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> X towards conveyor</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bJogYUp">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Y up</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bJogYDown">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Y down</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bJogArmOut">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Arm out (stops at B9)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bJogArmIn">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Arm in (stops at B10)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bJogBeltForward">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Belt moves pallet towards crane (M1_Back, stops when B3 sees a pallet)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bJogBeltBack">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Belt moves pallet away from crane (M1_Forward)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nTeachSlot">
+              <type>
+                <INT />
+              </type>
+              <initialValue>
+                <simpleValue value="0" />
+              </initialValue>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> 0 = delivery (conveyor), 1..3 = column (X) / row (Y)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bTeachX">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Save nPosX into xPosition[nTeachSlot]</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bTeachY">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Save nPosY into yPosition[nTeachSlot]</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bGoX">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Move X to xPosition[nTeachSlot]</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bGoY">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Move Y to yPosition[nTeachSlot]</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nShowX">
+              <type>
+                <DINT />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Stored X value of nTeachSlot (for HMI)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nShowY">
+              <type>
+                <DINT />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Stored Y value of nTeachSlot (for HMI)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="fbWritePersistent">
+              <type>
+                <derived name="WritePersistentData" />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Writes all PERSISTENT variables to disk at once</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bSaveData">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Request: save the persistent data now</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nSaveState">
+              <type>
+                <INT />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> 0 = idle, 1 = start writing, 2 = writing</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bSaveError">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> TRUE if the last write failed</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nLiftOffsetOld">
+              <type>
+                <DINT />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Last saved nLiftOffset (detects a change from the HMI)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nLowerOffsetOld">
+              <type>
+                <DINT />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Last saved nLowerOffset (detects a change from the HMI)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bStartAuto">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Start automatic mode (homes first)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bStartHoming">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Start homing (manual mode)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bStop">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Stop everything, back to manual</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bAuto">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> TRUE while automatic mode is active</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bResetSequence">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> TRUE for one cycle: SFC_Sequence back to step S0</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nSelColumn">
+              <type>
+                <INT />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Shelf column to fetch from, chosen by the operator (1..3)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nSelRow">
+              <type>
+                <INT />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Shelf row to fetch from, chosen by the operator (1..3)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bShelfSelected">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Set by the HMI when the operator has chosen a shelf</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bPositionFound">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> GRAFCET: PositionFound - target position is loaded (step 71 / 79)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bInPosition">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> GRAFCET: InPosition - both axes are in position (step 77 / 84)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nTargetX">
+              <type>
+                <DINT />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Current X target (GRAFCET: PosX value)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nTargetY">
+              <type>
+                <DINT />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Current Y target (GRAFCET: PosY value)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bDriveX">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Sequence requests X to move to nTargetX</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bDriveY">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Sequence requests Y to move to nTargetY</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bPosXReached">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> GRAFCET: PosX = TRUE - X has reached nTargetX</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bPosYReached">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> GRAFCET: PosY = TRUE - Y has reached nTargetY</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nMaxPosX">
+              <type>
+                <DINT />
+              </type>
+              <initialValue>
+                <simpleValue value="10000" />
+              </initialValue>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Software end limit X towards rack - MEASURE THIS!</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nMaxPosY">
+              <type>
+                <DINT />
+              </type>
+              <initialValue>
+                <simpleValue value="10000" />
+              </initialValue>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Software end limit Y downwards - MEASURE THIS!</xhtml>
+              </documentation>
+            </variable>
+            <variable name="tonHoming">
+              <type>
+                <derived name="TON" />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Homing timeout</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bHomingError">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> TRUE if a reference switch was not found in time</xhtml>
+              </documentation>
+            </variable>
+            <variable name="tonSettle">
+              <type>
+                <derived name="TON" />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> 0.5 s settle time at the reference switches</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nStateX">
+              <type>
+                <BYTE />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Current state 0..3</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nPrevStateX">
+              <type>
+                <BYTE />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> State in previous cycle</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nPosX">
+              <type>
+                <DINT />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> X position in counts (0 = B1, increases towards rack)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nErrorCountX">
+              <type>
+                <UDINT />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Number of missed states X</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nStateY">
+              <type>
+                <BYTE />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Current state 0..3</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nPrevStateY">
+              <type>
+                <BYTE />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> State in previous cycle</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nPosY">
+              <type>
+                <DINT />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Y position in counts (0 = B4 at the top, increases downwards)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nErrorCountY">
+              <type>
+                <UDINT />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Number of missed states Y</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bInit">
+              <type>
+                <BOOL />
+              </type>
+              <initialValue>
+                <simpleValue value="TRUE" />
+              </initialValue>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> First cycle flag (both encoders)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nStep">
+              <type>
+                <INT />
+              </type>
+              <initialValue>
+                <simpleValue value="0" />
+              </initialValue>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Active SFC step number (set by the step actions in SFC_Sequence)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bHomed">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> TRUE when both axes are homed</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bYTaught">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> TRUE when all Y positions are taught</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bYNotTaught">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Inverse of bYTaught (for HMI)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bPalletAtB2">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> TRUE when B2 sees a pallet (HMI lamp)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bPalletAtB3">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> TRUE when B3 sees a pallet (HMI lamp)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bShowShelfSelect">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> TRUE while the operator must choose a shelf (shows 3x3 on HMI)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bHideShelfSelect">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Inverse of bShowShelfSelect (hides the 3x3 frame on HMI)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bSlot0Sel">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> TRUE when teach slot 0 (delivery) is selected (lights the HMI button)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bSlot1Sel">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> TRUE when teach slot 1 (column 1 / row 1) is selected</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bSlot2Sel">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> TRUE when teach slot 2 (column 2 / row 2) is selected</xhtml>
+              </documentation>
+            </variable>
+            <variable name="bSlot3Sel">
+              <type>
+                <BOOL />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> TRUE when teach slot 3 (column 3 / row 3) is selected</xhtml>
+              </documentation>
+            </variable>
+          </localVars>
+          <localVars persistent="true">
+            <variable name="xPosition">
+              <type>
+                <array>
+                  <dimension lower="0" upper="3" />
+                  <baseType>
+                    <DINT />
+                  </baseType>
+                </array>
+              </type>
+              <initialValue>
+                <arrayValue>
+                  <value>
+                    <simpleValue value="139" />
+                  </value>
+                  <value>
+                    <simpleValue value="2995" />
+                  </value>
+                  <value>
+                    <simpleValue value="5330" />
+                  </value>
+                  <value>
+                    <simpleValue value="7680" />
+                  </value>
+                </arrayValue>
+              </initialValue>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> ---------------- TAUGHT VALUES (kept after power off) ----------------
+ Index 0 = delivery position at the conveyor (GRAFCET: DeliveryPosX / DeliveryPosY)
+ X: [1] = column 1 (nearest conveyor) .. [3] = column 3
+ Y: [1] = row 1 (bottom) .. [3] = row 3 (top). Y counts from the top (B4 = 0) and increases downwards</xhtml>
+              </documentation>
+            </variable>
+            <variable name="yPosition">
+              <type>
+                <array>
+                  <dimension lower="0" upper="3" />
+                  <baseType>
+                    <DINT />
+                  </baseType>
+                </array>
+              </type>
+              <initialValue>
+                <arrayValue>
+                  <value>
+                    <simpleValue value="0" />
+                  </value>
+                  <value>
+                    <simpleValue value="0" />
+                  </value>
+                  <value>
+                    <simpleValue value="0" />
+                  </value>
+                  <value>
+                    <simpleValue value="0" />
+                  </value>
+                </arrayValue>
+              </initialValue>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> MUST BE TAUGHT before automatic mode</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nLiftOffset">
+              <type>
+                <DINT />
+              </type>
+              <initialValue>
+                <simpleValue value="30" />
+              </initialValue>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Counts to lift the pallet off the shelf (SFC step S74)</xhtml>
+              </documentation>
+            </variable>
+            <variable name="nLowerOffset">
+              <type>
+                <DINT />
+              </type>
+              <initialValue>
+                <simpleValue value="50" />
+              </initialValue>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Counts to lower the pallet onto the conveyor (SFC step S86)</xhtml>
+              </documentation>
+            </variable>
+          </localVars>
+        </interface>
+        <actions>
+          <action name="ACT_Encoder">
+            <body>
+              <ST>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml">// =====================================================
+// ACT_Encoder: count up/down based on the two encoder signals
+// X: B5 (A) and B6 (B)    Y: B7 (A) and B8 (B)
+// =====================================================
+nStateX := 0;                                       // default: A=0, B=0
+IF B5 AND NOT B6 THEN nStateX := 1; END_IF          // A=1, B=0
+IF B5 AND B6 THEN nStateX := 2; END_IF              // A=1, B=1
+IF NOT B5 AND B6 THEN nStateX := 3; END_IF          // A=0, B=1
+
+nStateY := 0;                                       // default: A=0, B=0
+IF B7 AND NOT B8 THEN nStateY := 1; END_IF          // A=1, B=0
+IF B7 AND B8 THEN nStateY := 2; END_IF              // A=1, B=1
+IF NOT B7 AND B8 THEN nStateY := 3; END_IF          // A=0, B=1
+
+IF bInit THEN
+    nPrevStateX := nStateX;
+    nPrevStateY := nStateY;
+    bInit := FALSE;
+END_IF
+
+CASE (nStateX + 4 - nPrevStateX) MOD 4 OF
+    1: nPosX := nPosX + 1;                          // one step towards rack
+    3: nPosX := nPosX - 1;                          // one step towards conveyor
+    2: nErrorCountX := nErrorCountX + 1;            // state missed
+END_CASE
+
+CASE (nStateY + 4 - nPrevStateY) MOD 4 OF
+    1: nPosY := nPosY + 1;                          // one step down
+    3: nPosY := nPosY - 1;                          // one step up
+    2: nErrorCountY := nErrorCountY + 1;            // state missed
+END_CASE
+
+nPrevStateX := nStateX;
+nPrevStateY := nStateY;
+</xhtml>
+              </ST>
+            </body>
+            <addData>
+              <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                <ObjectId>2e63203f-86c0-4644-92dd-479cad2f239a</ObjectId>
+              </data>
+            </addData>
+          </action>
+          <action name="ACT_Manual">
+            <body>
+              <ST>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml">// =====================================================
+// ACT_Manual: status, stop, commands, teach + save, timers, jog
+// =====================================================
+
+// ---------- 1. STATUS SIGNALS ----------
+bPalletAtB2 := NOT B2;                              // light barrier is FALSE when a pallet is in front
+bPalletAtB3 := NOT B3;
+
+// Delivery height must be taught, and every shelf row must be low enough to lift nLiftOffset
+bYTaught := yPosition[0] &gt; 0 AND yPosition[1] &gt; nLiftOffset AND yPosition[2] &gt; nLiftOffset AND yPosition[3] &gt; nLiftOffset;
+bYNotTaught := NOT bYTaught;
+
+bShowShelfSelect := (nStep = 71);
+bHideShelfSelect := NOT bShowShelfSelect;
+bSlot0Sel := (nTeachSlot = 0);
+bSlot1Sel := (nTeachSlot = 1);
+bSlot2Sel := (nTeachSlot = 2);
+bSlot3Sel := (nTeachSlot = 3);
+
+IF nTeachSlot &gt;= 0 AND nTeachSlot &lt;= 3 THEN
+    nShowX := xPosition[nTeachSlot];
+    nShowY := yPosition[nTeachSlot];
+END_IF
+
+
+// ---------- 2. STOP: always back to manual mode (step S0) ----------
+IF bStop THEN
+    bStop := FALSE;
+    bStartHoming := FALSE;
+    bStartAuto := FALSE;
+    bGoX := FALSE;
+    bGoY := FALSE;
+    bShelfSelected := FALSE;
+    bPositionFound := FALSE;
+    bInPosition := FALSE;
+    bAuto := FALSE;
+    bResetSequence := TRUE;                         // SFC_Sequence -&gt; S0 (SFCReset)
+END_IF
+
+
+// ---------- 3. COMMANDS (manual mode only) ----------
+// The transitions after step S0 in SFC_Sequence react to the same commands in this cycle.
+IF nStep = 0 THEN
+    IF bStartHoming THEN
+        bHomingError := FALSE;
+        bAuto := FALSE;
+        bHomed := FALSE;
+    END_IF
+
+    IF bStartAuto AND bYTaught THEN                 // Y positions must be taught first
+        bHomingError := FALSE;
+        bAuto := TRUE;
+        bHomed := FALSE;                            // always home before automatic mode
+    END_IF
+
+    IF bGoX AND bHomed AND nTeachSlot &gt;= 0 AND nTeachSlot &lt;= 3 THEN
+        nTargetX := xPosition[nTeachSlot];
+        bPosXReached := FALSE;
+    END_IF
+
+    IF bGoY AND bHomed AND nTeachSlot &gt;= 0 AND nTeachSlot &lt;= 3 THEN
+        nTargetY := yPosition[nTeachSlot];
+        bPosYReached := FALSE;
+    END_IF
+END_IF
+
+
+// ---------- 4. TEACH: save current position into the arrays (manual mode only) ----------
+IF bTeachX THEN
+    bTeachX := FALSE;
+    IF nStep = 0 AND bHomed AND nTeachSlot &gt;= 0 AND nTeachSlot &lt;= 3 THEN
+        xPosition[nTeachSlot] := nPosX;
+        bSaveData := TRUE;                          // write to disk at once
+    END_IF
+END_IF
+
+IF bTeachY THEN
+    bTeachY := FALSE;
+    IF nStep = 0 AND bHomed AND nTeachSlot &gt;= 0 AND nTeachSlot &lt;= 3 THEN
+        yPosition[nTeachSlot] := nPosY;
+        bSaveData := TRUE;                          // write to disk at once
+    END_IF
+END_IF
+
+// Lift / lower offset changed on the HMI -&gt; save as well
+IF nLiftOffset &lt;&gt; nLiftOffsetOld OR nLowerOffset &lt;&gt; nLowerOffsetOld THEN
+    nLiftOffsetOld := nLiftOffset;
+    nLowerOffsetOld := nLowerOffset;
+    bSaveData := TRUE;
+END_IF
+
+
+// ---------- 5. SAVE: write the PERSISTENT variables to disk (survives a power cut) ----------
+// WritePersistentData starts on a rising edge of START. nSaveState makes sure that
+// START is TRUE until the write has started, and FALSE again before the next write.
+CASE nSaveState OF
+    0:  // idle: wait for a save request
+        IF bSaveData THEN
+            bSaveData := FALSE;
+            nSaveState := 1;
+        END_IF
+
+    1:  // START = TRUE: wait until the write has started (or failed at once)
+        IF fbWritePersistent.BUSY OR fbWritePersistent.ERR THEN
+            nSaveState := 2;
+        END_IF
+
+    2:  // START = FALSE: wait until the write is finished
+        IF NOT fbWritePersistent.BUSY THEN
+            nSaveState := 0;
+        END_IF
+END_CASE
+
+fbWritePersistent(NETID := '', PORT := 851, START := (nSaveState = 1), TMOUT := T#5S, MODE := SPDM_2PASS);
+bSaveError := fbWritePersistent.ERR;
+
+
+// ---------- 6. TIMERS (called every cycle so they reset themselves) ----------
+tonHoming(IN := (nStep = 10 OR nStep = 11), PT := T#20S);
+tonSettle(IN := (nStep = 12), PT := T#500MS);
+
+IF tonHoming.Q THEN
+    bHomingError := TRUE;
+    bAuto := FALSE;
+    bResetSequence := TRUE;                         // SFC_Sequence -&gt; S0, motors off
+END_IF
+
+
+// ---------- 7. MOTORS OFF + JOG ----------
+// Default: all motors off. SFC_Sequence (called after this action) switches on what
+// the active step needs. In manual mode (S0) the jog buttons are used.
+M1_Forward := FALSE;
+M1_Back    := FALSE;
+M2_Forward := FALSE;
+M2_Back    := FALSE;
+M3_Down    := FALSE;
+M3_Up      := FALSE;
+M4_Forward := FALSE;
+M4_Back    := FALSE;
+bDriveX    := FALSE;
+bDriveY    := FALSE;
+
+IF nStep = 0 THEN
+    M2_Forward := bJogXForward AND NOT bJogXBack;
+    M2_Back    := bJogXBack AND NOT bJogXForward;
+    M3_Down    := bJogYDown AND NOT bJogYUp;
+    M3_Up      := bJogYUp AND NOT bJogYDown;
+    M4_Forward := bJogArmOut AND NOT bJogArmIn;
+    M4_Back    := bJogArmIn AND NOT bJogArmOut;
+    M1_Back    := bJogBeltForward AND NOT bJogBeltBack AND B3;   // stops when B3 sees a pallet
+    M1_Forward := bJogBeltBack AND NOT bJogBeltForward;
+END_IF
+</xhtml>
+              </ST>
+            </body>
+            <addData>
+              <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                <ObjectId>64e1137c-4b85-4fa8-bfd2-a538f7364011</ObjectId>
+              </data>
+            </addData>
+          </action>
+          <action name="ACT_Positioning">
+            <body>
+              <ST>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml">// =====================================================
+// ACT_Positioning: drive X and Y to their targets
+// =====================================================
+// An axis stops for good when it is within the tolerance (bPosXReached / bPosYReached),
+// so it does not hunt back and forth if the motor coasts a little.
+IF bDriveX AND NOT bPosXReached THEN
+    IF nPosX &lt; nTargetX - nTolerance THEN
+        M2_Forward := TRUE;                         // towards rack
+    END_IF
+    IF nPosX &gt; nTargetX + nTolerance THEN
+        M2_Back := TRUE;                            // towards conveyor
+    END_IF
+    IF NOT M2_Forward AND NOT M2_Back THEN
+        bPosXReached := TRUE;
+    END_IF
+END_IF
+
+IF bDriveY AND NOT bPosYReached THEN
+    IF nPosY &lt; nTargetY - nTolerance THEN
+        M3_Down := TRUE;                            // larger Y = further down
+    END_IF
+    IF nPosY &gt; nTargetY + nTolerance THEN
+        M3_Up := TRUE;                              // smaller Y = further up
+    END_IF
+    IF NOT M3_Down AND NOT M3_Up THEN
+        bPosYReached := TRUE;
+    END_IF
+END_IF
+</xhtml>
+              </ST>
+            </body>
+            <addData>
+              <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                <ObjectId>f1a52b5d-36e5-47f9-9f4d-84fd7d8c312d</ObjectId>
+              </data>
+            </addData>
+          </action>
+          <action name="ACT_Safety">
+            <body>
+              <ST>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml">// =====================================================
+// ACT_Safety: end limits and interlocks (always called last)
+// =====================================================
+// X: hardware end at the conveyor (B1)
+IF B1 THEN
+    M2_Back := FALSE;
+END_IF
+
+// X: software end towards the rack
+IF bHomed AND nPosX &gt;= nMaxPosX THEN
+    M2_Forward := FALSE;
+END_IF
+
+// X may only move when the arm is back (B10)
+IF NOT B10 THEN
+    M2_Forward := FALSE;
+    M2_Back    := FALSE;
+END_IF
+
+// Y: hardware end at the top (B4)
+IF B4 THEN
+    M3_Up := FALSE;
+END_IF
+
+// Y: software end at the bottom
+IF bHomed AND nPosY &gt;= nMaxPosY THEN
+    M3_Down := FALSE;
+END_IF
+
+// Arm: end positions
+IF B9 THEN
+    M4_Forward := FALSE;
+END_IF
+
+IF B10 THEN
+    M4_Back := FALSE;
+END_IF
+
+// Never both directions at the same time
+IF M1_Forward AND M1_Back THEN
+    M1_Forward := FALSE;
+    M1_Back    := FALSE;
+END_IF
+
+IF M2_Forward AND M2_Back THEN
+    M2_Forward := FALSE;
+    M2_Back    := FALSE;
+END_IF
+
+IF M3_Down AND M3_Up THEN
+    M3_Down := FALSE;
+    M3_Up   := FALSE;
+END_IF
+
+IF M4_Forward AND M4_Back THEN
+    M4_Forward := FALSE;
+    M4_Back    := FALSE;
+END_IF
+</xhtml>
+              </ST>
+            </body>
+            <addData>
+              <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                <ObjectId>ce0d0067-4dbd-4699-9497-fc9036946628</ObjectId>
+              </data>
+            </addData>
+          </action>
+          <action name="ACT_Sequence">
+            <body>
+              <SFC>
+                <step localId="0" initialStep="true" name="Init_ACT_Sequence">
+                  <position x="0" y="0" />
+                  <connectionPointIn />
+                  <connectionPointOut formalParameter="sfc" />
+                  <addData>
+                    <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                      <attributes xmlns="">
+                        <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">Init_ACT_Sequence</attribute>
+                        <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                        <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                        <attribute guid="6844a48e-46c2-4cc8-a185-a478f3b99cc0">TRUE</attribute>
+                        <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                      </attributes>
+                    </data>
+                  </addData>
+                </step>
+                <inVariable localId="1">
+                  <position x="0" y="0" />
+                  <connectionPointOut />
+                  <expression>TRUE</expression>
+                </inVariable>
+                <transition localId="2">
+                  <position x="0" y="0" />
+                  <connectionPointIn>
+                    <connection refLocalId="0" formalParameter="sfc" />
+                  </connectionPointIn>
+                  <condition>
+                    <connectionPointIn>
+                      <connection refLocalId="1" />
+                    </connectionPointIn>
+                  </condition>
+                  <addData>
+                    <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                      <attributes xmlns="">
+                        <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">TRUE</attribute>
+                        <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                        <attribute guid="bc882c11-1e91-4dd8-a6b8-2075724ed18b">0</attribute>
+                        <attribute guid="62e1754b-7629-4e63-9cec-10ae0c536f1f">FALSE</attribute>
+                        <attribute guid="8294df19-5962-4dee-a874-1051dabb0e3e">0</attribute>
+                      </attributes>
+                    </data>
+                  </addData>
+                </transition>
+                <jumpStep localId="3" targetName="Init_ACT_Sequence">
+                  <position x="0" y="0" />
+                  <connectionPointIn>
+                    <connection refLocalId="2" />
+                  </connectionPointIn>
+                  <addData>
+                    <data name="http://www.3s-software.com/plcopenxml/sfc/element" handleUnknown="implementation">
+                      <attributes xmlns="">
+                        <attribute guid="38391c6d-6d4a-42f8-8ee7-9f45e5adafa8">Init_ACT_Sequence</attribute>
+                        <attribute guid="01580b27-6378-448b-8ecb-0e4b795b58d6">FALSE</attribute>
+                      </attributes>
+                    </data>
+                  </addData>
+                </jumpStep>
+              </SFC>
+            </body>
+            <addData>
+              <data name="http://www.3s-software.com/plcopenxml/sfcsettings" handleUnknown="implementation">
+                <SFCSettings>
+                  <LibTitle>IecSfc</LibTitle>
+                  <LibCompany>System</LibCompany>
+                  <LibVersion>3.4.2.0</LibVersion>
+                  <LibNamespace />
+                  <CalcActiveTransOnly>false</CalcActiveTransOnly>
+                  <UseDefaults>false</UseDefaults>
+                  <Flags>
+                    <EnableLimit Declare="true" Use="false" />
+                    <Init Declare="true" Use="false" />
+                    <Reset Declare="true" Use="false" />
+                    <QuitError Declare="true" Use="false" />
+                    <Pause Declare="true" Use="false" />
+                    <Error Declare="true" Use="false" />
+                    <Trans Declare="true" Use="false" />
+                    <ErrorStep Declare="true" Use="false" />
+                    <ErrorPOU Declare="true" Use="false" />
+                    <CurrentStep Declare="true" Use="false" />
+                    <Tip Declare="true" Use="false" />
+                    <TipMode Declare="true" Use="false" />
+                    <MaxFlags Declare="true" Use="false" />
+                    <SFCErrorAnalyzation Declare="true" Use="false" />
+                    <SFCErrorAnalyzationTable Declare="true" Use="false" />
+                  </Flags>
+                </SFCSettings>
+              </data>
+              <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+                <ObjectId>4a0425ad-ea51-4962-8eba-1e5e76d3f728</ObjectId>
+              </data>
+            </addData>
+          </action>
+        </actions>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">// =====================================================================
+// MAIN (Structured Text) - the order of the calls is important:
+//   1. ACT_Encoder     (ST)  read the encoders -&gt; nPosX / nPosY
+//   2. ACT_Manual      (ST)  status, stop, commands, teach + save, timers,
+//                            all motors off, jog in manual mode
+//   3. SFC_Sequence    (SFC) homing and the automatic sequence (switches motors ON)
+//   4. ACT_Positioning (ST)  drive X / Y to nTargetX / nTargetY
+//   5. ACT_Safety      (ST)  end limits and interlocks (always last)
+// =====================================================================
+
+ACT_Encoder();
+ACT_Manual();
+
+SFC_Sequence(SFCReset := bResetSequence);
+bResetSequence := FALSE;
+
+// Commands are only accepted in manual mode (step S0). Clear them every cycle,
+// so an old button press does not start something later by surprise.
+bStartHoming := FALSE;
+bStartAuto   := FALSE;
+bGoX         := FALSE;
+bGoY         := FALSE;
+
+ACT_Positioning();
+ACT_Safety();
+</xhtml>
+          </ST>
+        </body>
+        <addData>
+          <data name="http://www.3s-software.com/plcopenxml/interfaceasplaintext" handleUnknown="implementation">
+            <InterfaceAsPlainText>
+              <xhtml xmlns="http://www.w3.org/1999/xhtml">PROGRAM MAIN
+// =====================================================================
+// MAIN (Structured Text)
+// Calls the ST actions and the SFC program SFC_Sequence in a fixed order.
+// All variables of the storage system are declared here (HMI uses MAIN.xxx).
+// =====================================================================
+VAR
+    // ---------------- INPUTS ----------------
+    B1  AT %I* : BOOL;  // Nr. 5,  B1: reference switch horizontal axis (TRUE = at home)
+    B2  AT %I* : BOOL;  // Nr. 6,  B2: light-barrier inside  (TRUE = free, FALSE = pallet)
+    B3  AT %I* : BOOL;  // Nr. 7,  B3: light-barrier outside (TRUE = free, FALSE = pallet)
+    B4  AT %I* : BOOL;  // Nr. 8,  B4: reference switch vertical axis, top (TRUE = at home)
+    B5  AT %I* : BOOL;  // Nr. 11, B5: encoder horizontal axis impulse 1  (EL1202 Term 2 ch. 1)
+    B6  AT %I* : BOOL;  // Nr. 12, B6: encoder horizontal axis impulse 2  (EL1202 Term 2 ch. 2)
+    B7  AT %I* : BOOL;  // Nr. 13, B7: encoder vertical axis impulse 1    (EL1202 Term 3 ch. 1)
+    B8  AT %I* : BOOL;  // Nr. 14, B8: encoder vertical axis impulse 2    (EL1202 Term 3 ch. 2)
+    B9  AT %I* : BOOL;  // Nr. 15, B9: reference switch cantilever front (TRUE = arm out)
+    B10 AT %I* : BOOL;  // Nr. 16, B10: reference switch cantilever back (TRUE = arm back)
+
+    // ---------------- OUTPUTS ----------------
+    M1_Forward AT %Q* : BOOL;  // Nr. 17, Q1 (M1): motor conveyor belt forward
+    M1_Back    AT %Q* : BOOL;  // Nr. 18, Q2 (M1): motor conveyor belt backward (moves pallet towards crane)
+    M2_Forward AT %Q* : BOOL;  // Nr. 19, Q3 (M2): motor horizontal towards rack
+    M2_Back    AT %Q* : BOOL;  // Nr. 20, Q4 (M2): motor horizontal towards conveyor belt
+    M3_Down    AT %Q* : BOOL;  // Nr. 21, Q5 (M3): motor vertical axis downward
+    M3_Up      AT %Q* : BOOL;  // Nr. 22, Q6 (M3): motor vertical axis upward
+    M4_Forward AT %Q* : BOOL;  // Nr. 23, Q7 (M4): motor cantilever forward (arm out)
+    M4_Back    AT %Q* : BOOL;  // Nr. 24, Q8 (M4): motor cantilever backward (arm in)
+
+    nTolerance   : DINT := 5;       // Deadband in counts (both axes)
+
+    // ---------------- MANUAL COMMANDS (step S0 only) ----------------
+    bJogXForward    : BOOL;         // X towards rack
+    bJogXBack       : BOOL;         // X towards conveyor
+    bJogYUp         : BOOL;         // Y up
+    bJogYDown       : BOOL;         // Y down
+    bJogArmOut      : BOOL;         // Arm out (stops at B9)
+    bJogArmIn       : BOOL;         // Arm in (stops at B10)
+    bJogBeltForward : BOOL;         // Belt moves pallet towards crane (M1_Back, stops when B3 sees a pallet)
+    bJogBeltBack    : BOOL;         // Belt moves pallet away from crane (M1_Forward)
+
+    // ---------------- TEACH ----------------
+    nTeachSlot : INT := 0;          // 0 = delivery (conveyor), 1..3 = column (X) / row (Y)
+    bTeachX    : BOOL;              // Save nPosX into xPosition[nTeachSlot]
+    bTeachY    : BOOL;              // Save nPosY into yPosition[nTeachSlot]
+    bGoX       : BOOL;              // Move X to xPosition[nTeachSlot]
+    bGoY       : BOOL;              // Move Y to yPosition[nTeachSlot]
+    nShowX     : DINT;              // Stored X value of nTeachSlot (for HMI)
+    nShowY     : DINT;              // Stored Y value of nTeachSlot (for HMI)
+
+    // ---------------- SAVE TAUGHT VALUES (Tc2_Utilities) ----------------
+    fbWritePersistent : WritePersistentData;   // Writes all PERSISTENT variables to disk at once
+    bSaveData         : BOOL;       // Request: save the persistent data now
+    nSaveState        : INT;        // 0 = idle, 1 = start writing, 2 = writing
+    bSaveError        : BOOL;       // TRUE if the last write failed
+    nLiftOffsetOld    : DINT;       // Last saved nLiftOffset (detects a change from the HMI)
+    nLowerOffsetOld   : DINT;       // Last saved nLowerOffset (detects a change from the HMI)
+
+    // ---------------- AUTOMATIC ----------------
+    bStartAuto     : BOOL;          // Start automatic mode (homes first)
+    bStartHoming   : BOOL;          // Start homing (manual mode)
+    bStop          : BOOL;          // Stop everything, back to manual
+    bAuto          : BOOL;          // TRUE while automatic mode is active
+    bResetSequence : BOOL;          // TRUE for one cycle: SFC_Sequence back to step S0
+    nSelColumn     : INT;           // Shelf column to fetch from, chosen by the operator (1..3)
+    nSelRow        : INT;           // Shelf row to fetch from, chosen by the operator (1..3)
+    bShelfSelected : BOOL;          // Set by the HMI when the operator has chosen a shelf
+    bPositionFound : BOOL;          // GRAFCET: PositionFound - target position is loaded (step 71 / 79)
+    bInPosition    : BOOL;          // GRAFCET: InPosition - both axes are in position (step 77 / 84)
+
+    // ---------------- POSITIONING ----------------
+    nTargetX     : DINT;            // Current X target (GRAFCET: PosX value)
+    nTargetY     : DINT;            // Current Y target (GRAFCET: PosY value)
+    bDriveX      : BOOL;            // Sequence requests X to move to nTargetX
+    bDriveY      : BOOL;            // Sequence requests Y to move to nTargetY
+    bPosXReached : BOOL;            // GRAFCET: PosX = TRUE - X has reached nTargetX
+    bPosYReached : BOOL;            // GRAFCET: PosY = TRUE - Y has reached nTargetY
+
+    // ---------------- LIMITS ----------------
+    nMaxPosX     : DINT := 10000;   // Software end limit X towards rack - MEASURE THIS!
+    nMaxPosY     : DINT := 10000;   // Software end limit Y downwards - MEASURE THIS!
+    tonHoming    : TON;             // Homing timeout
+    bHomingError : BOOL;            // TRUE if a reference switch was not found in time
+    tonSettle    : TON;             // 0.5 s settle time at the reference switches
+
+    // ---------------- ENCODER X (B5/B6) ----------------
+    nStateX      : BYTE;            // Current state 0..3
+    nPrevStateX  : BYTE;            // State in previous cycle
+    nPosX        : DINT;            // X position in counts (0 = B1, increases towards rack)
+    nErrorCountX : UDINT;           // Number of missed states X
+
+    // ---------------- ENCODER Y (B7/B8) ----------------
+    nStateY      : BYTE;            // Current state 0..3
+    nPrevStateY  : BYTE;            // State in previous cycle
+    nPosY        : DINT;            // Y position in counts (0 = B4 at the top, increases downwards)
+    nErrorCountY : UDINT;           // Number of missed states Y
+
+    bInit : BOOL := TRUE;           // First cycle flag (both encoders)
+
+    // ---------------- SEQUENCE / STATUS ----------------
+    nStep            : INT := 0;    // Active SFC step number (set by the step actions in SFC_Sequence)
+    bHomed           : BOOL;        // TRUE when both axes are homed
+    bYTaught         : BOOL;        // TRUE when all Y positions are taught
+    bYNotTaught      : BOOL;        // Inverse of bYTaught (for HMI)
+    bPalletAtB2      : BOOL;        // TRUE when B2 sees a pallet (HMI lamp)
+    bPalletAtB3      : BOOL;        // TRUE when B3 sees a pallet (HMI lamp)
+    bShowShelfSelect : BOOL;        // TRUE while the operator must choose a shelf (shows 3x3 on HMI)
+    bHideShelfSelect : BOOL;        // Inverse of bShowShelfSelect (hides the 3x3 frame on HMI)
+    bSlot0Sel        : BOOL;        // TRUE when teach slot 0 (delivery) is selected (lights the HMI button)
+    bSlot1Sel        : BOOL;        // TRUE when teach slot 1 (column 1 / row 1) is selected
+    bSlot2Sel        : BOOL;        // TRUE when teach slot 2 (column 2 / row 2) is selected
+    bSlot3Sel        : BOOL;        // TRUE when teach slot 3 (column 3 / row 3) is selected
+END_VAR
+
+VAR PERSISTENT
+    // ---------------- TAUGHT VALUES (kept after power off) ----------------
+    // Index 0 = delivery position at the conveyor (GRAFCET: DeliveryPosX / DeliveryPosY)
+    // X: [1] = column 1 (nearest conveyor) .. [3] = column 3
+    // Y: [1] = row 1 (bottom) .. [3] = row 3 (top). Y counts from the top (B4 = 0) and increases downwards
+    xPosition    : ARRAY[0..3] OF DINT := [139, 2995, 5330, 7680];
+    yPosition    : ARRAY[0..3] OF DINT := [0, 0, 0, 0];      // MUST BE TAUGHT before automatic mode
+    nLiftOffset  : DINT := 30;      // Counts to lift the pallet off the shelf (SFC step S74)
+    nLowerOffset : DINT := 50;      // Counts to lower the pallet onto the conveyor (SFC step S86)
+END_VAR
+</xhtml>
+            </InterfaceAsPlainText>
+          </data>
+          <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+            <ObjectId>f71031dd-4874-465c-9807-4df494377606</ObjectId>
+          </data>
+        </addData>
+      </pou>
+    </pous>
+  </types>
+  <instances>
+    <configurations />
+  </instances>
+  <addData>
+    <data name="http://www.3s-software.com/plcopenxml/projectstructure" handleUnknown="discard">
+      <ProjectStructure>
+        <Object Name="MAIN" ObjectId="f71031dd-4874-465c-9807-4df494377606">
+          <Object Name="ACT_Encoder" ObjectId="2e63203f-86c0-4644-92dd-479cad2f239a" />
+          <Object Name="ACT_Manual" ObjectId="64e1137c-4b85-4fa8-bfd2-a538f7364011" />
+          <Object Name="ACT_Positioning" ObjectId="f1a52b5d-36e5-47f9-9f4d-84fd7d8c312d" />
+          <Object Name="ACT_Safety" ObjectId="ce0d0067-4dbd-4699-9497-fc9036946628" />
+          <Object Name="ACT_Sequence" ObjectId="4a0425ad-ea51-4962-8eba-1e5e76d3f728" />
+        </Object>
+      </ProjectStructure>
+    </data>
+  </addData>
+</project>

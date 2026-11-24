@@ -113,6 +113,9 @@
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_Utilities">
+      <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_Module</Namespace>
@@ -131,6 +134,39 @@
     <None Include="Storage_Main.tmc">
       <SubType>Content</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <SubObject Include="MAIN.ACT_Encoder" />
+    <SubObject Include="MAIN.ACT_Manual" />
+    <SubObject Include="MAIN.ACT_Positioning" />
+    <SubObject Include="MAIN.ACT_Safety" />
+    <SubObject Include="MAIN.ACT_Sequence" />
+    <SubObject Include="MAIN.S0_Active" />
+    <SubObject Include="MAIN.S10_Active" />
+    <SubObject Include="MAIN.S11_Active" />
+    <SubObject Include="MAIN.S12_Active" />
+    <SubObject Include="MAIN.S30_Active" />
+    <SubObject Include="MAIN.S31_Active" />
+    <SubObject Include="MAIN.S70_Active" />
+    <SubObject Include="MAIN.S71_Active" />
+    <SubObject Include="MAIN.S72_X_Active" />
+    <SubObject Include="MAIN.S72_Y_Active" />
+    <SubObject Include="MAIN.S73_Active" />
+    <SubObject Include="MAIN.S74_Active" />
+    <SubObject Include="MAIN.S75_Active" />
+    <SubObject Include="MAIN.S76_Active" />
+    <SubObject Include="MAIN.S77_Active" />
+    <SubObject Include="MAIN.S78_Active" />
+    <SubObject Include="MAIN.S79_Active" />
+    <SubObject Include="MAIN.S80_X_Active" />
+    <SubObject Include="MAIN.S80_Y_Active" />
+    <SubObject Include="MAIN.S82_Active" />
+    <SubObject Include="MAIN.S83_Active" />
+    <SubObject Include="MAIN.S84_Active" />
+    <SubObject Include="MAIN.S85_Active" />
+    <SubObject Include="MAIN.S86_Active" />
+    <SubObject Include="MAIN.S87_Active" />
+    <SubObject Include="MAIN.S88_Active" />
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

@@ -90,7 +90,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{52E4E768-5BDB-4A59-B76E-C73488E002AF}" Name="Storage_Main" PrjFilePath="Storage_Main\Storage_Main.plcproj" TmcFilePath="Storage_Main\Storage_Main.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Storage_Main\Storage_Main.tmc" TmcHash="{7F884BC4-A3DC-F635-196C-5D3FEB8A65E1}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Storage_Main\Storage_Main.tmc" TmcHash="{683ADE30-B7F6-EA61-4342-AF8D536EC919}">
 					<Name>Storage_Main Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -143,21 +143,6 @@
 						<Var>
 							<Name>MAIN.B10</Name>
 							<Comment><![CDATA[ Nr. 16, B10: reference switch cantilever back (TRUE = arm back)]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.bButtonHoming</Name>
-							<Comment><![CDATA[ Start homing]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.bButtonAuto</Name>
-							<Comment><![CDATA[ Start automatic mode]]></Comment>
-							<Type>BOOL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.bButtonStop</Name>
-							<Comment><![CDATA[ Stop (level: stops as long as pressed)]]></Comment>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>
