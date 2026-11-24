@@ -2,11 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
   <POU Name="MAIN" Id="{2cdf1655-4df9-4e66-bf92-393710bff3bb}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
-// =====================================================================
-// MAIN (Structured Text)
-// Calls the ST actions and the SFC action ACT_Sequence in a fixed order.
-// All variables of the storage system are declared here (HMI uses MAIN.xxx).
-// =====================================================================
+
 VAR
     // ---------------- INPUTS ----------------
     B1  AT %I* : BOOL;  // Nr. 5,  B1: reference switch horizontal axis (TRUE = at home)
@@ -40,22 +36,120 @@ VAR
 	PickupDone: BOOL;
 	// DeliveryDone
 	DeliveryDone: BOOL;
+	// Single count for B5
+	B5OneShot: R_TRIG;
+	// Single count for B6
+	B6OneShot: R_TRIG;
+	// B7 single count
+	B7OneShot: R_TRIG;
+	// B8 single count
+	B8OneShot: R_TRIG;
+	// Encoder current position
+	CurrentPosX: DINT;
+	// Encoder Y current position
+	CurrentPosY: INT;
+	isHoming : BOOL;
+	// Stop bool for pausing
+	isStop: BOOL;
+	isDriveX : BOOL;
+	isDriveY : BOOL;
+	isPosXReached : BOOL;
+	isPosYReached : BOOL;
+	TargetX : DINT;    // can come from xPosition array
+	TargetY : DINT;    // can come from yPosition array
+	Tolerance : DINT;
+	// Manual mode check
+	isManualMode: BOOL;
+	// Step number
+	StepNumber: INT;
+	// isTeachSlotValid
+	isTeachSlotValid: BOOL;
 END_VAR
 
 VAR PERSISTENT
-    // ---------------- TAUGHT VALUES (kept after power off) ----------------
-    // Index 0 = delivery position at the conveyor (GRAFCET: DeliveryPosX / DeliveryPosY)
-    // X: [1] = column 1 (nearest conveyor) .. [3] = column 3
-    // Y: [1] = row 1 (bottom) .. [3] = row 3 (top). Y counts from the top (B4 = 0) and increases downwards
-    xPosition    : ARRAY[0..3] OF DINT := [139, 2995, 5330, 7680];
+    xPosition    : ARRAY[0..3] OF DINT := [0, 0, 0, 0];
     yPosition    : ARRAY[0..3] OF DINT := [0, 0, 0, 0];      // MUST BE TAUGHT before automatic mode
-    nLiftOffset  : DINT := 30;      // Counts to lift the pallet off the shelf (SFC step S74)
-    nLowerOffset : DINT := 50;      // Counts to lower the pallet onto the conveyor (SFC step S86)
+    LiftOffset  : DINT := 0;      // Counts to lift the pallet off the shelf (SFC step S74)
+    LowerOffset : DINT := 0;      // Counts to lower the pallet onto the conveyor (SFC step S86)
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[SFC();
+
+//Handles the encoder X and Y positions, for use
+EncoderCounter();
+EncoderManual();
+
+//Handles stop/homing functionality
+StopHandler();
+
+]]></ST>
     </Implementation>
+    <Folder Name="EncoderHandling" Id="{ce6b336d-e8c1-412c-b260-daa27745d6ba}" />
+    <Folder Name="Step_30_Macro" Id="{6e75fdd9-9abd-4b6f-8c07-9183c58f4d67}" />
+    <Folder Name="Step_50_Macro" Id="{c7165ef3-335b-4476-9db7-81ff204d7e15}" />
+    <Action Name="EncoderCounter" Id="{3b55be1d-aa3c-45e0-9f05-289b29b98eee}" FolderPath="EncoderHandling\">
+      <Implementation>
+        <ST><![CDATA[//Encoder horizontal counter
+B5OneShot(CLK:=B5);
+IF B5OneShot.Q THEN
+	IF B6 THEN
+		CurrentPosX := CurrentPosX - 1;
+	ELSE
+		CurrentPosX := CurrentPosX + 1;
+	END_IF
+END_IF
+
+//Encoder vertical counter
+B7OneShot(CLK:=B7);
+IF B7OneShot.Q THEN
+	IF B8 THEN
+		CurrentPosY := CurrentPosY - 1;
+	ELSE
+		CurrentPosY := CurrentPosY + 1;
+	END_IF
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="EncoderManual" Id="{2e20add5-2263-487c-b781-5b95cd867abd}" FolderPath="EncoderHandling\">
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="EncoderPosition" Id="{321ba040-fa09-404d-b40d-5c04afdaade0}" FolderPath="EncoderHandling\">
+      <Implementation>
+        <ST><![CDATA[IF isDriveX AND NOT isPosXReached THEN
+    M2_Forward := CurrentPosX < TargetX - Tolerance;    // towards rack
+    M2_Back := CurrentPosX > TargetX + Tolerance;       // towards conveyor
+    isPosXReached := NOT M2_Forward AND NOT M2_Back;
+END_IF
+
+IF isDriveY AND NOT isPosYReached THEN
+    M3_Down := CurrentPosY < TargetY - Tolerance;       // larger Y = further down
+    M3_Up := CurrentPosY > TargetY + Tolerance;         // smaller Y = further up
+    isPosYReached := NOT M3_Down AND NOT M3_Up;
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="SetDeliveryFalse" Id="{0fd79806-fa9a-4bdb-9fa4-f762d7db8d78}">
+      <Implementation>
+        <ST><![CDATA[//After delivery has been made, reset the variable
+DeliveryDone := FALSE;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="SetPickupFalse" Id="{54e2c14a-52eb-4c81-869d-c2d794e81f32}">
+      <Implementation>
+        <ST><![CDATA[//After pickup has been made, reset the variable
+PickupDone := FALSE;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="SetUserRequestTrue" Id="{2f676025-769c-4b38-bacf-04df4d5cccb3}">
+      <Implementation>
+        <ST><![CDATA[UserRequest := FALSE;]]></ST>
+      </Implementation>
+    </Action>
     <Action Name="SFC" Id="{f917a42e-e692-40c3-8aa3-fabedb3443d1}">
       <Implementation>
         <SFC>
@@ -351,7 +445,7 @@ END_VAR
                                       <o>
                                         <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                                         <o n="Value" t="StringValue">
-                                          <v n="Value">""</v>
+                                          <v n="Value">"SetUserRequestTrue"</v>
                                           <v n="DefaultValue">""</v>
                                         </o>
                                         <v n="Id">139L</v>
@@ -538,7 +632,7 @@ END_VAR
                                               <o>
                                                 <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                                                 <o n="Value" t="StringValue">
-                                                  <v n="Value">""</v>
+                                                  <v n="Value">"Test"</v>
                                                   <v n="DefaultValue">""</v>
                                                 </o>
                                                 <v n="Id">180L</v>
@@ -759,7 +853,7 @@ END_VAR
                                       <o>
                                         <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                                         <o n="Value" t="StringValue">
-                                          <v n="Value">""</v>
+                                          <v n="Value">"SetPickupFalse"</v>
                                           <v n="DefaultValue">""</v>
                                         </o>
                                         <v n="Id">211L</v>
@@ -1271,7 +1365,7 @@ END_VAR
                                       <o>
                                         <v n="AttributeId">{a6b08bd8-b696-47e3-9cbf-7408b61c9ff8}</v>
                                         <o n="Value" t="StringValue">
-                                          <v n="Value">""</v>
+                                          <v n="Value">"SetDeliveryFalse"</v>
                                           <v n="DefaultValue">""</v>
                                         </o>
                                         <v n="Id">199L</v>
@@ -1857,8 +1951,74 @@ END_VAR
         </XmlArchive>
       </ObjectProperties>
     </Action>
+    <Action Name="StopHandler" Id="{1caf5844-0934-4437-bf7d-8e3af562876a}">
+      <Implementation>
+        <ST><![CDATA[IF isStop THEN
+	M1_Back := FALSE;
+END_IF
+
+IF isHoming THEN
+	M1_Back := FALSE;
+END_IF
+
+
+
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Test" Id="{2890a172-dcd6-44fa-a758-45fcff269329}" FolderPath="Step_30_Macro\">
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Action>
     <LineIds Name="MAIN">
       <LineId Id="2" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="277" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="73" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.EncoderCounter">
+      <LineId Id="29" Count="17" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="49" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.EncoderManual">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.EncoderPosition">
+      <LineId Id="2" Count="9" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.SetDeliveryFalse">
+      <LineId Id="3" Count="0" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.SetPickupFalse">
+      <LineId Id="2" Count="0" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.SetUserRequestTrue">
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.StopHandler">
+      <LineId Id="1" Count="2" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="4" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.Test">
+      <LineId Id="1" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

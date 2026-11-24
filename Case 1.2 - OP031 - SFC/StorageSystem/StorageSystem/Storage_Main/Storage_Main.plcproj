@@ -40,10 +40,6 @@
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
     </Compile>
-    <Compile Include="VISUs\VisuShelf.TcVIS">
-      <SubType>Code</SubType>
-      <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
-    </Compile>
     <Compile Include="VISUs\VisuTest.TcVIS">
       <SubType>Code</SubType>
       <DependentUpon>Visualization Manager.TcVMO</DependentUpon>
