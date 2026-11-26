@@ -1276,15 +1276,15 @@
                     </o>
                     <o>
                       <v n="Id">357335551L</v>
-                      <v n="Value">410</v>
+                      <v n="Value">408</v>
                     </o>
                     <o>
                       <v n="Id">2422045748L</v>
-                      <v n="Value">130</v>
+                      <v n="Value">142</v>
                     </o>
                     <o>
                       <v n="Id">2134141914L</v>
-                      <v n="Value">60</v>
+                      <v n="Value">64</v>
                     </o>
                     <o>
                       <v n="Id">3729828405L</v>
@@ -1304,7 +1304,7 @@
                     </o>
                     <o>
                       <v n="Id">550940142L</v>
-                      <v n="Value">75</v>
+                      <v n="Value">81</v>
                     </o>
                     <o>
                       <v n="Id">1473355128L</v>
@@ -1429,19 +1429,19 @@
                     </o>
                     <o>
                       <v n="Id">1649127785L</v>
-                      <v n="Value">150</v>
+                      <v n="Value">164</v>
                     </o>
                     <o>
                       <v n="Id">357335551L</v>
-                      <v n="Value">410</v>
+                      <v n="Value">408</v>
                     </o>
                     <o>
                       <v n="Id">2422045748L</v>
-                      <v n="Value">130</v>
+                      <v n="Value">142</v>
                     </o>
                     <o>
                       <v n="Id">2134141914L</v>
-                      <v n="Value">60</v>
+                      <v n="Value">64</v>
                     </o>
                     <o>
                       <v n="Id">3729828405L</v>
@@ -1461,7 +1461,7 @@
                     </o>
                     <o>
                       <v n="Id">550940142L</v>
-                      <v n="Value">215</v>
+                      <v n="Value">235</v>
                     </o>
                     <o>
                       <v n="Id">1473355128L</v>
@@ -1594,7 +1594,7 @@
                     </o>
                     <o>
                       <v n="Id">2422045748L</v>
-                      <v n="Value">150</v>
+                      <v n="Value">100</v>
                     </o>
                     <o>
                       <v n="Id">2134141914L</v>
@@ -1618,7 +1618,7 @@
                     </o>
                     <o>
                       <v n="Id">550940142L</v>
-                      <v n="Value">545</v>
+                      <v n="Value">520</v>
                     </o>
                     <o>
                       <v n="Id">1473355128L</v>
@@ -1656,7 +1656,7 @@
                   <v>OnMouseUp</v>
                   <a et="IInputAction">
                     <o t="STSnippetInputAction">
-                      <v n="STSnippet">"MAIN.LogoutRequest := TRUE;   // leaving the service page logs out"</v>
+                      <v n="STSnippet">"MAIN.logoutRequest := TRUE;   // leaving the service page logs out"</v>
                     </o>
                     <o t="ChangeVisuInputAction">
                       <v n="AssignExpr">""</v>
@@ -1749,7 +1749,7 @@
                     </o>
                     <o>
                       <v n="Id">1649127785L</v>
-                      <v n="Value">634</v>
+                      <v n="Value">577</v>
                     </o>
                     <o>
                       <v n="Id">357335551L</v>
@@ -1757,7 +1757,7 @@
                     </o>
                     <o>
                       <v n="Id">2422045748L</v>
-                      <v n="Value">150</v>
+                      <v n="Value">100</v>
                     </o>
                     <o>
                       <v n="Id">2134141914L</v>
@@ -1781,7 +1781,7 @@
                     </o>
                     <o>
                       <v n="Id">550940142L</v>
-                      <v n="Value">709</v>
+                      <v n="Value">627</v>
                     </o>
                     <o>
                       <v n="Id">1473355128L</v>
@@ -1987,7 +1987,7 @@
                   <v>OnMouseUp</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"MAIN.LogoutRequest := TRUE;"</v>
+                      <v n="STSnippet">"MAIN.logoutRequest := TRUE;"</v>
                     </o>
                   </a>
                 </d>
@@ -2342,13 +2342,13 @@
                     <o>
                       <v n="Id">135947015L</v>
                       <l n="Value" t="ArrayList" cet="UInt32">
-                        <v>4287261952</v>
+                        <v>4278190080</v>
                       </l>
                     </o>
                     <o>
                       <v n="Id">493260384L</v>
                       <l n="Value" t="ArrayList" cet="UInt32">
-                        <v>4294955551</v>
+                        <v>4294967295</v>
                       </l>
                     </o>
                     <o>
@@ -2603,7 +2603,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"MAIN.CurrentPosX"</v>
+                      <v n="Value">"MAIN.currentPosX"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -2761,7 +2761,7 @@
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"MAIN.CurrentPosY"</v>
+                      <v n="Value">"MAIN.currentPosY"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -2799,7 +2799,7 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.JogUp"</v>
+                          <v n="Value">"MAIN.jogUp"</v>
                         </o>
                       </l>
                     </o>
@@ -2858,7 +2858,7 @@
                     </o>
                     <o>
                       <v n="Id">4253639993L</v>
-                      <v n="Value" t="Int16">15</v>
+                      <v n="Value" t="Int16">28</v>
                     </o>
                     <o>
                       <v n="Id">2729990903L</v>
@@ -2903,11 +2903,11 @@
                           <v n="FontStyle">1</v>
                           <v n="AdditionalFontStyle" t="UInt16">0</v>
                           <v n="ExplicitColor">-1</v>
-                          <v n="CanonicalName">"Font-Standard"</v>
+                          <v n="CanonicalName">"Font-HeadingLarge"</v>
                           <v n="FontName">"Arial"</v>
-                          <v n="FontSize">15</v>
+                          <v n="FontSize">28</v>
                           <v n="ScriptIdentification">0</v>
-                          <v n="DoubleFontSize" t="Double">15</v>
+                          <v n="DoubleFontSize" t="Double">28</v>
                           <n n="NamedColor" />
                         </o>
                       </l>
@@ -2930,7 +2930,7 @@
                     </o>
                     <o>
                       <v n="Id">390574330L</v>
-                      <v n="Value">"▲ Up"</v>
+                      <v n="Value">"▲"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -2972,7 +2972,7 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.JogToRack"</v>
+                          <v n="Value">"MAIN.jogToRack"</v>
                         </o>
                       </l>
                     </o>
@@ -3031,7 +3031,7 @@
                     </o>
                     <o>
                       <v n="Id">4253639993L</v>
-                      <v n="Value" t="Int16">15</v>
+                      <v n="Value" t="Int16">28</v>
                     </o>
                     <o>
                       <v n="Id">2729990903L</v>
@@ -3076,11 +3076,11 @@
                           <v n="FontStyle">1</v>
                           <v n="AdditionalFontStyle" t="UInt16">0</v>
                           <v n="ExplicitColor">-1</v>
-                          <v n="CanonicalName">"Font-Standard"</v>
+                          <v n="CanonicalName">"Font-HeadingLarge"</v>
                           <v n="FontName">"Arial"</v>
-                          <v n="FontSize">15</v>
+                          <v n="FontSize">28</v>
                           <v n="ScriptIdentification">0</v>
-                          <v n="DoubleFontSize" t="Double">15</v>
+                          <v n="DoubleFontSize" t="Double">28</v>
                           <n n="NamedColor" />
                         </o>
                       </l>
@@ -3103,7 +3103,7 @@
                     </o>
                     <o>
                       <v n="Id">390574330L</v>
-                      <v n="Value">"◄ C3"</v>
+                      <v n="Value">"◄"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -3299,7 +3299,7 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.JogToConveyor"</v>
+                          <v n="Value">"MAIN.jogToConveyor"</v>
                         </o>
                       </l>
                     </o>
@@ -3358,7 +3358,7 @@
                     </o>
                     <o>
                       <v n="Id">4253639993L</v>
-                      <v n="Value" t="Int16">15</v>
+                      <v n="Value" t="Int16">28</v>
                     </o>
                     <o>
                       <v n="Id">2729990903L</v>
@@ -3403,11 +3403,11 @@
                           <v n="FontStyle">1</v>
                           <v n="AdditionalFontStyle" t="UInt16">0</v>
                           <v n="ExplicitColor">-1</v>
-                          <v n="CanonicalName">"Font-Standard"</v>
+                          <v n="CanonicalName">"Font-HeadingLarge"</v>
                           <v n="FontName">"Arial"</v>
-                          <v n="FontSize">15</v>
+                          <v n="FontSize">28</v>
                           <v n="ScriptIdentification">0</v>
-                          <v n="DoubleFontSize" t="Double">15</v>
+                          <v n="DoubleFontSize" t="Double">28</v>
                           <n n="NamedColor" />
                         </o>
                       </l>
@@ -3430,7 +3430,7 @@
                     </o>
                     <o>
                       <v n="Id">390574330L</v>
-                      <v n="Value">"Conveyor ►"</v>
+                      <v n="Value">"►"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -3472,7 +3472,7 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.JogDown"</v>
+                          <v n="Value">"MAIN.jogDown"</v>
                         </o>
                       </l>
                     </o>
@@ -3531,7 +3531,7 @@
                     </o>
                     <o>
                       <v n="Id">4253639993L</v>
-                      <v n="Value" t="Int16">15</v>
+                      <v n="Value" t="Int16">28</v>
                     </o>
                     <o>
                       <v n="Id">2729990903L</v>
@@ -3576,11 +3576,11 @@
                           <v n="FontStyle">1</v>
                           <v n="AdditionalFontStyle" t="UInt16">0</v>
                           <v n="ExplicitColor">-1</v>
-                          <v n="CanonicalName">"Font-Standard"</v>
+                          <v n="CanonicalName">"Font-HeadingLarge"</v>
                           <v n="FontName">"Arial"</v>
-                          <v n="FontSize">15</v>
+                          <v n="FontSize">28</v>
                           <v n="ScriptIdentification">0</v>
-                          <v n="DoubleFontSize" t="Double">15</v>
+                          <v n="DoubleFontSize" t="Double">28</v>
                           <n n="NamedColor" />
                         </o>
                       </l>
@@ -3603,7 +3603,7 @@
                     </o>
                     <o>
                       <v n="Id">390574330L</v>
-                      <v n="Value">"▼ Down"</v>
+                      <v n="Value">"▼"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -3645,7 +3645,7 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.JogArmOut"</v>
+                          <v n="Value">"MAIN.jogArmOut"</v>
                         </o>
                       </l>
                     </o>
@@ -3818,7 +3818,7 @@
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.JogArmIn"</v>
+                          <v n="Value">"MAIN.jogArmIn"</v>
                         </o>
                       </l>
                     </o>
@@ -4442,8 +4442,8 @@
                   <a cet="STSnippetInputAction">
                     <o>
                       <v n="STSnippet">"// Set the position to zero (use it when the crane stands at the reference switches)
-MAIN.CurrentPosX := 0;
-MAIN.CurrentPosY := 0;"</v>
+MAIN.currentPosX := 0;
+MAIN.currentPosY := 0;"</v>
                     </o>
                   </a>
                 </d>
@@ -4479,13 +4479,13 @@ MAIN.CurrentPosY := 0;"</v>
                     <o>
                       <v n="Id">135947015L</v>
                       <l n="Value" t="ArrayList" cet="UInt32">
-                        <v>4289753088</v>
+                        <v>4280180254</v>
                       </l>
                     </o>
                     <o>
                       <v n="Id">493260384L</v>
                       <l n="Value" t="ArrayList" cet="UInt32">
-                        <v>4293959712</v>
+                        <v>4281173549</v>
                       </l>
                     </o>
                     <o>
@@ -4530,19 +4530,19 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">1649127785L</v>
-                      <v n="Value">300</v>
+                      <v n="Value">318</v>
                     </o>
                     <o>
                       <v n="Id">357335551L</v>
-                      <v n="Value">418</v>
+                      <v n="Value">408</v>
                     </o>
                     <o>
                       <v n="Id">2422045748L</v>
-                      <v n="Value">150</v>
+                      <v n="Value">142</v>
                     </o>
                     <o>
                       <v n="Id">2134141914L</v>
-                      <v n="Value">48</v>
+                      <v n="Value">64</v>
                     </o>
                     <o>
                       <v n="Id">3729828405L</v>
@@ -4551,22 +4551,22 @@ MAIN.CurrentPosY := 0;"</v>
                           <v n="FontStyle">1</v>
                           <v n="AdditionalFontStyle" t="UInt16">0</v>
                           <v n="ExplicitColor">-1</v>
-                          <v n="CanonicalName">"Font-Heading"</v>
+                          <v n="CanonicalName">"Font-HeadingLarge"</v>
                           <v n="FontName">"Arial"</v>
-                          <v n="FontSize">18</v>
+                          <v n="FontSize">22</v>
                           <v n="ScriptIdentification">0</v>
-                          <v n="DoubleFontSize" t="Double">18</v>
+                          <v n="DoubleFontSize" t="Double">22</v>
                           <n n="NamedColor" />
                         </o>
                       </l>
                     </o>
                     <o>
                       <v n="Id">550940142L</v>
-                      <v n="Value">375</v>
+                      <v n="Value">389</v>
                     </o>
                     <o>
                       <v n="Id">1473355128L</v>
-                      <v n="Value">442</v>
+                      <v n="Value">440</v>
                     </o>
                     <o>
                       <v n="Id">2678395525L</v>
@@ -4608,7 +4608,7 @@ MAIN.CurrentPosY := 0;"</v>
                   <v>OnMouseUp</v>
                   <a et="IInputAction">
                     <o t="STSnippetInputAction">
-                      <v n="STSnippet">"MAIN.HomeRequest := TRUE;   // start homing: arm in, crane to B1 and B4, position := 0"</v>
+                      <v n="STSnippet">"MAIN.homeRequest := TRUE;   // start homing: arm in, crane to B1 and B4, position := 0"</v>
                     </o>
                   </a>
                 </d>
@@ -5570,7 +5570,7 @@ MAIN.CurrentPosY := 0;"</v>
                   <v>OnMouseUp</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"MAIN.xPosition[0] := MAIN.CurrentPosX;   // teach X"</v>
+                      <v n="STSnippet">"MAIN.xPosition[0] := MAIN.currentPosX;   // teach X"</v>
                     </o>
                   </a>
                 </d>
@@ -5916,7 +5916,7 @@ MAIN.CurrentPosY := 0;"</v>
                   <v>OnMouseUp</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"MAIN.yPosition[0] := MAIN.CurrentPosY;   // teach Y"</v>
+                      <v n="STSnippet">"MAIN.yPosition[0] := MAIN.currentPosY;   // teach Y"</v>
                     </o>
                   </a>
                 </d>
@@ -6416,7 +6416,7 @@ MAIN.CurrentPosY := 0;"</v>
                   <v>OnMouseUp</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"MAIN.xPosition[1] := MAIN.CurrentPosX;   // teach X"</v>
+                      <v n="STSnippet">"MAIN.xPosition[1] := MAIN.currentPosX;   // teach X"</v>
                     </o>
                   </a>
                 </d>
@@ -6762,7 +6762,7 @@ MAIN.CurrentPosY := 0;"</v>
                   <v>OnMouseUp</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"MAIN.yPosition[1] := MAIN.CurrentPosY;   // teach Y"</v>
+                      <v n="STSnippet">"MAIN.yPosition[1] := MAIN.currentPosY;   // teach Y"</v>
                     </o>
                   </a>
                 </d>
@@ -7262,7 +7262,7 @@ MAIN.CurrentPosY := 0;"</v>
                   <v>OnMouseUp</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"MAIN.xPosition[2] := MAIN.CurrentPosX;   // teach X"</v>
+                      <v n="STSnippet">"MAIN.xPosition[2] := MAIN.currentPosX;   // teach X"</v>
                     </o>
                   </a>
                 </d>
@@ -7608,7 +7608,7 @@ MAIN.CurrentPosY := 0;"</v>
                   <v>OnMouseUp</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"MAIN.yPosition[2] := MAIN.CurrentPosY;   // teach Y"</v>
+                      <v n="STSnippet">"MAIN.yPosition[2] := MAIN.currentPosY;   // teach Y"</v>
                     </o>
                   </a>
                 </d>
@@ -8108,7 +8108,7 @@ MAIN.CurrentPosY := 0;"</v>
                   <v>OnMouseUp</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"MAIN.xPosition[3] := MAIN.CurrentPosX;   // teach X"</v>
+                      <v n="STSnippet">"MAIN.xPosition[3] := MAIN.currentPosX;   // teach X"</v>
                     </o>
                   </a>
                 </d>
@@ -8454,7 +8454,7 @@ MAIN.CurrentPosY := 0;"</v>
                   <v>OnMouseUp</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"MAIN.yPosition[3] := MAIN.CurrentPosY;   // teach Y"</v>
+                      <v n="STSnippet">"MAIN.yPosition[3] := MAIN.currentPosY;   // teach Y"</v>
                     </o>
                   </a>
                 </d>
@@ -9051,7 +9051,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"MAIN.LiftOffset"</v>
+                      <v n="Value">"MAIN.liftOffset"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -9386,7 +9386,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"MAIN.LowerOffset"</v>
+                      <v n="Value">"MAIN.lowerOffset"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -9721,7 +9721,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"MAIN.Tolerance"</v>
+                      <v n="Value">"MAIN.tolerance"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -10086,7 +10086,7 @@ MAIN.CurrentPosY := 0;"</v>
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.SlotOccupied[3,3]"</v>
+                          <v n="Value">"MAIN.slotOccupied[3,3]"</v>
                         </o>
                       </l>
                     </o>
@@ -10161,7 +10161,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"MAIN.SlotOccupied[3,3]"</v>
+                      <v n="Value">"MAIN.slotOccupied[3,3]"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -10259,7 +10259,7 @@ MAIN.CurrentPosY := 0;"</v>
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.SlotOccupied[2,3]"</v>
+                          <v n="Value">"MAIN.slotOccupied[2,3]"</v>
                         </o>
                       </l>
                     </o>
@@ -10334,7 +10334,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"MAIN.SlotOccupied[2,3]"</v>
+                      <v n="Value">"MAIN.slotOccupied[2,3]"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -10432,7 +10432,7 @@ MAIN.CurrentPosY := 0;"</v>
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.SlotOccupied[1,3]"</v>
+                          <v n="Value">"MAIN.slotOccupied[1,3]"</v>
                         </o>
                       </l>
                     </o>
@@ -10507,7 +10507,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"MAIN.SlotOccupied[1,3]"</v>
+                      <v n="Value">"MAIN.slotOccupied[1,3]"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -10605,7 +10605,7 @@ MAIN.CurrentPosY := 0;"</v>
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.SlotOccupied[3,2]"</v>
+                          <v n="Value">"MAIN.slotOccupied[3,2]"</v>
                         </o>
                       </l>
                     </o>
@@ -10680,7 +10680,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"MAIN.SlotOccupied[3,2]"</v>
+                      <v n="Value">"MAIN.slotOccupied[3,2]"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -10778,7 +10778,7 @@ MAIN.CurrentPosY := 0;"</v>
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.SlotOccupied[2,2]"</v>
+                          <v n="Value">"MAIN.slotOccupied[2,2]"</v>
                         </o>
                       </l>
                     </o>
@@ -10853,7 +10853,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"MAIN.SlotOccupied[2,2]"</v>
+                      <v n="Value">"MAIN.slotOccupied[2,2]"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -10951,7 +10951,7 @@ MAIN.CurrentPosY := 0;"</v>
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.SlotOccupied[1,2]"</v>
+                          <v n="Value">"MAIN.slotOccupied[1,2]"</v>
                         </o>
                       </l>
                     </o>
@@ -11026,7 +11026,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"MAIN.SlotOccupied[1,2]"</v>
+                      <v n="Value">"MAIN.slotOccupied[1,2]"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -11124,7 +11124,7 @@ MAIN.CurrentPosY := 0;"</v>
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.SlotOccupied[3,1]"</v>
+                          <v n="Value">"MAIN.slotOccupied[3,1]"</v>
                         </o>
                       </l>
                     </o>
@@ -11199,7 +11199,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"MAIN.SlotOccupied[3,1]"</v>
+                      <v n="Value">"MAIN.slotOccupied[3,1]"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -11297,7 +11297,7 @@ MAIN.CurrentPosY := 0;"</v>
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.SlotOccupied[2,1]"</v>
+                          <v n="Value">"MAIN.slotOccupied[2,1]"</v>
                         </o>
                       </l>
                     </o>
@@ -11372,7 +11372,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"MAIN.SlotOccupied[2,1]"</v>
+                      <v n="Value">"MAIN.slotOccupied[2,1]"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -11470,7 +11470,7 @@ MAIN.CurrentPosY := 0;"</v>
                       <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
                         <o>
                           <v n="Id">1186196937L</v>
-                          <v n="Value">"MAIN.SlotOccupied[1,1]"</v>
+                          <v n="Value">"MAIN.slotOccupied[1,1]"</v>
                         </o>
                       </l>
                     </o>
@@ -11545,7 +11545,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">1999528970L</v>
-                      <v n="Value">"MAIN.SlotOccupied[1,1]"</v>
+                      <v n="Value">"MAIN.slotOccupied[1,1]"</v>
                     </o>
                     <o>
                       <v n="Id">3719097617L</v>
@@ -12221,7 +12221,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"MAIN.LoginUser"</v>
+                      <v n="Value">"MAIN.loginUser"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -12556,7 +12556,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"MAIN.LoginPasswordStars"</v>
+                      <v n="Value">"MAIN.loginPasswordStars"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -12586,7 +12586,7 @@ MAIN.CurrentPosY := 0;"</v>
                   <v>OnMouseUp</v>
                   <a cet="InputBoxInputAction">
                     <o>
-                      <v n="InputBoxVariable">"MAIN.LoginPassword"</v>
+                      <v n="InputBoxVariable">"MAIN.loginPassword"</v>
                       <v n="InputType">"Default"</v>
                       <v n="InputBoxMin">""</v>
                       <v n="InputBoxMax">""</v>
@@ -12763,7 +12763,7 @@ MAIN.CurrentPosY := 0;"</v>
                   <v>OnMouseUp</v>
                   <a cet="STSnippetInputAction">
                     <o>
-                      <v n="STSnippet">"MAIN.LoginRequest := TRUE;"</v>
+                      <v n="STSnippet">"MAIN.loginRequest := TRUE;"</v>
                     </o>
                   </a>
                 </d>
@@ -12902,7 +12902,7 @@ MAIN.CurrentPosY := 0;"</v>
                     </o>
                     <o>
                       <v n="Id">2477733581L</v>
-                      <v n="Value">"MAIN.LoginMessage"</v>
+                      <v n="Value">"MAIN.loginMessage"</v>
                     </o>
                     <o>
                       <v n="Id">2597686782L</v>
@@ -12930,6 +12930,174 @@ MAIN.CurrentPosY := 0;"</v>
                 <a n="LMGuids" et="Guid" />
                 <d n="SubElements" t="Hashtable" />
                 <v n="VisualElementId">77</v>
+                <l n="UserManagementAccessRights" t="ArrayList" />
+              </o>
+              <o>
+                <a n="ConfiguredComplexInputs" et="ComplexInput" />
+                <l n="Elements" t="ArrayList" />
+                <n n="VisualElementDescription" />
+                <o n="VisualElemMemberList" t="VisualElemMemberList">
+                  <l n="VisualElemMemberList" t="VisualElemMemberCollection" cet="VisualElemMember">
+                    <o>
+                      <v n="Id">2496894244L</v>
+                      <v n="Value">"MAIN.isServiceLocked"</v>
+                    </o>
+                    <o>
+                      <v n="Id">2880254039L</v>
+                      <v n="Value">"MAIN.isServiceLocked"</v>
+                    </o>
+                    <o>
+                      <v n="Id">571893170L</v>
+                      <v n="Value">""</v>
+                    </o>
+                    <o>
+                      <v n="Id">494569607L</v>
+                      <l n="Value" t="ArrayList" cet="UInt32">
+                        <v>4287269514</v>
+                      </l>
+                    </o>
+                    <o>
+                      <v n="Id">2812299069L</v>
+                      <l n="Value" t="ArrayList" cet="UInt32">
+                        <v>4292664540</v>
+                      </l>
+                    </o>
+                    <o>
+                      <v n="Id">135947015L</v>
+                      <l n="Value" t="ArrayList" cet="UInt32">
+                        <v>4287269514</v>
+                      </l>
+                    </o>
+                    <o>
+                      <v n="Id">493260384L</v>
+                      <l n="Value" t="ArrayList" cet="UInt32">
+                        <v>4292664540</v>
+                      </l>
+                    </o>
+                    <o>
+                      <v n="Id">2340015797L</v>
+                      <v n="Value">"HCENTER"</v>
+                    </o>
+                    <o>
+                      <v n="Id">2565699834L</v>
+                      <v n="Value">"VCENTER"</v>
+                    </o>
+                    <o>
+                      <v n="Id">4134387352L</v>
+                      <v n="Value">"NONE"</v>
+                    </o>
+                    <o>
+                      <v n="Id">1603690730L</v>
+                      <v n="Value">"Arial"</v>
+                    </o>
+                    <o>
+                      <v n="Id">4253639993L</v>
+                      <v n="Value" t="Int16">18</v>
+                    </o>
+                    <o>
+                      <v n="Id">2729990903L</v>
+                      <v n="Value">0U</v>
+                    </o>
+                    <o>
+                      <v n="Id">1213979116L</v>
+                      <v n="Value">0U</v>
+                    </o>
+                    <o>
+                      <v n="Id">3488306084L</v>
+                      <v n="Value">4280163870U</v>
+                    </o>
+                    <o>
+                      <v n="Id">1999528970L</v>
+                      <v n="Value">"&lt;toggle/tap variable&gt;"</v>
+                    </o>
+                    <o>
+                      <v n="Id">3719097617L</v>
+                      <v n="Value">0</v>
+                    </o>
+                    <o>
+                      <v n="Id">1649127785L</v>
+                      <v n="Value">684</v>
+                    </o>
+                    <o>
+                      <v n="Id">357335551L</v>
+                      <v n="Value">418</v>
+                    </o>
+                    <o>
+                      <v n="Id">2422045748L</v>
+                      <v n="Value">100</v>
+                    </o>
+                    <o>
+                      <v n="Id">2134141914L</v>
+                      <v n="Value">48</v>
+                    </o>
+                    <o>
+                      <v n="Id">3729828405L</v>
+                      <l n="Value" t="ArrayList" cet="NamedStyleFont">
+                        <o>
+                          <v n="FontStyle">0</v>
+                          <v n="AdditionalFontStyle" t="UInt16">0</v>
+                          <v n="ExplicitColor">-14803426</v>
+                          <v n="CanonicalName">"Font-Heading"</v>
+                          <v n="FontName">"Arial"</v>
+                          <v n="FontSize">18</v>
+                          <v n="ScriptIdentification">0</v>
+                          <v n="DoubleFontSize" t="Double">18</v>
+                          <n n="NamedColor" />
+                        </o>
+                      </l>
+                    </o>
+                    <o>
+                      <v n="Id">550940142L</v>
+                      <v n="Value">734</v>
+                    </o>
+                    <o>
+                      <v n="Id">1473355128L</v>
+                      <v n="Value">442</v>
+                    </o>
+                    <o>
+                      <v n="Id">2678395525L</v>
+                      <v n="Value">1</v>
+                    </o>
+                    <o>
+                      <v n="Id">564465120L</v>
+                      <v n="Value">"VISU_ST_RECTANGLE"</v>
+                    </o>
+                    <o>
+                      <v n="Id">390574330L</v>
+                      <v n="Value">"I/O"</v>
+                    </o>
+                    <o>
+                      <v n="Id">2597686782L</v>
+                      <v n="Value">false</v>
+                    </o>
+                    <o>
+                      <v n="Id">823443203L</v>
+                      <v n="Value">""</v>
+                    </o>
+                  </l>
+                </o>
+                <v n="VisualElementName">"Rectangle"</v>
+                <v n="VisualElementTypeName">"VisuFbElemSimple"</v>
+                <v n="VisualElementIsRectangle">true</v>
+                <v n="VisualElementIdentifier">"GenElemInst_87"</v>
+                <n n="VisualElementOfflinePaintCommands" />
+                <n n="VisualElementFrameInformation" />
+                <d n="VisualElementInputActions" t="Hashtable" ckt="String" cvt="IInputAction[]">
+                  <v>OnMouseUp</v>
+                  <a cet="ChangeVisuInputAction">
+                    <o>
+                      <v n="AssignExpr">""</v>
+                      <n n="Assign" />
+                      <v n="Assign33">"IO"</v>
+                      <v n="Type" t="ChangeVisuType">Assignment</v>
+                    </o>
+                  </a>
+                </d>
+                <v n="VisualElementIdentification">{22525fcb-9f4f-45a0-b490-8bfaac3741db}</v>
+                <v n="VisualElementOwningObjectGuid">{9470ee7a-673c-407b-8946-0c1fe32a4224}</v>
+                <a n="LMGuids" et="Guid" />
+                <d n="SubElements" t="Hashtable" />
+                <v n="VisualElementId">79</v>
                 <l n="UserManagementAccessRights" t="ArrayList" />
               </o>
             </l>

@@ -5,163 +5,260 @@
 
 VAR
     // ---------------- INPUTS ----------------
-    B1  AT %I* : BOOL;  // Nr. 5,  B1: reference switch horizontal axis (TRUE = at home)
-    B2  AT %I* : BOOL;  // Nr. 6,  B2: light-barrier inside  (TRUE = free, FALSE = pallet)
-    B3  AT %I* : BOOL;  // Nr. 7,  B3: light-barrier outside (TRUE = free, FALSE = pallet)
-    B4  AT %I* : BOOL;  // Nr. 8,  B4: reference switch vertical axis, top (TRUE = at home)
-    B5  AT %I* : BOOL;  // Nr. 11, B5: encoder horizontal axis impulse 1  (EL1202 Term 2 ch. 1)
-    B6  AT %I* : BOOL;  // Nr. 12, B6: encoder horizontal axis impulse 2  (EL1202 Term 2 ch. 2)
-    B7  AT %I* : BOOL;  // Nr. 13, B7: encoder vertical axis impulse 1    (EL1202 Term 3 ch. 1)
-    B8  AT %I* : BOOL;  // Nr. 14, B8: encoder vertical axis impulse 2    (EL1202 Term 3 ch. 2)
-    B9  AT %I* : BOOL;  // Nr. 15, B9: reference switch cantilever front (TRUE = arm out)
-    B10 AT %I* : BOOL;  // Nr. 16, B10: reference switch cantilever back (TRUE = arm back)
+    B1  AT %I* : BOOL;  // No. 5,  B1: reference switch horizontal axis (TRUE = at home)
+    B2  AT %I* : BOOL;  // No. 6,  B2: light-barrier inside  (TRUE = free, FALSE = pallet)
+    B3  AT %I* : BOOL;  // No. 7,  B3: light-barrier outside (TRUE = free, FALSE = pallet)
+    B4  AT %I* : BOOL;  // No. 8,  B4: reference switch vertical axis, top (TRUE = at home)
+    B5  AT %I* : BOOL;  // No. 11, B5: encoder horizontal axis impulse 1  (EL1202 Term 2 ch. 1)
+    B6  AT %I* : BOOL;  // No. 12, B6: encoder horizontal axis impulse 2  (EL1202 Term 2 ch. 2)
+    B7  AT %I* : BOOL;  // No. 13, B7: encoder vertical axis impulse 1    (EL1202 Term 3 ch. 1)
+    B8  AT %I* : BOOL;  // No. 14, B8: encoder vertical axis impulse 2    (EL1202 Term 3 ch. 2)
+    B9  AT %I* : BOOL;  // No. 15, B9: reference switch cantilever front (TRUE = arm out)
+    B10 AT %I* : BOOL;  // No. 16, B10: reference switch cantilever back (TRUE = arm back)
 
     // ---------------- OUTPUTS ----------------
-    M1_Forward AT %Q* : BOOL;  // Nr. 17, Q1 (M1): motor conveyor belt forward
-    M1_Back    AT %Q* : BOOL;  // Nr. 18, Q2 (M1): motor conveyor belt backward (moves pallet towards crane)
-    M2_Forward AT %Q* : BOOL;  // Nr. 19, Q3 (M2): motor horizontal towards rack
-    M2_Back    AT %Q* : BOOL;  // Nr. 20, Q4 (M2): motor horizontal towards conveyor belt
-    M3_Down    AT %Q* : BOOL;  // Nr. 21, Q5 (M3): motor vertical axis downward
-    M3_Up      AT %Q* : BOOL;  // Nr. 22, Q6 (M3): motor vertical axis upward
-    M4_Forward AT %Q* : BOOL;  // Nr. 23, Q7 (M4): motor cantilever forward (arm out)
-    M4_Back    AT %Q* : BOOL;  // Nr. 24, Q8 (M4): motor cantilever backward (arm in)
+    M1_Forward AT %Q* : BOOL;  // No. 17, Q1 (M1): motor conveyor belt forward
+    M1_Back    AT %Q* : BOOL;  // No. 18, Q2 (M1): motor conveyor belt backward (moves pallet towards crane)
+    M2_Forward AT %Q* : BOOL;  // No. 19, Q3 (M2): motor horizontal towards rack
+    M2_Back    AT %Q* : BOOL;  // No. 20, Q4 (M2): motor horizontal towards conveyor belt
+    M3_Down    AT %Q* : BOOL;  // No. 21, Q5 (M3): motor vertical axis downward
+    M3_Up      AT %Q* : BOOL;  // No. 22, Q6 (M3): motor vertical axis upward
+    M4_Forward AT %Q* : BOOL;  // No. 23, Q7 (M4): motor cantilever forward (arm out)
+    M4_Back    AT %Q* : BOOL;  // No. 24, Q8 (M4): motor cantilever backward (arm in)
     
-	// PalletWaiting
-	PalletWaiting: BOOL;
-	// AwaitingUserInput
-	AwaitingUserInput: BOOL;
-	// UserRequest
-	UserRequest: BOOL;
-	// PickupDone
-	PickupDone: BOOL;
-	// DeliveryDone
-	DeliveryDone: BOOL;
-	// Single count for B5
-	B5OneShot: R_TRIG;
-	// Single count for B6
-	B6OneShot: R_TRIG;
-	// B7 single count
-	B7OneShot: R_TRIG;
-	// B8 single count
-	B8OneShot: R_TRIG;
-	// Encoder current position
-	CurrentPosX: DINT;
-	// Encoder Y current position
-	CurrentPosY: DINT;
-	isHoming : BOOL;
-	// Stop bool for pausing
-	isStop: BOOL;
-	isDriveX : BOOL;
-	isDriveY : BOOL;
-	isPosXReached : BOOL;
-	isPosYReached : BOOL;
-	TargetX : DINT;    // can come from xPosition array
-	TargetY : DINT;    // can come from yPosition array
-	Tolerance : DINT;
-	// Manual mode check
-	isManualMode: BOOL;
-	// Step number
-	StepNumber: INT;
-	// isTeachSlotValid
-	isTeachSlotValid: BOOL;
+    // ---------------- SFC: requests and "done" flags ----------------
+    palletWaiting     : BOOL;   // TRUE = a pallet on the conveyor must be stored (Step_10 -> Step_50)
+    awaitingUserInput : BOOL;   // TRUE = "Select Pallet" was pressed (Step_10 -> Step_20)
+    userRequest       : BOOL;   // TRUE = the operator chose a slot in the dialog (Step_20 -> Step_30)
+    pickupDone        : BOOL;   // TRUE = Step_30 is finished (-> Step_40)
+    deliveryDone      : BOOL;   // TRUE = Step_50 is finished (-> Step_60)
 
-    // ---------------- Step_30: hent palle ----------------
-    // Valgt plads fra HMI (sættes når operatøren trykker på en grøn kasse)
-    SelectedColumn : DINT;     // 1-3
-    SelectedRow    : DINT;     // 1-3
-    // Låst kopi af valget, mens kranen henter (så et nyt tryk på HMI ikke ændrer noget midt i hentningen)
-    PickColumn     : DINT;
-    PickRow        : DINT;
-    // Kommandoer til gaflen (cantilever) - bruges af ArmHandling
-    ArmOut         : BOOL;     // TRUE = kør gaflen ud, indtil B9
-    ArmIn          : BOOL;     // TRUE = kør gaflen ind, indtil B10
-    ConveyorOut    : BOOL;     // TRUE = run the conveyor out until the pallet reaches B3 (outer end of the conveyor)
+    // ---------------- Encoder and positioning ----------------
+    b5OneShot     : R_TRIG;   // rising edge of B5 = one count on the X-axis
+    b7OneShot     : R_TRIG;   // rising edge of B7 = one count on the Y-axis
+    currentPosX   : DINT;     // X position in encoder counts (0 = home at B1)
+    currentPosY   : DINT;     // Y position in encoder counts (0 = home at B4, larger = further down)
+    isHoming      : BOOL;     // TRUE = the crane drives to B1/B4 and sets the position to 0
+    isStop        : BOOL;     // TRUE = stopped: all motors off and the SFC is paused
+    isDriveX      : BOOL;     // TRUE = EncoderPosition drives the X-axis to targetX
+    isDriveY      : BOOL;     // TRUE = EncoderPosition drives the Y-axis to targetY
+    isPosXReached : BOOL;     // TRUE = the X-axis is at targetX (within the tolerance)
+    isPosYReached : BOOL;     // TRUE = the Y-axis is at targetY (within the tolerance)
+    targetX       : DINT;     // target position X (taken from xPosition)
+    targetY       : DINT;     // target position Y (taken from yPosition)
+    tolerance     : DINT;     // allowed difference in counts, when a position counts as reached
+    isManualMode  : BOOL;     // TRUE = manual mode on the service page (jog and I/O test)
+
+    // ---------------- Step_30: retrieve a pallet ----------------
+    // Slot chosen on the HMI (set when the operator taps a green box)
+    selectedColumn : DINT;     // 1-3
+    selectedRow    : DINT;     // 1-3
+    // Locked copy of the choice while the crane is working (so a new tap on the HMI changes nothing)
+    pickColumn     : DINT;
+    pickRow        : DINT;
+    // Commands for the arm (cantilever) - used by ArmHandling
+    armOut         : BOOL;     // TRUE = drive the arm out until B9
+    armIn          : BOOL;     // TRUE = drive the arm in until B10
+    conveyorOut    : BOOL;     // TRUE = run the conveyor out until the pallet reaches B3 (outer end of the conveyor)
+
+    // ---------------- Step_50: put a pallet on a shelf ----------------
+    placeColumn    : DINT;     // free slot found in M_50_S_60 (1-3)
+    placeRow       : DINT;     // 1-3
+    slotX          : INT;      // loop counters for the search in M_50_S_60
+    slotY          : INT;
+    isStorageFound : BOOL;     // TRUE = a free slot was found
+    storeRequest   : BOOL;     // set TRUE by the "Store Pallet" button on the HMI
+    conveyorIn     : BOOL;     // TRUE = run the conveyor in until the pallet reaches B2 (set in M_50_S_30)
+    isStorageFull  : BOOL;     // TRUE = all 9 slots have a pallet (the "Store Pallet" button turns grey)
+    showStorageFull : BOOL;    // TRUE = show the message "Storage is full, remove pallets first" on the HMI
+    hideStorageFull : BOOL := TRUE;  // the opposite, used by the HMI to hide the message
+    palletCount    : INT;      // number of pallets in the rack (0-9), shown on the HMI
+    countX         : INT;      // loop counters for counting the pallets
+    countY         : INT;
+    slotEmpty      : ARRAY[1..3, 1..3] OF BOOL;   // the opposite of slotOccupied, used by the Select Pallet dialog
+    showSlotEmpty  : BOOL;     // TRUE = show "Pallet slot is empty - choose another" in the Select Pallet dialog
+    hideSlotEmpty  : BOOL := TRUE;   // the opposite, used by the HMI to hide the message
+    slotEmptyTimer : TON;      // hides the message again after 4 s
+
+    // ---------------- HMI: status text ----------------
+    isRetrieving   : BOOL;     // TRUE while Step_30 runs (pallet from the rack to the conveyor)
+    isStoring      : BOOL;     // TRUE while Step_50 runs (pallet from the conveyor to the rack)
+    statusText     : STRING;   // what the machine is doing right now (shown on the Home page)
+
+    // ---------------- HMI: progress box while a pallet is retrieved (Step_30) or stored (Step_50) ----------------
+    retrievePhase   : INT;      // Step_30: 0 = no box, 1..5 = what the crane is doing, 6 = pallet delivered
+    storePhase      : INT;      // Step_50: 0 = no box, 1..4 = what the crane is doing, 5 = pallet stored
+    isProgressDone  : BOOL;     // TRUE = "Pallet delivered" or "Pallet stored" -> show the OK button
+    progressTitle   : STRING;   // the title of the box ("Retrieving pallet" / "Storing pallet")
+    progressText    : STRING;   // the text in the box
+    progressPercent : INT;      // 0..100 %
+    progressHide    : ARRAY[1..20] OF BOOL;  // the bar = 20 blocks of 5 %, TRUE = block is hidden
+    progressIndex   : INT;      // counter for the FOR loop
+    hideProgress    : BOOL := TRUE;  // TRUE = the whole box is hidden
+    hideProgressOk  : BOOL := TRUE;  // TRUE = the OK button is hidden (only shown when delivered)
+    deliveredTimer  : TON;      // closes the box by itself 5 s after "Pallet delivered" / "Pallet stored"
+    okCountdown     : INT;      // 5, 4, 3, 2, 1 - shown on the button as "OK (5)"
+
+    // ---------------- HMI: I/O page - test each output by hand ----------------
+    // TRUE while the "Hold" button on the I/O page is held down (only works in manual mode)
+    testM1Forward : BOOL;     // conveyor out
+    testM1Back    : BOOL;     // conveyor in
+    testM2Forward : BOOL;     // crane to rack
+    testM2Back    : BOOL;     // crane to conveyor
+    testM3Down    : BOOL;     // crane down
+    testM3Up      : BOOL;     // crane up
+    testM4Forward : BOOL;     // arm out
+    testM4Back    : BOOL;     // arm in
+    ioTestLocked   : BOOL := TRUE;   // TRUE = not in manual mode -> the HMI greys out the "Hold" buttons
+
+    // ---------------- Reset ----------------
+    resetRequest   : BOOL;     // set TRUE by the "Reset" button on the HMI
+    cancelRequest  : BOOL;     // set TRUE by the "Cancel" button in the Select Pallet dialog
+    resetAll       : BOOL;     // TRUE = clear everything and put the SFC back in Step_10 (this cycle)
+    homeAfterReset : BOOL;     // TRUE = start homing after the reset (Homing button)
+    sfcInit        : BOOL;     // SFC flag: TRUE = the SFC jumps back to its first step (Step_10)
+
+    // ---------------- Alarms (Alarm page on the HMI) ----------------
+    // A1..A8 - see AlarmHandling. An alarm stays active (latched) until "Clear alarms" or "Reset".
+    alarmActive     : ARRAY[1..8] OF BOOL;   // TRUE = the alarm is active
+    alarmTimer      : ARRAY[1..8] OF TON;    // one timer per alarm (A7 has no timer, it is set in S30_50)
+    alarmIndex      : INT;      // counter for the FOR loops
+    alarmCheck      : BOOL;     // TRUE = look for alarms (automatic operation: not stopped, not manual)
+    isAlarm         : BOOL;     // TRUE = at least one alarm is active -> the machine is stopped
+    alarmFirst      : INT;      // number of the first active alarm (0 = none), shown in the banner
+    alarmClearRequest : BOOL;   // set TRUE by the "Clear alarms" button (and by Reset)
+    alarmBannerText : STRING;   // text in the yellow banner on the Home page
+    alarmHelpText   : STRING;   // "what to do" text on the Alarm page
+    hideAlarmBanner : BOOL := TRUE;    // TRUE = no alarm -> the banner is hidden
+    alarmStateText  : ARRAY[1..8] OF STRING(10) := [8('OK')];   // 'Active' or 'OK' on the Alarm page
+    encoderStillX   : BOOL;     // TRUE = the X motor runs, but the encoder value did not change
+    encoderStillY   : BOOL;     // TRUE = the Y motor runs, but the encoder value did not change
+    lastPosX        : DINT;     // encoder value from the last PLC cycle
+    lastPosY        : DINT;
+    // Time limits for the alarms (can be adjusted after testing on the machine)
+    conveyorTimeout : TIME := T#5S;    // A1 / A2: the pallet must reach B3 / B2
+    armTimeout      : TIME := T#10S;   // A3: the arm must reach B9 / B10
+    positionTimeout : TIME := T#30S;   // A4: the crane must reach its target position
+    homingTimeout   : TIME := T#40S;   // A6: homing must be finished
+    alarmName : ARRAY[1..8] OF STRING := [
+        'A1  Pallet did not reach B3',
+        'A2  Pallet did not reach B2',
+        'A3  Arm did not reach end position',
+        'A4  Crane did not reach position',
+        'A5  Encoder not counting',
+        'A6  Homing failed',
+        'A7  Conveyor not free',
+        'A8  Arm sensor fault'];
+    alarmHelp : ARRAY[1..8] OF STRING := [
+        'A1: Remove what blocks the conveyor and check B3.',
+        'A2: Check the pallet on the conveyor and B2.',
+        'A3: Check the arm for blockage and B9 / B10.',
+        'A4: Check that nothing blocks the crane.',
+        'A5: Check the encoder cables (B5 - B8).',
+        'A6: Check B1, B4 and B10.',
+        'A7: Remove the pallet from the conveyor.',
+        'A8: Check the arm switches B9 and B10.'];
+
+    // ---------------- HMI: run time on the Home page ----------------
+    runSecondTimer : TON;      // gives a pulse every second while the machine is not stopped
+    runSeconds     : UDINT;    // total run time in seconds (since the PLC was started)
+    runHours       : UDINT;
+    runMinutes     : UDINT;
+    runSecs        : UDINT;
+    runTimeText    : STRING;   // e.g. '1:24:37'
+
+    // ---------------- Save the PERSISTENT variables (Tc2_Utilities) ----------------
+    // Normally TwinCAT only saves them when it stops properly. If the power is pulled, the last
+    // changes would be lost - so we save them ourselves after every change (SaveHandling).
+    persistentSave        : WritePersistentData;   // writes the PERSISTENT variables to the disk
+    savePersistentRequest : BOOL;                  // TRUE = save now (set after a change)
+
+    // ---------------- Start the HMI after the PLC has started (Tc2_Utilities) ----------------
+    hmiStartTimer   : TON;               // waits until Windows has logged in, before the HMI is started
+    hmiStartProcess : NT_StartProcess;   // starts a Windows program from the PLC
+    isHmiStarted    : BOOL;              // TRUE = done (only once after each PLC start)
 END_VAR
 
 VAR PERSISTENT
-    xPosition    : ARRAY[0..3] OF DINT := [0, 0, 0, 0];
-    yPosition    : ARRAY[0..3] OF DINT := [0, 0, 0, 0];      // MUST BE TAUGHT before automatic mode
-    LiftOffset  : DINT := 0;      // Counts to lift the pallet off the shelf (Step_30 macro, trin S30_30)
-    LowerOffset : DINT := 0;      // Counts to lower the pallet onto the conveyor (Step_30 macro, trin S30_70)
-    // Lagerets 9 pladser [kolonne, række]: TRUE = der står en palle på pladsen
-    SlotOccupied : ARRAY[1..3, 1..3] OF BOOL;
-	// Found storage position
-	isStorageFound: BOOL;
-	IndexX : INT;
-    IndexY : INT;
-    SlotX  : INT;
-    SlotY  : INT;
-	// index
-	PosX: INT;
-	// index
-	PosY: INT;
-END_VAR
-
-VAR PERSISTENT
-    xPosition    : ARRAY[0..2] OF DINT := [100, 200, 300];
-    yPosition    : ARRAY[0..2] OF DINT := [30, 60, 90];      // MUST BE TAUGHT before automatic mode
-    LiftOffset  : DINT := 0;      // Counts to lift the pallet off the shelf (SFC step S74)
-    LowerOffset : DINT := 0;      // Counts to lower the pallet onto the conveyor (SFC step S86)
-	isFull : ARRAY[0..2, 0..2] OF BOOL;  // TRUE = slot taken
-	
-	//Delete after
-	Slot       : ARRAY[0..2, 0..2] OF StorageSlots;
-    PickupSlot : StorageSlots;    // pickup position, isFull not used
+    // Taught encoder positions (counts from home B1/B4). Index 0 = conveyor, 1-3 = column C1-C3 / row R1-R3
+    xPosition    : ARRAY[0..3] OF DINT := [35, 756, 1327, 1929];   // conveyor, C1, C2, C3
+    yPosition    : ARRAY[0..3] OF DINT := [673, 828, 450, 89];     // conveyor, R1, R2, R3 (smaller Y = higher up)
+    liftOffset  : DINT := 0;      // Counts to lift the pallet off a shelf or the conveyor (S30_30, M_50_S_40, M_50_S_80)
+    lowerOffset : DINT := 0;      // Counts above the conveyor when the crane brings a pallet (S30_50), lowered in S30_70
+    // The 9 slots in the rack [column, row]: TRUE = there is a pallet in the slot
+    slotOccupied : ARRAY[1..3, 1..3] OF BOOL;
 END_VAR
 
 
 VAR
     // ---------------- HMI: Service page ----------------
     // Manual drive (jog): TRUE while the arrow button on the HMI is held down
-    JogToRack      : BOOL;     // X towards the rack / K3   (M2_Forward)
-    JogToConveyor  : BOOL;     // X towards the conveyor    (M2_Back)
-    JogUp          : BOOL;     // Y up                      (M3_Up)
-    JogDown        : BOOL;     // Y down                    (M3_Down)
-    JogArmOut      : BOOL;     // arm (gaffel) out          (M4_Forward)
-    JogArmIn       : BOOL;     // arm (gaffel) in           (M4_Back)
+    jogToRack      : BOOL;     // X towards the rack        (M2_Forward)
+    jogToConveyor  : BOOL;     // X towards the conveyor    (M2_Back)
+    jogUp          : BOOL;     // Y up                      (M3_Up)
+    jogDown        : BOOL;     // Y down                    (M3_Down)
+    jogArmOut      : BOOL;     // arm out                   (M4_Forward)
+    jogArmIn       : BOOL;     // arm in                    (M4_Back)
 
     // Login to the service page
-    LoginUser          : STRING := 'Administrator';  // user name (already filled in)
-    LoginPassword      : STRING;                     // typed on the HMI
-    LoginPasswordStars : STRING;                     // the password shown as ***
-    LoginMessage       : STRING;                     // text shown under the login box
-    LoginRequest       : BOOL;     // set TRUE by the "Log ind" button
-    LogoutRequest      : BOOL;     // set TRUE by the "Log ud" / "Home" button
-    HomeRequest        : BOOL;     // set TRUE by the "Homing" button
-    HomeSettleTimer    : TON;      // waits 0.5 s at the reference switches before the position is set to 0
+    loginUser          : STRING := 'Admin';  // user name (already filled in)
+    loginPassword      : STRING;                     // typed on the HMI
+    loginPasswordStars : STRING;                     // the password shown as ***
+    loginMessage       : STRING;                     // text shown under the login box
+    loginRequest       : BOOL;     // set TRUE by the "Log in" button
+    logoutRequest      : BOOL;     // set TRUE by the "Log out" / "Home" button
+    homeRequest        : BOOL;     // set TRUE by the "Homing" button
+    homeSettleTimer    : TON;      // waits 0.5 s at the reference switches before the position is set to 0
     isServiceUnlocked  : BOOL;            // TRUE  = logged in
     isServiceLocked    : BOOL := TRUE;    // TRUE  = not logged in (the opposite, used by the HMI)
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[//Handles the encoder X and Y positions, for use
+      <ST><![CDATA[// Encoder: counts the X and Y position (currentPosX / currentPosY)
 EncoderCounter();
-EncoderManual();
 
-//Service page on the HMI: login / logout and manual mode
+// Service page on the HMI: login / logout and manual mode
 ServiceHandling();
 
-//Sequence: decides where the crane should go
-//(paused while the crane is driven by hand or is homing from the service page)
-IF NOT isManualMode AND NOT isHoming THEN
+// Reset button on the HMI: everything back to start (SFC back to Step_10)
+ResetHandling();
+
+// Sequence: decides where the crane should go
+// (paused while stopped, while the crane is driven by hand, or while it is homing)
+IF NOT isStop AND NOT isAlarm AND NOT isManualMode AND NOT isHoming THEN
     SFC();
 END_IF
 
-//Drives the X and Y motors to TargetX / TargetY
+// Drives the X and Y motors to targetX / targetY
 EncoderPosition();
 
-//Drives the cantilever (arm) out/in until end switch B9 / B10
+// Drives the cantilever (arm) out/in until end switch B9 / B10
 ArmHandling();
 
-//Manual drive from the service page - in manual mode this overrides the automatic outputs
+// Manual drive from the service page - in manual mode this overrides the automatic outputs
 ManualHandling();
 
-//Homing from the service page - drives the crane to B1/B4 and sets the position to 0
+// Homing from the service page - drives the crane to B1/B4 and sets the position to 0
 HomingHandling();
 
-//Conveyor: runs the pallet out to B3 after a delivery
+// Conveyor: runs the pallet out to B3 after a delivery, or in to B2 when storing (arm out first)
 ConveyorHandling();
 
-//Handles stop/homing functionality - called last, so a stop always overrides the motors
+// I/O page on the HMI: test each output by hand (manual mode only)
+IoTestHandling();
+
+// Alarms: checks for faults (A1-A8), an active alarm stops the machine (see StopHandler)
+AlarmHandling();
+
+// Status text for the Home page on the HMI
+StatusHandling();
+
+// Saves the PERSISTENT variables (pallets in the rack, taught positions) after a change
+SaveHandling();
+
+// Starts the HMI program on the panel PC once, 20 s after the PLC has started
+HmiStartHandling();
+
+// Stop: all motors off while stopped or while an alarm is active - called last, so Stop always wins
 StopHandler();
 ]]></ST>
     </Implementation>
@@ -171,56 +268,105 @@ StopHandler();
     <Folder Name="Step_50_Macro" Id="{c7165ef3-335b-4476-9db7-81ff204d7e15}" />
     <Action Name="ArmHandling" Id="{75a5c31c-df88-41c8-bf55-2eda17acd3cd}" FolderPath="Step_30_Macro\">
       <Implementation>
-        <ST><![CDATA[// Drives the cantilever (gaflen) out or in.
+        <ST><![CDATA[// Drives the arm (cantilever) out or in.
 // The motor stops by itself when the end switch is reached:
 //   B9  = TRUE -> arm is all the way out
 //   B10 = TRUE -> arm is all the way in
 
-// Arm out: runs while ArmOut is TRUE and the front end switch is not reached
-M4_Forward := ArmOut AND NOT B9;
+// Arm out: runs while armOut is TRUE and the front end switch is not reached
+M4_Forward := armOut AND NOT B9;
 
-// Arm in: runs while ArmIn is TRUE and the back end switch is not reached
+// Arm in: runs while armIn is TRUE and the back end switch is not reached
 // (AND NOT M4_Forward = interlock, so the motor can never get both directions at once)
-M4_Back := ArmIn AND NOT B10 AND NOT M4_Forward;
+M4_Back := armIn AND NOT B10 AND NOT M4_Forward;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ConveyorHandling" Id="{4af025fa-4130-4fea-8286-ec0c86cd40f1}" FolderPath="Step_30_Macro\">
+      <Implementation>
+        <ST><![CDATA[// Conveyor handling
+// B2 = light barrier inside (at the crane):  TRUE = free, FALSE = pallet is there
+// B3 = light barrier outside (operator end): TRUE = free, FALSE = pallet is there
+
+// ---- OUT: after a delivery (started in S30_90) ----
+// Motor forward (away from the crane) while the pallet has not reached B3
+M1_Forward := conveyorOut AND B3;
+
+// Pallet has reached B3 -> stop, the operator can take the pallet
+IF conveyorOut AND NOT B3 THEN
+    conveyorOut := FALSE;
+END_IF
+
+// ---- Count the pallets in the rack, and check if it is full (9 of 9) ----
+palletCount := 0;
+FOR countY := 1 TO 3 DO
+    FOR countX := 1 TO 3 DO
+        IF slotOccupied[countX, countY] THEN
+            palletCount := palletCount + 1;
+        END_IF
+        slotEmpty[countX, countY] := NOT slotOccupied[countX, countY];
+    END_FOR
+END_FOR
+isStorageFull := (palletCount = 9);
+
+// ---- "Store Pallet" button on the HMI ----
+IF storeRequest THEN
+    storeRequest := FALSE;
+    IF isStorageFull THEN
+        // No free slot -> do not take the pallet, show the message on the HMI
+        showStorageFull := TRUE;
+    ELSIF (NOT B3 OR NOT B2) AND NOT conveyorOut THEN
+        // There is a pallet on the conveyor (at B3 or B2) -> store it
+        palletWaiting := TRUE;      // the SFC goes Step_10 -> Step_50
+    END_IF
+END_IF
+
+// The HMI uses hideStorageFull to hide the message box (closed with the OK button)
+hideStorageFull := NOT showStorageFull;
+
+// ---- IN: storing a pallet (started in M_50_S_30) ----
+// Waits until the arm is all the way out (B9),
+// then motor backward (towards the crane) while the pallet has not reached B2
+M1_Back := conveyorIn AND B2 AND B9;
+
+// Pallet has reached B2 -> stop
+IF conveyorIn AND NOT B2 THEN
+    conveyorIn := FALSE;
+END_IF
 ]]></ST>
       </Implementation>
     </Action>
     <Action Name="EncoderCounter" Id="{3b55be1d-aa3c-45e0-9f05-289b29b98eee}" FolderPath="EncoderHandling\">
       <Implementation>
-        <ST><![CDATA[//Encoder horizontal counter
-B5OneShot(CLK:=B5);
-IF B5OneShot.Q THEN
+        <ST><![CDATA[// X-axis: one count per rising edge of B5 - B6 decides the direction (count up or down)
+b5OneShot(CLK:=B5);
+IF b5OneShot.Q THEN
 	IF B6 THEN
-		CurrentPosX := CurrentPosX - 1;
+		currentPosX := currentPosX - 1;
 	ELSE
-		CurrentPosX := CurrentPosX + 1;
+		currentPosX := currentPosX + 1;
 	END_IF
 END_IF
 
-//Encoder vertical counter
-B7OneShot(CLK:=B7);
-IF B7OneShot.Q THEN
+// Y-axis: one count per rising edge of B7 - B8 decides the direction (count up or down)
+b7OneShot(CLK:=B7);
+IF b7OneShot.Q THEN
 	IF B8 THEN
-		CurrentPosY := CurrentPosY - 1;
+		currentPosY := currentPosY - 1;
 	ELSE
-		CurrentPosY := CurrentPosY + 1;
+		currentPosY := currentPosY + 1;
 	END_IF
 END_IF
 
 ]]></ST>
       </Implementation>
     </Action>
-    <Action Name="EncoderManual" Id="{2e20add5-2263-487c-b781-5b95cd867abd}" FolderPath="EncoderHandling\">
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Action>
     <Action Name="EncoderPosition" Id="{321ba040-fa09-404d-b40d-5c04afdaade0}" FolderPath="EncoderHandling\">
       <Implementation>
-        <ST><![CDATA[// X-axis (horizontal): drive towards TargetX until we are inside the tolerance
+        <ST><![CDATA[// X-axis (horizontal): drive towards targetX until we are inside the tolerance
 IF isDriveX AND NOT isPosXReached THEN
-    M2_Forward := CurrentPosX < TargetX - Tolerance;    // towards rack
-    M2_Back := CurrentPosX > TargetX + Tolerance;       // towards conveyor
+    M2_Forward := currentPosX < targetX - tolerance;    // towards rack
+    M2_Back := currentPosX > targetX + tolerance;       // towards conveyor
     isPosXReached := NOT M2_Forward AND NOT M2_Back;
 ELSE
     // Not driving (or already there) -> motor always off
@@ -228,10 +374,10 @@ ELSE
     M2_Back := FALSE;
 END_IF
 
-// Y-axis (vertical): drive towards TargetY until we are inside the tolerance
+// Y-axis (vertical): drive towards targetY until we are inside the tolerance
 IF isDriveY AND NOT isPosYReached THEN
-    M3_Down := CurrentPosY < TargetY - Tolerance;       // larger Y = further down
-    M3_Up := CurrentPosY > TargetY + Tolerance;         // smaller Y = further up
+    M3_Down := currentPosY < targetY - tolerance;       // larger Y = further down
+    M3_Up := currentPosY > targetY + tolerance;         // smaller Y = further up
     isPosYReached := NOT M3_Down AND NOT M3_Up;
 ELSE
     // Not driving (or already there) -> motor always off
@@ -241,44 +387,14 @@ END_IF
 ]]></ST>
       </Implementation>
     </Action>
-    <Action Name="ManualHandling" Id="{b3bd6225-3e85-4377-978a-7a47096bf371}" FolderPath="Service_HMI\">
-      <Implementation>
-        <ST><![CDATA[// Manual drive of the crane from the service page on the HMI.
-// Only active in manual mode. A motor runs while its arrow button is held down.
-// Called after the automatic code in MAIN, so in manual mode these lines decide the motors.
-
-IF isManualMode THEN
-    // X-axis (horizontal)
-    M2_Forward := JogToRack AND NOT JogToConveyor;       // towards the rack / K3
-    M2_Back    := JogToConveyor AND NOT JogToRack;       // towards the conveyor
-
-    // Y-axis (vertical) - up stops by itself at the top reference switch B4
-    M3_Up      := JogUp AND NOT JogDown AND NOT B4;
-    M3_Down    := JogDown AND NOT JogUp;
-
-    // Arm (gaffel) - stops by itself at the end switches B9 (out) and B10 (in)
-    M4_Forward := JogArmOut AND NOT JogArmIn AND NOT B9;
-    M4_Back    := JogArmIn AND NOT JogArmOut AND NOT B10;
-END_IF
-]]></ST>
-      </Implementation>
-    </Action>
     <Action Name="HomingHandling" Id="{2b8f7f44-b0fe-4d4e-b4e9-efe072aa32df}" FolderPath="Service_HMI\">
       <Implementation>
         <ST><![CDATA[// Homing: drives the crane to its reference position and sets the position to 0.
-// Started by the "Homing" button on the service page (only when logged in),
+// Started by the "Homing" button on the service page (ResetHandling resets everything first),
 // or automatically after every delivery (S30_90 sets isHoming := TRUE).
 // Order: 1) arm in (B10)  2) X to B1 and Y up to B4 at the same time
-//        3) wait 0.5 s (the crane rolls a little after the motor stops)  4) CurrentPosX/Y := 0
+//        3) wait 0.5 s (the crane rolls a little after the motor stops)  4) currentPosX/Y := 0
 // Called after ManualHandling in MAIN, so while homing these lines decide the motors.
-
-// "Homing" button pressed on the HMI
-IF HomeRequest THEN
-    HomeRequest := FALSE;
-    IF isServiceUnlocked THEN
-        isHoming := TRUE;
-    END_IF
-END_IF
 
 IF isHoming THEN
     // Never drive away from the reference position while homing
@@ -295,28 +411,340 @@ IF isHoming THEN
 END_IF
 
 // 3) All three switches reached -> start a 0.5 s timer, so the crane has stopped completely
-HomeSettleTimer(IN := isHoming AND B10 AND B1 AND B4, PT := T#500MS);
+homeSettleTimer(IN := isHoming AND B10 AND B1 AND B4, PT := T#500MS);
 
 // 4) After 0.5 s at the switches -> this is position 0
-IF HomeSettleTimer.Q THEN
-    CurrentPosX := 0;
-    CurrentPosY := 0;
+IF homeSettleTimer.Q THEN
+    currentPosX := 0;
+    currentPosY := 0;
     isHoming := FALSE;
 END_IF
 ]]></ST>
       </Implementation>
     </Action>
-    <Action Name="ConveyorHandling" Id="{4af025fa-4130-4fea-8286-ec0c86cd40f1}" FolderPath="Step_30_Macro\">
+    <Action Name="M_50_S_10_entry" Id="{4d15c122-3dd4-42ca-9435-859cfe4acda6}" FolderPath="Step_50_Macro\">
       <Implementation>
-        <ST><![CDATA[// Runs the conveyor out with the pallet after a delivery (started in S30_90).
-// B3 = light barrier at the outer end of the conveyor: TRUE = free, FALSE = pallet is there
+        <ST><![CDATA[// M_50_S_10 (entry): Start storing a pallet - drive to the conveyor (index 0)
+// Y = the taught conveyor position (arm UNDER the pallet)
+palletWaiting := FALSE;     // the request is taken
+isStoring := TRUE;          // for the status text on the HMI
+storePhase    := 1;         // progress box: "Moving to the conveyor"
+retrievePhase := 0;         // close an old "Pallet delivered" box
 
-// Motor forward (away from the crane) while the pallet has not reached B3
-M1_Forward := ConveyorOut AND B3;
+targetX := xPosition[0];
+targetY := yPosition[0];
 
-// Pallet has reached B3 -> stop, the operator can take the pallet
-IF ConveyorOut AND NOT B3 THEN
-    ConveyorOut := FALSE;
+// Start a new move on both axes
+isPosXReached := FALSE;
+isPosYReached := FALSE;
+isDriveX := TRUE;
+isDriveY := TRUE;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_100_entry" Id="{08570ba8-3298-4e15-bc1e-e5affacc4106}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_100 (entry): Lower the pallet down onto the shelf
+armOut := FALSE;
+
+targetY := yPosition[placeRow];
+isPosYReached := FALSE;     // start a new move on the Y-axis
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_100_exit" Id="{ccb4bfc8-bd57-42c5-9b23-d629ecceffd6}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_100 (exit): nothing to do - the pallet stands on the shelf
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_110_entry" Id="{20a108b0-0b4d-4f49-bb5c-f54a5598c27c}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_110 (entry): Drive the arm IN (empty) (ArmHandling stops at B10)
+armOut := FALSE;
+armIn  := TRUE;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_110_exit" Id="{c4f87fd8-f023-451b-a6cc-f4ee74982b82}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_110 (exit): The pallet is stored and the arm is in
+armIn := FALSE;
+
+// Stop driving the X and Y axes
+isDriveX := FALSE;
+isDriveY := FALSE;
+
+// The slot in the rack is now taken -> the box on the HMI turns green
+slotOccupied[placeColumn, placeRow] := TRUE;
+
+// Home the crane after every storing (HomingHandling). The SFC waits while isHoming is TRUE.
+isHoming := TRUE;
+
+// Tell the main SFC that we are done (transition deliveryDone -> Step_60)
+deliveryDone := TRUE;
+isStoring := FALSE;         // for the status text on the HMI
+storePhase := 5;            // progress box: "Pallet stored"
+savePersistentRequest := TRUE;   // slotOccupied has changed -> save it (SaveHandling)
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_20_entry" Id="{f946c215-3dce-416e-843f-d2493ff9a88d}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_20 (entry): Wait until the crane is at the conveyor
+// EncoderPosition drives the motors - nothing to do here (transition: isPosXReached AND isPosYReached)
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_30_entry" Id="{96e68b3e-3b7f-4d0e-917c-00958f4b4dbb}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_30 (entry): Drive the arm OUT (ArmHandling stops at B9),
+// and run the pallet in on the conveyor: ConveyorHandling WAITS until the arm is out (B9),
+// then runs the pallet in onto the arm until it reaches B2.
+// Transition: B9 AND NOT B2 (arm out and pallet at B2)
+armIn  := FALSE;
+armOut := TRUE;
+conveyorIn := TRUE;
+storePhase := 2;        // progress box: "Taking the pallet from the conveyor"
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_40_entry" Id="{6a04d296-5c37-4d3d-83f2-dd0e24d22467}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_40 (entry): Lift the pallet off the conveyor
+// smaller Y = further up
+conveyorIn := FALSE;    // the pallet is at B2 - conveyor off
+armOut := FALSE;
+
+targetY := yPosition[0] - liftOffset;
+isPosYReached := FALSE;     // start a new move on the Y-axis
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_40_exit" Id="{a5d5364c-16df-4833-8cc9-7b4c9e766c4a}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_40 (exit): nothing to do - the pallet is lifted
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_50_entry" Id="{d8ebb905-b608-43d6-80ab-b3b73a9b3df3}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_50 (entry): Drive the arm IN with the pallet (ArmHandling stops at B10)
+armOut := FALSE;
+armIn  := TRUE;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_50_exit" Id="{1dc9462e-fe31-48eb-a529-06f187104a68}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_50 (exit): nothing to do - the arm is in
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_60_entry" Id="{dc8b0595-10d3-4191-bf21-cff05c581db3}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_60 (entry): Find the first free slot in the rack (slotOccupied = FALSE)
+// Searches row 1 (lowest) first, and in each row column 1 (closest to the crane) first
+armIn := FALSE;
+isStorageFound := FALSE;
+
+FOR slotY := 1 TO 3 DO
+    FOR slotX := 1 TO 3 DO
+        IF NOT isStorageFound AND NOT slotOccupied[slotX, slotY] THEN
+            placeColumn := slotX;
+            placeRow    := slotY;
+            isStorageFound := TRUE;
+        END_IF
+    END_FOR
+END_FOR
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_80_entry" Id="{d9c61c5d-cb41-4bb1-957a-e48455939e74}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_80 (entry): Drive to the free slot with the pallet on the arm
+// Y = a little bit ABOVE the shelf (same liftOffset as when the pallet was lifted)
+targetX := xPosition[placeColumn];
+targetY := yPosition[placeRow] - liftOffset;
+storePhase := 3;        // progress box: "Moving pallet to the shelf"
+
+// Start a new move on both axes
+isPosXReached := FALSE;
+isPosYReached := FALSE;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_90_entry" Id="{5ad82b7d-9a40-47c7-bf02-4386fe6d284b}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_90 (entry): Drive the arm OUT over the shelf (ArmHandling stops at B9)
+armIn  := FALSE;
+armOut := TRUE;
+storePhase := 4;        // progress box: "Placing pallet on the shelf"
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="M_50_S_90_exit" Id="{24f71d94-1352-4ac3-89dc-5ff3a2ebd222}" FolderPath="Step_50_Macro\">
+      <Implementation>
+        <ST><![CDATA[// M_50_S_90 (exit): nothing to do - the arm is out
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ManualHandling" Id="{b3bd6225-3e85-4377-978a-7a47096bf371}" FolderPath="Service_HMI\">
+      <Implementation>
+        <ST><![CDATA[// Manual drive of the crane from the service page on the HMI.
+// Only active in manual mode. A motor runs while its arrow button is held down.
+// Called after the automatic code in MAIN, so in manual mode these lines decide the motors.
+
+IF isManualMode THEN
+    // X-axis (horizontal)
+    M2_Forward := jogToRack AND NOT jogToConveyor;       // towards the rack
+    M2_Back    := jogToConveyor AND NOT jogToRack;       // towards the conveyor
+
+    // Y-axis (vertical) - up stops by itself at the top reference switch B4
+    M3_Up      := jogUp AND NOT jogDown AND NOT B4;
+    M3_Down    := jogDown AND NOT jogUp;
+
+    // Arm - stops by itself at the end switches B9 (out) and B10 (in)
+    M4_Forward := jogArmOut AND NOT jogArmIn AND NOT B9;
+    M4_Back    := jogArmIn AND NOT jogArmOut AND NOT B10;
+END_IF
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ResetHandling" Id="{3c8e7fec-d904-4ea3-9281-cf142b1f55e9}">
+      <Implementation>
+        <ST><![CDATA[// Reset button (Home page) and Homing button (Service page) do the same:
+//   1) clear all requests and commands and put the SFC back in Step_10
+//   2) release the Stop, so the motors may run again
+//   3) drive the crane home: arm in, X to B1, Y up to B4 (HomingHandling)
+// After that the crane waits in Step_10 for a new job.
+// NOT reset: taught positions, offsets, slotOccupied (pallets in the rack).
+
+// "Reset" button pressed on the HMI
+IF resetRequest THEN
+    resetRequest := FALSE;
+    resetAll       := TRUE;
+    homeAfterReset := TRUE;
+END_IF
+
+// "Homing" button pressed on the HMI -> the same reset, and then homing
+IF homeRequest THEN
+    homeRequest := FALSE;
+    IF isServiceUnlocked THEN
+        resetAll       := TRUE;
+        homeAfterReset := TRUE;
+    END_IF
+END_IF
+
+IF resetAll THEN
+    resetAll := FALSE;
+
+    // Requests from the operator / sensors
+    awaitingUserInput := FALSE;
+    userRequest       := FALSE;
+    palletWaiting     := FALSE;
+    storeRequest      := FALSE;
+
+    // "Done" flags in the SFC
+    pickupDone   := FALSE;
+    deliveryDone := FALSE;
+
+    // Motion commands
+    isDriveX       := FALSE;
+    isDriveY       := FALSE;
+    isPosXReached  := FALSE;
+    isPosYReached  := FALSE;
+    armOut         := FALSE;
+    armIn          := FALSE;
+    conveyorOut    := FALSE;
+    conveyorIn     := FALSE;
+    isHoming       := FALSE;
+    isStorageFound := FALSE;
+    isRetrieving   := FALSE;
+    isStoring      := FALSE;
+    retrievePhase  := 0;        // close the progress box on the Home page
+    storePhase     := 0;
+    alarmClearRequest := TRUE;  // Reset also clears the alarms (AlarmHandling)
+
+    // Manual mode off, and release the Stop so the crane can drive home
+    isManualMode := FALSE;
+    isStop       := FALSE;
+
+    // SFC back to the first step (Step_10): call the SFC once with sfcInit = TRUE
+    sfcInit := TRUE;
+    SFC();
+    sfcInit := FALSE;
+END_IF
+
+// Homing button: start the homing now that everything is reset (HomingHandling drives the crane)
+IF homeAfterReset THEN
+    homeAfterReset := FALSE;
+    isHoming := TRUE;
+END_IF
+
+// "Cancel" in the Select Pallet dialog: no pallet was chosen.
+// The SFC waits in Step_20 for a choice - put it back in Step_10 (waiting position),
+// so "Select Pallet" and "Store Pallet" can be used again.
+// Only when the crane is not busy with a job.
+IF cancelRequest THEN
+    cancelRequest := FALSE;
+    IF NOT isRetrieving AND NOT isStoring AND NOT isHoming THEN
+        awaitingUserInput := FALSE;
+        userRequest       := FALSE;
+        showSlotEmpty     := FALSE;
+        sfcInit := TRUE;
+        SFC();
+        sfcInit := FALSE;
+    END_IF
+END_IF
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="IoTestHandling" Id="{ad430ea6-6cc7-44cb-8b39-91d85dbcce0a}" FolderPath="Service_HMI\">
+      <Implementation>
+        <ST><![CDATA[// I/O page on the HMI: test each output by hand.
+// Hold-to-run: an output is only on while its "Hold" button is held down.
+// Only in manual mode (= logged in on the service page). The same end switches as for jogging
+// still stop the motors (B4 top, B9 arm out, B10 arm in), and a motor never gets both directions.
+// Called after ManualHandling and ConveyorHandling, and before StopHandler (so Stop always wins).
+
+// The HMI uses ioTestLocked to grey out the buttons when not in manual mode
+ioTestLocked := NOT isManualMode;
+
+IF isManualMode THEN
+    // M1 conveyor
+    M1_Forward := M1_Forward OR (testM1Forward AND NOT testM1Back);
+    M1_Back    := M1_Back    OR (testM1Back AND NOT testM1Forward);
+
+    // M2 crane X-axis
+    M2_Forward := M2_Forward OR (testM2Forward AND NOT testM2Back);
+    M2_Back    := M2_Back    OR (testM2Back AND NOT testM2Forward);
+
+    // M3 crane Y-axis - up stops at the top reference switch B4
+    M3_Down    := M3_Down    OR (testM3Down AND NOT testM3Up);
+    M3_Up      := M3_Up      OR (testM3Up AND NOT testM3Down AND NOT B4);
+
+    // M4 arm - stops at the end switches B9 (out) and B10 (in)
+    M4_Forward := M4_Forward OR (testM4Forward AND NOT testM4Back AND NOT B9);
+    M4_Back    := M4_Back    OR (testM4Back AND NOT testM4Forward AND NOT B10);
+
+    // Safety: never both directions on the same motor at the same time
+    IF M1_Forward AND M1_Back THEN
+        M1_Forward := FALSE;
+        M1_Back    := FALSE;
+    END_IF
+    IF M2_Forward AND M2_Back THEN
+        M2_Forward := FALSE;
+        M2_Back    := FALSE;
+    END_IF
+    IF M3_Down AND M3_Up THEN
+        M3_Down := FALSE;
+        M3_Up   := FALSE;
+    END_IF
+    IF M4_Forward AND M4_Back THEN
+        M4_Forward := FALSE;
+        M4_Back    := FALSE;
+    END_IF
 END_IF
 ]]></ST>
       </Implementation>
@@ -327,12 +755,15 @@ END_IF
 // S30_10 (entry): Start the pickup - lock the choice from the HMI and drive to the slot
 
 // Lock the choice, so a new click on the HMI cannot change anything during the pickup
-PickColumn := SelectedColumn;
-PickRow    := SelectedRow;
+isRetrieving := TRUE;      // for the status text on the HMI
+retrievePhase := 1;        // progress box: "Moving out to get the pallet"
+storePhase    := 0;        // close an old "Pallet stored" box
+pickColumn := selectedColumn;
+pickRow    := selectedRow;
 
 // Target = the chosen slot. Y = the taught position (arm UNDER the pallet)
-TargetX := xPosition[PickColumn];
-TargetY := yPosition[PickRow];
+targetX := xPosition[pickColumn];
+targetY := yPosition[pickRow];
 
 // Start a new move on both axes
 isPosXReached := FALSE;
@@ -346,9 +777,9 @@ isDriveY := TRUE;
       <Implementation>
         <ST><![CDATA[// S30_30 (entry): Lift the pallet off the shelf
 // The arm is out under the pallet -> drive Y a little bit UP (smaller Y = further up)
-ArmOut := FALSE;
+armOut := FALSE;
 
-TargetY := yPosition[PickRow] - LiftOffset;
+targetY := yPosition[pickRow] - liftOffset;
 isPosYReached := FALSE;     // start a new move on the Y-axis
 ]]></ST>
       </Implementation>
@@ -357,10 +788,16 @@ isPosYReached := FALSE;     // start a new move on the Y-axis
       <Implementation>
         <ST><![CDATA[// S30_50 (entry): Drive to the conveyor (index 0) with the pallet on the arm
 // Y = a little bit ABOVE the conveyor, so the pallet does not hit it
-ArmIn := FALSE;
+armIn := FALSE;
+retrievePhase := 3;        // progress box: "Pallet picked up - returning"
 
-TargetX := xPosition[0];
-TargetY := yPosition[0] - LowerOffset;
+// A7: there must be no pallet on the conveyor (B2 and B3 free), before we put a new one there
+IF NOT B2 OR NOT B3 THEN
+    alarmActive[7] := TRUE;
+END_IF
+
+targetX := xPosition[0];
+targetY := yPosition[0] - lowerOffset;
 
 // Start a new move on both axes
 isPosXReached := FALSE;
@@ -372,9 +809,9 @@ isPosYReached := FALSE;
       <Implementation>
         <ST><![CDATA[// S30_70 (entry): Lower the pallet down onto the conveyor
 // The arm is out over the conveyor -> drive Y DOWN to the taught conveyor position
-ArmOut := FALSE;
+armOut := FALSE;
 
-TargetY := yPosition[0];
+targetY := yPosition[0];
 isPosYReached := FALSE;     // start a new move on the Y-axis
 ]]></ST>
       </Implementation>
@@ -382,55 +819,59 @@ isPosYReached := FALSE;     // start a new move on the Y-axis
     <Action Name="S30_90_PickupFinished" Id="{d8a36c5e-f834-4644-b1ea-6d46babeb5e2}" FolderPath="Step_30_Macro\">
       <Implementation>
         <ST><![CDATA[// S30_90 (entry): Pickup is finished - the pallet is on the conveyor and the arm is in
-ArmIn := FALSE;
+armIn := FALSE;
 
 // Stop driving the X and Y axes
 isDriveX := FALSE;
 isDriveY := FALSE;
 
 // The slot in the rack is now empty -> the box on the HMI turns grey
-SlotOccupied[PickColumn, PickRow] := FALSE;
+slotOccupied[pickColumn, pickRow] := FALSE;
 
 // Run the conveyor, so the pallet goes out to the operator (ConveyorHandling stops it at B3)
-ConveyorOut := TRUE;
+conveyorOut := TRUE;
+retrievePhase := 5;        // progress box: "Moving pallet out on the conveyor"
 
 // Home the crane after every delivery, so the encoder position is exact again (HomingHandling).
 // MAIN does not call the SFC while isHoming is TRUE, so the SFC waits here until homing is done.
 isHoming := TRUE;
 
-// Tell the main SFC that we are done (transition PickupDone -> Step_40)
-PickupDone := TRUE;
+// Tell the main SFC that we are done (transition pickupDone -> Step_40)
+pickupDone := TRUE;
+isRetrieving := FALSE;     // for the status text on the HMI
+savePersistentRequest := TRUE;   // slotOccupied has changed -> save it (SaveHandling)
 ]]></ST>
       </Implementation>
     </Action>
     <Action Name="ServiceHandling" Id="{4b8e4c70-f246-4b2e-985e-384daeca6354}" FolderPath="Service_HMI\">
       <Implementation>
         <ST><![CDATA[// Handles the login on the service page of the HMI.
-// User name: Administrator   Password: 1
+// User name: Admin   Password: Q
 
 // The HMI uses isServiceLocked to hide/lock the service controls
 isServiceLocked := NOT isServiceUnlocked;
 
 // Show the password as stars (*) on the HMI, so it can not be read
-LoginPasswordStars := LEFT('**********', LEN(LoginPassword));
+loginPasswordStars := LEFT('**********', LEN(loginPassword));
 
-// "Log ind" button pressed on the HMI
-IF LoginRequest THEN
-    LoginRequest := FALSE;
-    IF LoginUser = 'Administrator' AND LoginPassword = 'Q' THEN
+// "Log in" button pressed on the HMI
+IF loginRequest THEN
+    loginRequest := FALSE;
+    IF loginUser = 'Admin' AND loginPassword = 'Q' THEN
         isServiceUnlocked := TRUE;
-        LoginMessage := '';
+        loginMessage := '';
     ELSE
-        LoginMessage := 'Wrong username or password';
+        loginMessage := 'Wrong username or password';
     END_IF
-    LoginPassword := '';    // always clear the typed password
+    loginPassword := '';    // always clear the typed password
 END_IF
 
-// "Log ud" or "Home" button pressed on the HMI
-IF LogoutRequest THEN
-    LogoutRequest := FALSE;
+// "Log out" or "Home" button pressed on the HMI
+IF logoutRequest THEN
+    logoutRequest := FALSE;
     isServiceUnlocked := FALSE;
     isManualMode := FALSE;   // leave manual mode when logging out
+    savePersistentRequest := TRUE;   // save positions / pallets that were changed on the service page
 END_IF
 
 // Manual mode is only allowed while logged in
@@ -440,125 +881,25 @@ END_IF
 ]]></ST>
       </Implementation>
     </Action>
-    <Action Name="M_50_S_10_entry" Id="{4d15c122-3dd4-42ca-9435-859cfe4acda6}" FolderPath="Step_50_Macro\Entry\">
-      <Implementation>
-        <ST><![CDATA[CurrentPosY := TargetY;
-CurrentPosX := TargetX;
-
-M2_Forward := TRUE;
-M3_Down := TRUE;]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_100_entry" Id="{08570ba8-3298-4e15-bc1e-e5affacc4106}" FolderPath="Step_50_Macro\Entry\">
-      <Implementation>
-        <ST><![CDATA[M3_Down := TRUE;]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_100_exit" Id="{ccb4bfc8-bd57-42c5-9b23-d629ecceffd6}" FolderPath="Step_50_Macro\Exit\">
-      <Implementation>
-        <ST><![CDATA[M3_Down := FALSE;]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_110_entry" Id="{20a108b0-0b4d-4f49-bb5c-f54a5598c27c}" FolderPath="Step_50_Macro\Entry\">
-      <Implementation>
-        <ST><![CDATA[M4_Back := TRUE;]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_110_exit" Id="{c4f87fd8-f023-451b-a6cc-f4ee74982b82}" FolderPath="Step_50_Macro\Exit\">
-      <Implementation>
-        <ST><![CDATA[M4_Back := FALSE;]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_20_entry" Id="{f946c215-3dce-416e-843f-d2493ff9a88d}" FolderPath="Step_50_Macro\Entry\">
-      <Implementation>
-        <ST><![CDATA[EncoderPosition();]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_30_entry" Id="{96e68b3e-3b7f-4d0e-917c-00958f4b4dbb}" FolderPath="Step_50_Macro\Entry\">
-      <Implementation>
-        <ST><![CDATA[M4_Forward := TRUE;
-]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_40_entry" Id="{6a04d296-5c37-4d3d-83f2-dd0e24d22467}" FolderPath="Step_50_Macro\Entry\">
-      <Implementation>
-        <ST><![CDATA[CurrentPosX := TargetX + Tolerance;
-M3_Up := TRUE;]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_40_exit" Id="{a5d5364c-16df-4833-8cc9-7b4c9e766c4a}" FolderPath="Step_50_Macro\Exit\">
-      <Implementation>
-        <ST><![CDATA[M4_Forward := FALSE;]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_50_entry" Id="{d8ebb905-b608-43d6-80ab-b3b73a9b3df3}" FolderPath="Step_50_Macro\Entry\">
-      <Implementation>
-        <ST><![CDATA[M4_Back := TRUE;
-]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_50_exit" Id="{1dc9462e-fe31-48eb-a529-06f187104a68}" FolderPath="Step_50_Macro\Exit\">
-      <Implementation>
-        <ST><![CDATA[M4_Back := FALSE;]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_60_entry" Id="{dc8b0595-10d3-4191-bf21-cff05c581db3}" FolderPath="Step_50_Macro\Entry\">
-      <Implementation>
-        <ST><![CDATA[isStorageFound := FALSE;
-
-FOR IndexY := 0 TO 2 DO
-    FOR IndexX := 0 TO 2 DO
-        IF NOT Slot[IndexX, IndexY].isFull THEN
-            SlotX := IndexX;
-            SlotY := IndexY;
-            isStorageFound := TRUE;
-            EXIT; //Exit first inner loop
-        END_IF
-    END_FOR
-	
-    IF isStorageFound THEN
-		TargetX := SlotX;
-		TargetY := SlotY;
-        EXIT; //Exit outer loop
-    END_IF
-END_FOR
-
-]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_80_entry" Id="{d9c61c5d-cb41-4bb1-957a-e48455939e74}" FolderPath="Step_50_Macro\Entry\">
-      <Implementation>
-        <ST><![CDATA[EncoderPosition();]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_90_entry" Id="{5ad82b7d-9a40-47c7-bf02-4386fe6d284b}" FolderPath="Step_50_Macro\Entry\">
-      <Implementation>
-        <ST><![CDATA[M4_Forward := TRUE;]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="M_50_S_90_exit" Id="{24f71d94-1352-4ac3-89dc-5ff3a2ebd222}" FolderPath="Step_50_Macro\Exit\">
-      <Implementation>
-        <ST><![CDATA[M4_Forward := FALSE;]]></ST>
-      </Implementation>
-    </Action>
     <Action Name="SetDeliveryFalse" Id="{0fd79806-fa9a-4bdb-9fa4-f762d7db8d78}">
       <Implementation>
-        <ST><![CDATA[//After delivery has been made, reset the variable
-DeliveryDone := FALSE;]]></ST>
+        <ST><![CDATA[// Step_60 (entry): the pallet is stored - clear deliveryDone, so the SFC can go back to Step_10
+deliveryDone := FALSE;]]></ST>
       </Implementation>
     </Action>
     <Action Name="SetPickupFalse" Id="{54e2c14a-52eb-4c81-869d-c2d794e81f32}">
       <Implementation>
-        <ST><![CDATA[//After pickup has been made, reset the variable
-PickupDone := FALSE;]]></ST>
+        <ST><![CDATA[// Step_40 (entry): the pickup is finished - clear pickupDone, so the SFC can go back to Step_10
+pickupDone := FALSE;]]></ST>
       </Implementation>
     </Action>
     <Action Name="SetUserRequestTrue" Id="{2f676025-769c-4b38-bacf-04df4d5cccb3}">
       <Implementation>
-        <ST><![CDATA[// Step_20 (entry): the operator pressed "Select Pallet" on the HMI
-// Clear the old request, so the crane waits for a NEW click on a green box in the dialog
-AwaitingUserInput := FALSE;
-UserRequest := FALSE;]]></ST>
+        <ST><![CDATA[// Step_20 (entry): the operator pressed "Select Pallet" on the HMI.
+// Clear both requests, so the crane waits for a NEW tap on a green box in the dialog.
+// (The name says "True", but the action clears the flags - the name is kept because the SFC uses it.)
+awaitingUserInput := FALSE;
+userRequest := FALSE;]]></ST>
       </Implementation>
     </Action>
     <Action Name="SFC" Id="{f917a42e-e692-40c3-8aa3-fabedb3443d1}">
@@ -700,7 +1041,7 @@ UserRequest := FALSE;]]></ST>
                                       <o>
                                         <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                                         <o n="Value" t="StringValue">
-                                          <v n="Value">"AwaitingUserInput"</v>
+                                          <v n="Value">"awaitingUserInput"</v>
                                           <v n="DefaultValue">""</v>
                                         </o>
                                         <v n="Id">15L</v>
@@ -883,7 +1224,7 @@ UserRequest := FALSE;]]></ST>
                                       <o>
                                         <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                                         <o n="Value" t="StringValue">
-                                          <v n="Value">"UserRequest"</v>
+                                          <v n="Value">"userRequest"</v>
                                           <v n="DefaultValue">""</v>
                                         </o>
                                         <v n="Id">164L</v>
@@ -2600,7 +2941,7 @@ UserRequest := FALSE;]]></ST>
                                       <o>
                                         <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                                         <o n="Value" t="StringValue">
-                                          <v n="Value">"PickupDone"</v>
+                                          <v n="Value">"pickupDone"</v>
                                           <v n="DefaultValue">""</v>
                                         </o>
                                         <v n="Id">183L</v>
@@ -2887,7 +3228,7 @@ UserRequest := FALSE;]]></ST>
                                       <o>
                                         <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                                         <o n="Value" t="StringValue">
-                                          <v n="Value">"PalletWaiting"</v>
+                                          <v n="Value">"palletWaiting"</v>
                                           <v n="DefaultValue">""</v>
                                         </o>
                                         <v n="Id">104L</v>
@@ -3257,7 +3598,7 @@ UserRequest := FALSE;]]></ST>
                                               <o>
                                                 <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                                                 <o n="Value" t="StringValue">
-                                                  <v n="Value">"CurrentPosX &gt;= TargetX AND CurrentPosY &gt;= TargetY"</v>
+                                                  <v n="Value">"isPosXReached AND isPosYReached"</v>
                                                   <v n="DefaultValue">""</v>
                                                 </o>
                                                 <v n="Id">420L</v>
@@ -3440,7 +3781,7 @@ UserRequest := FALSE;]]></ST>
                                               <o>
                                                 <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                                                 <o n="Value" t="StringValue">
-                                                  <v n="Value">"B9"</v>
+                                                  <v n="Value">"B9 AND NOT B2"</v>
                                                   <v n="DefaultValue">""</v>
                                                 </o>
                                                 <v n="Id">427L</v>
@@ -3623,7 +3964,7 @@ UserRequest := FALSE;]]></ST>
                                               <o>
                                                 <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                                                 <o n="Value" t="StringValue">
-                                                  <v n="Value">"CurrentPosY = TargetY + Tolerance"</v>
+                                                  <v n="Value">"isPosYReached"</v>
                                                   <v n="DefaultValue">""</v>
                                                 </o>
                                                 <v n="Id">446L</v>
@@ -4355,7 +4696,7 @@ UserRequest := FALSE;]]></ST>
                                               <o>
                                                 <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                                                 <o n="Value" t="StringValue">
-                                                  <v n="Value">"CurrentPosX &gt;= TargetX AND CurrentPosY &gt;= TargetY"</v>
+                                                  <v n="Value">"isPosXReached AND isPosYReached"</v>
                                                   <v n="DefaultValue">""</v>
                                                 </o>
                                                 <v n="Id">574L</v>
@@ -4721,7 +5062,7 @@ UserRequest := FALSE;]]></ST>
                                               <o>
                                                 <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                                                 <o n="Value" t="StringValue">
-                                                  <v n="Value">"CurrentPosY &gt;= TargetY"</v>
+                                                  <v n="Value">"isPosYReached"</v>
                                                   <v n="DefaultValue">""</v>
                                                 </o>
                                                 <v n="Id">656L</v>
@@ -5153,7 +5494,7 @@ UserRequest := FALSE;]]></ST>
                                       <o>
                                         <v n="AttributeId">{38391c6d-6d4a-42f8-8ee7-9f45e5adafa8}</v>
                                         <o n="Value" t="StringValue">
-                                          <v n="Value">"DeliveryDone"</v>
+                                          <v n="Value">"deliveryDone"</v>
                                           <v n="DefaultValue">""</v>
                                         </o>
                                         <v n="Id">123L</v>
@@ -5845,8 +6186,8 @@ UserRequest := FALSE;]]></ST>
                 </o>
                 <v>Init</v>
                 <o>
-                  <v n="Use">false</v>
-                  <v n="Declare">true</v>
+                  <v n="Use">true</v>
+                  <v n="Declare">false</v>
                 </o>
                 <v>Reset</v>
                 <o>
@@ -5910,7 +6251,7 @@ UserRequest := FALSE;]]></ST>
                 </o>
               </d2>
               <v n="CalcActiveTransOnly">false</v>
-              <v n="UseDefaults">true</v>
+              <v n="UseDefaults">false</v>
             </o>
           </Data>
           <TypeList>
@@ -5925,19 +6266,279 @@ UserRequest := FALSE;]]></ST>
     </Action>
     <Action Name="StartArmIn" Id="{3c55db02-dfc7-44dc-a99d-e01662b14db2}" FolderPath="Step_30_Macro\">
       <Implementation>
-        <ST><![CDATA[// S30_40 + S30_80 (entry): Drive the arm (gaflen) IN
+        <ST><![CDATA[// S30_40 + S30_80 (entry): Drive the arm IN
 // ArmHandling stops the motor by itself when B10 (arm in) is reached
-ArmOut := FALSE;
-ArmIn  := TRUE;
+armOut := FALSE;
+armIn  := TRUE;
 ]]></ST>
       </Implementation>
     </Action>
     <Action Name="StartArmOut" Id="{1bdb9f40-5aba-4231-b68e-05509e416127}" FolderPath="Step_30_Macro\">
       <Implementation>
-        <ST><![CDATA[// S30_20 + S30_60 (entry): Drive the arm (gaflen) OUT
+        <ST><![CDATA[// S30_20 + S30_60 (entry): Drive the arm OUT
 // ArmHandling stops the motor by itself when B9 (arm out) is reached
-ArmIn  := FALSE;
-ArmOut := TRUE;
+armIn  := FALSE;
+armOut := TRUE;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="StatusHandling" Id="{0c7e9de1-1273-4b4a-be6a-5f88fc155323}" FolderPath="Service_HMI\">
+      <Implementation>
+        <ST><![CDATA[// Select Pallet dialog: the message "Pallet slot is empty" disappears again after 4 s
+slotEmptyTimer(IN := showSlotEmpty, PT := T#4S);
+IF slotEmptyTimer.Q THEN
+    showSlotEmpty := FALSE;
+END_IF
+hideSlotEmpty := NOT showSlotEmpty;
+
+// Status text for the Home page on the HMI: what is the machine doing right now?
+// The first line that is TRUE decides the text.
+IF isAlarm THEN
+    statusText := 'Alarm - see Alarm page';
+ELSIF isStop THEN
+    statusText := 'Stopped - press Start';
+ELSIF isManualMode THEN
+    statusText := 'Manual mode';
+ELSIF isRetrieving THEN
+    statusText := 'Retrieving pallet';
+ELSIF isStoring THEN
+    statusText := 'Storing pallet';
+ELSIF isHoming THEN
+    statusText := 'Homing';
+ELSIF conveyorOut THEN
+    statusText := 'Conveyor running';
+ELSE
+    statusText := 'Ready';
+END_IF
+
+// ---- Progress box on the Home page while a pallet is retrieved (Step_30) or stored (Step_50) ----
+// retrievePhase (Step_30) is set in S30_10 (1), S30_50 (3), S30_90 (5) and here (2, 4, 6):
+//   1 = crane drives out to the slot
+//   2 = crane is at the slot: arm out, lift the pallet, arm in
+//   3 = crane drives back to the conveyor with the pallet
+//   4 = crane is at the conveyor: arm out, lower the pallet, arm in
+//   5 = the conveyor runs the pallet out
+//   6 = the pallet has reached B3 -> delivered
+// storePhase (Step_50) is set in the step actions:
+//   1 = M_50_S_10   crane drives to the conveyor
+//   2 = M_50_S_30   arm out, conveyor runs the pallet in, lift, arm in
+//   3 = M_50_S_80   crane drives to the free slot with the pallet
+//   4 = M_50_S_90   arm out, lower the pallet onto the shelf, arm in
+//   5 = M_50_S_110 (exit)  the pallet is stored
+// 0 = no box
+IF retrievePhase = 1 AND isPosXReached AND isPosYReached THEN
+    retrievePhase := 2;
+END_IF
+IF retrievePhase = 3 AND isPosXReached AND isPosYReached THEN
+    retrievePhase := 4;
+END_IF
+IF retrievePhase = 5 AND NOT conveyorOut THEN
+    retrievePhase := 6;        // ConveyorHandling stops the conveyor when the pallet is at B3
+END_IF
+
+// Title, text and % for each phase
+progressTitle   := '';
+progressText    := '';
+progressPercent := 0;
+IF retrievePhase > 0 THEN
+    progressTitle := 'Retrieving pallet';
+    CASE retrievePhase OF
+        1: progressText := 'Moving out to get the pallet';      progressPercent := 15;
+        2: progressText := 'Picking up the pallet';             progressPercent := 35;
+        3: progressText := 'Pallet picked up - returning';      progressPercent := 55;
+        4: progressText := 'Placing pallet on the conveyor';    progressPercent := 75;
+        5: progressText := 'Moving pallet out on the conveyor'; progressPercent := 90;
+        6: progressText := 'Pallet delivered';                  progressPercent := 100;
+    END_CASE
+ELSIF storePhase > 0 THEN
+    progressTitle := 'Storing pallet';
+    CASE storePhase OF
+        1: progressText := 'Moving to the conveyor';              progressPercent := 15;
+        2: progressText := 'Taking the pallet from the conveyor'; progressPercent := 35;
+        3: progressText := 'Moving pallet to the shelf';          progressPercent := 60;
+        4: progressText := 'Placing pallet on the shelf';         progressPercent := 85;
+        5: progressText := 'Pallet stored';                       progressPercent := 100;
+    END_CASE
+END_IF
+
+// Finished? ("Pallet delivered" or "Pallet stored")
+isProgressDone := (retrievePhase = 6) OR (storePhase = 5);
+
+// If the operator presses Stop during the job, the box says so
+IF isStop AND NOT isProgressDone AND (retrievePhase > 0 OR storePhase > 0) THEN
+    IF isAlarm THEN
+        progressText := 'Alarm - see Alarm page';
+    ELSE
+        progressText := 'Stopped - press Start';
+    END_IF
+END_IF
+
+// The bar: 20 blocks of 5 %. Block number i is shown when the progress has reached i * 5 %
+FOR progressIndex := 1 TO 20 DO
+    progressHide[progressIndex] := progressPercent < progressIndex * 5;
+END_FOR
+
+// When finished: closed with the OK button, or by itself after 5 s
+deliveredTimer(IN := isProgressDone, PT := T#5S);
+okCountdown := 5 - TIME_TO_INT(deliveredTimer.ET) / 1000;   // 5, 4, 3, 2, 1
+IF deliveredTimer.Q THEN
+    retrievePhase := 0;
+    storePhase    := 0;
+END_IF
+
+// The HMI uses these to hide the box and the OK button
+hideProgress   := (retrievePhase = 0) AND (storePhase = 0);
+hideProgressOk := NOT isProgressDone;
+
+// ---- Run time on the Home page: counts the seconds while the machine is not stopped ----
+// The timer restarts itself: when Q is TRUE, IN becomes FALSE in the next cycle (= 1 pulse per second)
+runSecondTimer(IN := NOT isStop AND NOT runSecondTimer.Q, PT := T#1S);
+IF runSecondTimer.Q THEN
+    runSeconds := runSeconds + 1;
+END_IF
+
+// Split the seconds into hours, minutes and seconds (without MOD)
+runHours   := runSeconds / 3600;
+runMinutes := runSeconds / 60 - runHours * 60;
+runSecs    := runSeconds - (runSeconds / 60) * 60;
+
+// Build the text 'h:mm:ss' - a 0 in front of minutes and seconds below 10
+runTimeText := UDINT_TO_STRING(runHours);
+IF runMinutes < 10 THEN
+    runTimeText := CONCAT(runTimeText, ':0');
+ELSE
+    runTimeText := CONCAT(runTimeText, ':');
+END_IF
+runTimeText := CONCAT(runTimeText, UDINT_TO_STRING(runMinutes));
+IF runSecs < 10 THEN
+    runTimeText := CONCAT(runTimeText, ':0');
+ELSE
+    runTimeText := CONCAT(runTimeText, ':');
+END_IF
+runTimeText := CONCAT(runTimeText, UDINT_TO_STRING(runSecs));
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="AlarmHandling" Id="{c118ce92-c78e-478d-ba7a-e2d8add4c3c5}" FolderPath="Service_HMI\">
+      <Implementation>
+        <ST><![CDATA[// Alarms A1-A8 for the Alarm page on the HMI.
+// 1) "Clear alarms" (or Reset) clears all alarms.
+// 2) In automatic operation a timer runs for each fault. When it runs out, the alarm becomes active.
+// 3) An active alarm stays active (latched) until it is cleared.
+//    While an alarm is active the machine is stopped (StopHandler sets isStop := TRUE).
+// After "Clear alarms": Start = continue where it stopped, Reset = start over (homing).
+// If the fault is still there, the alarm comes again.
+
+// ---- 1) "Clear alarms" button on the HMI (Reset also sets alarmClearRequest) ----
+IF alarmClearRequest THEN
+    alarmClearRequest := FALSE;
+    FOR alarmIndex := 1 TO 8 DO
+        alarmActive[alarmIndex] := FALSE;
+    END_FOR
+END_IF
+
+// ---- 2) Look for faults - only in automatic operation, and not while an alarm is already active ----
+alarmCheck := NOT isStop AND NOT isManualMode AND NOT isAlarm;
+
+// A1: Retrieving - the conveyor runs the pallet out, but it does not reach B3 in time
+alarmTimer[1](IN := alarmCheck AND M1_Forward, PT := conveyorTimeout);
+
+// A2: Storing - the conveyor runs the pallet in, but it does not reach B2 in time
+alarmTimer[2](IN := alarmCheck AND M1_Back, PT := conveyorTimeout);
+
+// A3: The arm motor runs, but the arm does not reach B9 (out) or B10 (in) in time
+alarmTimer[3](IN := alarmCheck AND (M4_Forward OR M4_Back), PT := armTimeout);
+
+// A4: The crane drives, but does not reach the target position in time
+alarmTimer[4](IN := alarmCheck AND ((isDriveX AND NOT isPosXReached) OR (isDriveY AND NOT isPosYReached)),
+              PT := positionTimeout);
+
+// A5: A motor runs, but the encoder value does not change for 1 s (no pulses from B5-B8)
+encoderStillX := (M2_Forward OR M2_Back) AND (currentPosX = lastPosX);
+encoderStillY := (M3_Up OR M3_Down) AND (currentPosY = lastPosY);
+lastPosX := currentPosX;
+lastPosY := currentPosY;
+alarmTimer[5](IN := alarmCheck AND (encoderStillX OR encoderStillY), PT := T#1S);
+
+// A6: Homing takes too long (B1, B4 or B10 is not reached)
+alarmTimer[6](IN := alarmCheck AND isHoming, PT := homingTimeout);
+
+// A7: Conveyor not free - checked in S30_50, before the crane brings a new pallet to the conveyor
+
+// A8: B9 (arm out) and B10 (arm in) are TRUE at the same time - not possible, a switch is faulty
+alarmTimer[8](IN := alarmCheck AND B9 AND B10, PT := T#200MS);
+
+// A timer has run out -> the alarm becomes active
+FOR alarmIndex := 1 TO 8 DO
+    IF alarmTimer[alarmIndex].Q THEN
+        alarmActive[alarmIndex] := TRUE;
+    END_IF
+END_FOR
+
+// ---- 3) Texts for the HMI ----
+isAlarm := FALSE;
+alarmFirst := 0;
+FOR alarmIndex := 1 TO 8 DO
+    IF alarmActive[alarmIndex] THEN
+        isAlarm := TRUE;
+        alarmStateText[alarmIndex] := 'Active';
+        IF alarmFirst = 0 THEN
+            alarmFirst := alarmIndex;     // remember the first active alarm
+        END_IF
+    ELSE
+        alarmStateText[alarmIndex] := 'OK';
+    END_IF
+END_FOR
+
+// Banner on the Home page and the "what to do" text on the Alarm page show the first active alarm
+IF alarmFirst > 0 THEN
+    alarmBannerText := alarmName[alarmFirst];
+    alarmHelpText   := alarmHelp[alarmFirst];
+ELSE
+    alarmBannerText := '';
+    alarmHelpText   := 'No active alarms';
+END_IF
+hideAlarmBanner := NOT isAlarm;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="SaveHandling" Id="{92553b3d-02c9-4e34-8245-c9a67cd2fbe6}" FolderPath="Service_HMI\">
+      <Implementation>
+        <ST><![CDATA[// Saves the PERSISTENT variables (slotOccupied, xPosition, yPosition, liftOffset, lowerOffset).
+// TwinCAT normally only saves them when it is stopped properly. If the power is pulled,
+// changes since the last save are lost. So we save them ourselves after every change:
+//   - after a pallet is retrieved (S30_90) or stored (M_50_S_110)
+//   - when leaving the service page (where positions and pallets can be changed)
+// PORT 851 = our PLC project (Storage_Main). NETID '' = this PC.
+persistentSave(NETID := '', PORT := 851, START := savePersistentRequest, TMOUT := T#5S);
+
+// The request stays TRUE until the saving is finished (BUSY = FALSE again)
+IF savePersistentRequest AND NOT persistentSave.BUSY THEN
+    savePersistentRequest := FALSE;
+END_IF
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="HmiStartHandling" Id="{cbae027f-85ba-49b2-b46e-75ecc95eb226}" FolderPath="Service_HMI\">
+      <Implementation>
+        <ST><![CDATA[// Starts the HMI program (TwinCAT PLC HMI) on the panel PC - once after every PLC start.
+// 1) Wait 20 s, so Windows has finished logging in (Auto Logon).
+// 2) Run a Windows command (cmd.exe) that starts Tc3PlcHmi.exe,
+//    but only if it is not running already (tasklist ... | find ... || start ...).
+//    So we never get two HMI windows (TwinCAT also starts it after "Activate Configuration").
+hmiStartTimer(IN := NOT isHmiStarted, PT := T#20S);
+
+hmiStartProcess(NETID     := '',
+                PATHSTR   := 'C:\Windows\System32\cmd.exe',
+                DIRNAME   := 'C:\TwinCAT\3.1\Components\Plc\Tc3PlcHmi',
+                COMNDLINE := '/C tasklist | find /I "Tc3PlcHmi.exe" || start "" "C:\TwinCAT\3.1\Components\Plc\Tc3PlcHmi\Tc3PlcHmi.exe"',
+                START     := hmiStartTimer.Q,
+                TMOUT     := T#5S);
+
+// When the command has been sent, we are done (until the PLC is started again)
+IF hmiStartTimer.Q AND NOT hmiStartProcess.BUSY THEN
+    isHmiStarted := TRUE;
+END_IF
 ]]></ST>
       </Implementation>
     </Action>
@@ -5945,7 +6546,14 @@ ArmOut := TRUE;
       <Implementation>
         <ST><![CDATA[// Stop button on the HMI (isStop = TRUE):
 // ALL motors off, no matter what the automatic or manual code wants.
+// The SFC is not called while isStop is TRUE (see MAIN), so the sequence stands still.
 // StopHandler is called last in MAIN, so this always wins.
+
+// An active alarm stops the machine. Start does not work until the alarm is cleared.
+IF isAlarm THEN
+    isStop := TRUE;
+END_IF
+
 IF isStop THEN
     M1_Forward := FALSE;   // conveyor
     M1_Back    := FALSE;
@@ -5953,24 +6561,24 @@ IF isStop THEN
     M2_Back    := FALSE;
     M3_Up      := FALSE;   // Y-axis
     M3_Down    := FALSE;
-    M4_Forward := FALSE;   // arm (gaffel)
+    M4_Forward := FALSE;   // arm
     M4_Back    := FALSE;
 END_IF
 
+// While homing, the conveyor may not run in (towards the crane)
 IF isHoming THEN
     M1_Back := FALSE;
 END_IF
 ]]></ST>
       </Implementation>
     </Action>
-    <Action Name="Test" Id="{2890a172-dcd6-44fa-a758-45fcff269329}" FolderPath="Step_30_Macro\">
-      <Implementation>
-        <ST><![CDATA[]]></ST>
-      </Implementation>
-    </Action>
     <LineIds Name="MAIN">
       <LineId Id="398" Count="23" />
       <LineId Id="73" Count="0" />
+      <LineId Id="28" Count="7" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="422" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ArmHandling">
       <LineId Id="2" Count="10" />
@@ -5982,11 +6590,72 @@ END_IF
       <LineId Id="50" Count="0" />
       <LineId Id="49" Count="0" />
     </LineIds>
-    <LineIds Name="MAIN.EncoderManual">
-      <LineId Id="1" Count="0" />
-    </LineIds>
     <LineIds Name="MAIN.EncoderPosition">
       <LineId Id="12" Count="20" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.HomingHandling">
+      <LineId Id="2" Count="29" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_10_entry">
+      <LineId Id="2" Count="12" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_100_entry">
+      <LineId Id="2" Count="4" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_100_exit">
+      <LineId Id="2" Count="0" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_110_entry">
+      <LineId Id="2" Count="2" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_110_exit">
+      <LineId Id="2" Count="15" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_20_entry">
+      <LineId Id="2" Count="1" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_30_entry">
+      <LineId Id="2" Count="6" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_40_entry">
+      <LineId Id="2" Count="6" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_40_exit">
+      <LineId Id="2" Count="0" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_50_entry">
+      <LineId Id="2" Count="2" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_50_exit">
+      <LineId Id="2" Count="0" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_60_entry">
+      <LineId Id="2" Count="13" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_80_entry">
+      <LineId Id="2" Count="7" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_90_entry">
+      <LineId Id="2" Count="2" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.M_50_S_90_exit">
+      <LineId Id="2" Count="0" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ManualHandling">
@@ -5994,8 +6663,7 @@ END_IF
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.S30_10_DriveToSlot">
-      <LineId Id="17" Count="0" />
-      <LineId Id="2" Count="14" />
+      <LineId Id="2" Count="16" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.S30_30_LiftPallet">
@@ -6011,65 +6679,11 @@ END_IF
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.S30_90_PickupFinished">
-      <LineId Id="2" Count="11" />
+      <LineId Id="2" Count="19" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.ServiceHandling">
       <LineId Id="2" Count="31" />
-    <LineIds Name="MAIN.M_50_S_10_entry">
-      <LineId Id="1" Count="1" />
-      <LineId Id="4" Count="0" />
-      <LineId Id="3" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_100_entry">
-      <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_100_exit">
-      <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_110_entry">
-      <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_110_exit">
-      <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_20_entry">
-      <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_30_entry">
-      <LineId Id="1" Count="1" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_40_entry">
-      <LineId Id="2" Count="0" />
-      <LineId Id="6" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_40_exit">
-      <LineId Id="3" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_50_entry">
-      <LineId Id="1" Count="1" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_50_exit">
-      <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_60_entry">
-      <LineId Id="27" Count="10" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="41" Count="1" />
-      <LineId Id="39" Count="1" />
-      <LineId Id="1" Count="0" />
-      <LineId Id="44" Count="0" />
-      <LineId Id="43" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_80_entry">
-      <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_90_entry">
-      <LineId Id="1" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.M_50_S_90_exit">
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.SetDeliveryFalse">
@@ -6082,6 +6696,7 @@ END_IF
     </LineIds>
     <LineIds Name="MAIN.SetUserRequestTrue">
       <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="2" />
     </LineIds>
     <LineIds Name="MAIN.StartArmIn">
       <LineId Id="2" Count="3" />
@@ -6094,8 +6709,6 @@ END_IF
     <LineIds Name="MAIN.StopHandler">
       <LineId Id="12" Count="16" />
       <LineId Id="4" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.Test">
       <LineId Id="1" Count="0" />
     </LineIds>
   </POU>
