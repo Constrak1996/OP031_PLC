@@ -6,6 +6,16 @@
         <o xml:space="preserve" t="GlobalTextListObject">
           <l n="TextList" t="ArrayList" cet="TextListRow">
             <o>
+              <v n="TextID">"1182"</v>
+              <v n="TextDefault">"%d"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1393"</v>
+              <v n="TextDefault">"%s"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"800"</v>
               <v n="TextDefault">"1"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -31,6 +41,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"191"</v>
+              <v n="TextDefault">"Annuller"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"737"</v>
               <v n="TextDefault">"Arm Back"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -46,8 +61,18 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"144"</v>
+              <v n="TextDefault">"Arm in"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"716"</v>
               <v n="TextDefault">"Arm ind"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"143"</v>
+              <v n="TextDefault">"Arm out"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -76,8 +101,18 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1444"</v>
+              <v n="TextDefault">"B1  Reference X"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"905"</v>
               <v n="TextDefault">"B10"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1471"</v>
+              <v n="TextDefault">"B10 Arm in"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -86,13 +121,28 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1480"</v>
+              <v n="TextDefault">"B2  Barrier in (free)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"287"</v>
               <v n="TextDefault">"B3"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1489"</v>
+              <v n="TextDefault">"B3  Barrier out (free)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"334"</v>
               <v n="TextDefault">"B4"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1453"</v>
+              <v n="TextDefault">"B4  Reference Y (top)"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -121,6 +171,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1462"</v>
+              <v n="TextDefault">"B9  Arm out"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"704"</v>
               <v n="TextDefault">"Bånd Frem"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -136,8 +191,103 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1107"</v>
+              <v n="TextDefault">"C1"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1210"</v>
+              <v n="TextDefault">"C1 / R1"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1364"</v>
+              <v n="TextDefault">"C1 R1"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1335"</v>
+              <v n="TextDefault">"C1 R2"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1307"</v>
+              <v n="TextDefault">"C1 R3"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1100"</v>
+              <v n="TextDefault">"C2"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1220"</v>
+              <v n="TextDefault">"C2 / R2"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1355"</v>
+              <v n="TextDefault">"C2 R1"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1326"</v>
+              <v n="TextDefault">"C2 R2"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1297"</v>
+              <v n="TextDefault">"C2 R3"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1092"</v>
+              <v n="TextDefault">"C3"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1230"</v>
+              <v n="TextDefault">"C3 / R3"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1345"</v>
+              <v n="TextDefault">"C3 R1"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1316"</v>
+              <v n="TextDefault">"C3 R2"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1287"</v>
+              <v n="TextDefault">"C3 R3"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1151"</v>
+              <v n="TextDefault">"Cancel"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"907"</v>
               <v n="TextDefault">"Column: %d"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1172"</v>
+              <v n="TextDefault">"Conv. (0)"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"141"</v>
+              <v n="TextDefault">"Conveyor ►"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"140"</v>
+              <v n="TextDefault">"Crane"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -171,6 +321,11 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1144"</v>
+              <v n="TextDefault">"Empty"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"629"</v>
               <v n="TextDefault">"Feed the packman"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -191,8 +346,18 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"124"</v>
+              <v n="TextDefault">"Gruppe6 Storage Solutions"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"311"</v>
               <v n="TextDefault">"Hent"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"131"</v>
+              <v n="TextDefault">"Home"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -306,8 +471,43 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1249"</v>
+              <v n="TextDefault">"Lift"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1412"</v>
+              <v n="TextDefault">"Log in"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"133"</v>
+              <v n="TextDefault">"Log out"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1258"</v>
+              <v n="TextDefault">"Lower"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"749"</v>
               <v n="TextDefault">"Løft: %d"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"127"</v>
+              <v n="TextDefault">"Manual"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"134"</v>
+              <v n="TextDefault">"Manual drive"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"135"</v>
+              <v n="TextDefault">"Manual mode  ON / OFF"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -336,6 +536,16 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"129"</v>
+              <v n="TextDefault">"OP031"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"833"</v>
+              <v n="TextDefault">"OP031 Warehouse"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"649"</v>
               <v n="TextDefault">"Palle ved B2"</v>
               <l n="LanguageTexts" t="ArrayList" />
@@ -343,6 +553,31 @@
             <o>
               <v n="TextID">"259"</v>
               <v n="TextDefault">"Palle ved B3"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1136"</v>
+              <v n="TextDefault">"Pallet"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"414"</v>
+              <v n="TextDefault">"Pallet intake"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1278"</v>
+              <v n="TextDefault">"Pallets in storage"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1239"</v>
+              <v n="TextDefault">"Parameters"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1403"</v>
+              <v n="TextDefault">"Password"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -366,8 +601,33 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1418"</v>
+              <v n="TextDefault">"Position X"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1427"</v>
+              <v n="TextDefault">"Position Y"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"194"</v>
               <v n="TextDefault">"Position: %d"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1129"</v>
+              <v n="TextDefault">"R1"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1122"</v>
+              <v n="TextDefault">"R2"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1114"</v>
+              <v n="TextDefault">"R3"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -386,8 +646,48 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1134"</v>
+              <v n="TextDefault">"Reset X/Y = 0"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"284"</v>
               <v n="TextDefault">"Række: %d"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1191"</v>
+              <v n="TextDefault">"Save X"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1201"</v>
+              <v n="TextDefault">"Save Y"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"529"</v>
+              <v n="TextDefault">"Select Pallet"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1436"</v>
+              <v n="TextDefault">"Sensors"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"132"</v>
+              <v n="TextDefault">"Service"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"126"</v>
+              <v n="TextDefault">"Service / Teach"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1374"</v>
+              <v n="TextDefault">"Service login"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -406,8 +706,23 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1143"</v>
+              <v n="TextDefault">"Slot"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"130"</v>
+              <v n="TextDefault">"Start"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"182"</v>
               <v n="TextDefault">"Start auto"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1409"</v>
+              <v n="TextDefault">"Status"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -421,8 +736,23 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"128"</v>
+              <v n="TextDefault">"Stop"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"930"</v>
               <v n="TextDefault">"Sænk: %d"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1085"</v>
+              <v n="TextDefault">"Tap a green slot to retrieve it"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"650"</v>
+              <v n="TextDefault">"Tap a green slot to retrieve the pallet"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -433,6 +763,11 @@
             <o>
               <v n="TextID">"442"</v>
               <v n="TextDefault">"Teach column"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1124"</v>
+              <v n="TextDefault">"Teach positions"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -451,8 +786,23 @@
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
+              <v n="TextID">"1268"</v>
+              <v n="TextDefault">"Tolerance"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1383"</v>
+              <v n="TextDefault">"Username"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
               <v n="TextID">"917"</v>
               <v n="TextDefault">"Vælg hylde"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1153"</v>
+              <v n="TextDefault">"X"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -463,6 +813,16 @@
             <o>
               <v n="TextID">"906"</v>
               <v n="TextDefault">"X mod reol"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"136"</v>
+              <v n="TextDefault">"X: %d"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"1162"</v>
+              <v n="TextDefault">"Y"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
             <o>
@@ -478,6 +838,26 @@
             <o>
               <v n="TextID">"908"</v>
               <v n="TextDefault">"Y op"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"137"</v>
+              <v n="TextDefault">"Y: %d"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"138"</v>
+              <v n="TextDefault">"▲ Up"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"142"</v>
+              <v n="TextDefault">"▼ Down"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"139"</v>
+              <v n="TextDefault">"◄ C3"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
           </l>

@@ -83,14 +83,14 @@
 				<Task Id="3" Priority="20" CycleTime="5000" AmsPort="350" AdtTasks="true">
 					<Name>PlcTask</Name>
 				</Task>
-				<Task Id="4" Priority="30" CycleTime="2000000" AmsPort="351" DisableFpExceptions="true" AdtTasks="true">
+				<Task Id="4" Priority="30" CycleTime="500000" AmsPort="351" DisableFpExceptions="true" AdtTasks="true">
 					<Name>VISU_TASK</Name>
 				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project GUID="{52E4E768-5BDB-4A59-B76E-C73488E002AF}" Name="Storage_Main" PrjFilePath="Storage_Main\Storage_Main.plcproj" TmcFilePath="Storage_Main\Storage_Main.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Storage_Main\Storage_Main.tmc" TmcHash="{E290C6B6-EB59-50E9-3000-53F19B2A81E0}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Storage_Main\Storage_Main.tmc" TmcHash="{2EE5EBDB-5088-6791-0CFB-80C9E51C2CC7}">
 					<Name>Storage_Main Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
@@ -206,7 +206,7 @@
 								<OTCID>#x02010040</OTCID>
 							</ManualConfig>
 							<Priority>30</Priority>
-							<CycleTime>200000000</CycleTime>
+							<CycleTime>50000000</CycleTime>
 						</Context>
 					</Contexts>
 					<TaskPouOids>
