@@ -71,9 +71,9 @@ VAR
     SlotX  : INT;
     SlotY  : INT;
 	// index
-	x: INT;
+	PosX: INT;
 	// index
-	y: INT;
+	PosY: INT;
 END_VAR
 
 VAR PERSISTENT

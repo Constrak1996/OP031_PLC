@@ -90,7 +90,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{52E4E768-5BDB-4A59-B76E-C73488E002AF}" Name="Storage_Main" PrjFilePath="Storage_Main\Storage_Main.plcproj" TmcFilePath="Storage_Main\Storage_Main.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Storage_Main\Storage_Main.tmc" TmcHash="{E290C6B6-EB59-50E9-3000-53F19B2A81E0}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Storage_Main\Storage_Main.tmc" TmcHash="{A39A4F39-BEA5-940D-11DD-0DA17C2C6FBF}">
 					<Name>Storage_Main Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
