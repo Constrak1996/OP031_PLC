@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="StorageSlots" Id="{45f4a23f-4e25-4cbb-8f6c-8b6d79519b14}">
+    <Declaration><![CDATA[TYPE StorageSlots :
+STRUCT
+	PosX   : DINT;
+    PosY   : DINT;
+    isFull : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
